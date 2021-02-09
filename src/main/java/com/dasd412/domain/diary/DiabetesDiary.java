@@ -5,6 +5,7 @@ import com.dasd412.domain.diet.Diet;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -15,9 +16,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
+@Entity
 public class DiabetesDiary {
 
-    private final Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  Long id;
 
     private int fastingPlasmaGlucose;//공복 혈당(양수)
 
@@ -26,16 +30,23 @@ public class DiabetesDiary {
     private int lunchBloodSugar;//점식 식사 1시간 후 혈당(양수)
 
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
-    
-    private final List<Diet> dietList;//식단 리스트
 
-    private final Writer writer;//작성한 사람
-    
+    @OneToMany(fetch = FetchType.LAZY)//일대다 관계
+    private  List<Diet> dietList;//식단 리스트
+
+    @OneToOne//1대1 관계
+    @JoinColumn(name="writer_id")
+    private  Writer writer;//작성한 사람
+
+    @Column(columnDefinition = "TEXT",length=500)
     private String remark;//비고(500자 제한)
 
-    private final LocalDateTime createdAt;//만들어진 시기
+    private  LocalDateTime createdAt;//만들어진 시기
 
-    private final LocalDateTime updatedAt;//갱신된 시기
+    private  LocalDateTime updatedAt;//갱신된 시기
+
+    //JPA 시스템 상 기본 생성자가 필요하다.
+    public DiabetesDiary(){ }
 
     public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar, Writer writer){
         this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,null,writer,"",null,null);
@@ -47,8 +58,6 @@ public class DiabetesDiary {
         checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
         checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
         checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
-        checkNotNull(remark,"remark must not be null");
-        checkArgument(remark.length()<=500,"remark length must be under 500");
 
         this.id = id;
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
@@ -57,7 +66,7 @@ public class DiabetesDiary {
         this.dinnerBloodSugar = dinnerBloodSugar;
         this.dietList = dietList;
         this.writer = writer;
-        this.remark = remark;
+        this.remark = defaultIfNull(remark," ");
         this.createdAt = defaultIfNull(createdAt,now());
         this.updatedAt = updatedAt;
     }
