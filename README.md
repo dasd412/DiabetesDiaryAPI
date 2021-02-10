@@ -1,9 +1,6 @@
 # __Diabetes Diary API__
 #### _Private portfolio by <u>dasd412</u>_
 
-![이미지](https://github.com/dasd412/DiabetesDiaryAPI/blob/tempModel/YRTntsoetNdPhGQDd.png?raw=true)
-
-  
 ---
 
 + 기능 설명
@@ -18,8 +15,10 @@
   + Controller, Service, Repository, Store Procedure 관계도
   + DB 스키마
     + 혈당 일지 스키마
-  <img src="https://d2sqqdb3t4xrq5.cloudfront.net/upload/4JFwxfMRNJhsJQJGt/V1d4eTVMWmZhaDdRTnU4Z1JfWVJUbnRzb2V0TmRQaEdRRGQucG5n">
-  
+     + ![이미지](https://github.com/dasd412/DiabetesDiaryAPI/blob/tempModel/YRTntsoetNdPhGQDd.png?raw=true)
+
+    
+
 + Frontend Architecture
 
 + 설치 방법
