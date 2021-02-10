@@ -16,6 +16,8 @@
   + Routes/EndPoints 소개
   + Controller, Service, Repository, Store Procedure 관계도
   + DB 스키마
+    + 혈당 일지 스키마
+  <img src="https://d2sqqdb3t4xrq5.cloudfront.net/upload/4JFwxfMRNJhsJQJGt/V1d4eTVMWmZhaDdRTnU4Z1JfWVJUbnRzb2V0TmRQaEdRRGQucG5n">
   
 + Frontend Architecture
 
@@ -24,7 +26,7 @@
 + 실행 방법 
 
 + 향후 추가할 기능들
-  + 혈당 일지 작성
+  + 혈당 일지 작성(진행 중)
   + 월별 혈당 
   + 그래프 추이
   + 식단 태그 기능
@@ -44,4 +46,4 @@
 7. 배포 
 
 ---
-### _01_ ###
+### _02_ ###
