@@ -19,13 +19,17 @@ public class Writer {
     private String name;
 
     @OneToOne//1대1 관계
-    @JoinColumn(name="email_id")
+    @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
     private Email email;
 
     public Writer(){}
 
     public Writer(Email email){
         this(null,null,email);
+    }
+
+    public Writer(String name, Email email){
+        this(null,name,email);
     }
 
     public Writer(Long id,String name, Email email) {

@@ -2,14 +2,15 @@ package com.dasd412.domain.diary;
 
 
 import com.dasd412.domain.diet.Diet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,11 +32,13 @@ public class DiabetesDiary {
 
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
-    @OneToMany(fetch = FetchType.LAZY)//일대다 관계
-    private  List<Diet> dietList;//식단 리스트
 
-    @OneToOne//1대1 관계
-    @JoinColumn(name="writer_id")
+    @ManyToMany//임시로 다대다 관계 설정. <-추후 수정 필요함!!
+    @JoinTable(name="diabetesDiary_dietList")
+    private Set<Diet> dietList;//식단 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
+
+    @JsonIgnore//양방향 참조 방지
+    @ManyToOne(fetch = FetchType.LAZY)
     private  Writer writer;//작성한 사람
 
     @Column(columnDefinition = "TEXT",length=500)
@@ -52,7 +55,7 @@ public class DiabetesDiary {
         this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,null,writer,"",null,null);
     }
 
-    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, List<Diet> dietList, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Set<Diet> dietList, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
        //모델 단에서 validation 하는게 효율적!
         checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
         checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
@@ -91,7 +94,7 @@ public class DiabetesDiary {
         return dinnerBloodSugar;
     }
 
-    public List<Diet> getDietList() {
+    public Set<Diet> getDietList() {
         return dietList;
     }
 
@@ -175,7 +178,7 @@ public class DiabetesDiary {
         private int breakfastBloodSugar;
         private int lunchBloodSugar;
         private int dinnerBloodSugar;
-        private List<Diet> dietList;
+        private Set<Diet> dietList;
         private Writer writer;
         private String remark;
         private LocalDateTime createdAt;
@@ -221,7 +224,7 @@ public class DiabetesDiary {
             return this;
         }
 
-        public Builder dietList(List<Diet>dietList){
+        public Builder dietList(Set<Diet>dietList){
             this.dietList=dietList;
             return this;
         }
