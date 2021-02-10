@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -18,9 +19,12 @@ public class Writer {
 
     private String name;
 
-    @OneToOne//1대1 관계
+    @OneToOne(cascade = CascadeType.ALL)//1대1 관계
     @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
     private Email email;
+
+    @OneToMany(mappedBy = "writer")
+    private Set<DiabetesDiary> diaries;
 
     public Writer(){}
 

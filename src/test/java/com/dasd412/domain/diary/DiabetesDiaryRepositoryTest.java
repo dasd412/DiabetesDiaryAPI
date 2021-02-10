@@ -1,6 +1,9 @@
 package com.dasd412.domain.diary;
 
 import java.util.List;
+import java.util.Optional;
+
+import com.dasd412.domain.user.Email;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +28,7 @@ public class DiabetesDiaryRepositoryTest {
         repository.deleteAll();
     }
 
+    @Transactional//<-LazyInitializationException: could not initialize proxy 에러를 해결하려면 트랜잭션 처리를 해야함.
     @Test
     public void 일지를_저장하고_불러온다(){
 
@@ -33,7 +38,7 @@ public class DiabetesDiaryRepositoryTest {
                 .breakfastBloodSugar(95)
                 .lunchBloodSugar(100)
                 .dinnerBloodSugar(150)
-                .writer(null)
+                .writer(new Writer("tester",new Email("dasd412@naver.com")))
                 .build();
 
         repository.save(diary);
@@ -47,6 +52,8 @@ public class DiabetesDiaryRepositoryTest {
         assertThat(d.getBreakfastBloodSugar()).isEqualTo(diary.getBreakfastBloodSugar());
         assertThat(d.getLunchBloodSugar()).isEqualTo(diary.getLunchBloodSugar());
         assertThat(d.getDinnerBloodSugar()).isEqualTo(diary.getDinnerBloodSugar());
+        assertThat(d.getWriter().getName()).isEqualTo(Optional.of("tester"));
+        assertThat(d.getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
 
     }
 

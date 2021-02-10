@@ -9,7 +9,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -38,7 +37,8 @@ public class DiabetesDiary {
     private Set<Diet> dietList;//식단 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
 
     @JsonIgnore//양방향 참조 방지
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name="writer_id")
     private  Writer writer;//작성한 사람
 
     @Column(columnDefinition = "TEXT",length=500)
@@ -61,6 +61,7 @@ public class DiabetesDiary {
         checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
         checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
         checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
+        checkNotNull(writer,"writer must be provided");
 
         this.id = id;
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
@@ -98,9 +99,7 @@ public class DiabetesDiary {
         return dietList;
     }
 
-    public Optional<Writer> getWriter() {//null일 수 있음.
-        return Optional.ofNullable(writer);
-    }
+    public Writer getWriter() { return writer; }
 
     public String getRemark() {
         return remark;
