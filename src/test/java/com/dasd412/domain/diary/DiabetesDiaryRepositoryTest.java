@@ -1,8 +1,13 @@
 package com.dasd412.domain.diary;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
+import com.dasd412.domain.diet.Diet;
+import com.dasd412.domain.diet.EatTime;
+import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.user.Email;
 import org.junit.After;
 import org.junit.Test;
@@ -23,8 +28,6 @@ public class DiabetesDiaryRepositoryTest {
     @Autowired
     DiabetesDiaryRepository repository;
 
-    @Autowired
-    private WriterRepository writerRepository;
 
 
     @After
@@ -34,7 +37,7 @@ public class DiabetesDiaryRepositoryTest {
 
     @Transactional//<-LazyInitializationException: could not initialize proxy 에러를 해결하려면 트랜잭션 처리를 해야함.
     @Test
-    public void 일지를_저장하고_불러온다(){
+    public void 작성자와_일지를_저장하고_불러온다(){
 
         //given
         Email email=new Email("dasd412@naver.com");
@@ -64,5 +67,70 @@ public class DiabetesDiaryRepositoryTest {
         assertThat(d.getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
 
     }
+
+    @Transactional//fecthType.lazy인 경우에는 @SpringBootTest일 때 트랜잭션 처리해주어야 한다.
+    @Test
+    public void 테스트_ManyToOne_작성자_및_일지(){
+        //given 작성자 하나에 대해 혈당일지 3개 작성
+        Email email=new Email("dasd412@naver.com");
+        Writer writer=new Writer("tester", email);
+
+        IntStream.range(0,3).forEach(i->{
+            DiabetesDiary diary=new DiabetesDiary.Builder()
+                    .fastingPlasmaGlucose(100+i)
+                    .breakfastBloodSugar(100+i)
+                    .lunchBloodSugar(100+i)
+                    .dinnerBloodSugar(100+i)
+                    .writer(writer)
+                    .build();
+
+            repository.save(diary);
+        });
+
+        //when
+        List<DiabetesDiary>diaryList=repository.findAll();
+
+        //then
+        for(int i=0;i<diaryList.size();i++){
+            DiabetesDiary d=diaryList.get(i);
+            assertThat(d.getFastingPlasmaGlucose()).isEqualTo(100+i);
+            assertThat(d.getBreakfastBloodSugar()).isEqualTo(100+i);
+            assertThat(d.getLunchBloodSugar()).isEqualTo(100+i);
+            assertThat(d.getDinnerBloodSugar()).isEqualTo(100+i);
+            assertThat(d.getWriter().getName()).isEqualTo(Optional.of("tester"));
+            assertThat(d.getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
+        }
+    }
+
+//    @Transactional
+//    @Test
+//    public void 일지에_식단태그를_붙인다(){
+//        //given 아침식사로 치즈를 먹었다.
+//        Email email=new Email("dasd412@naver.com");
+//        Writer writer=new Writer("tester", email);
+//
+//        Diet diet=new Diet("cheese", EatTime.BREAK_FAST);
+//        DiabetesDiary diary=new DiabetesDiary.Builder()
+//                .breakfastBloodSugar(100)
+//                .writer(writer)
+//                .build();
+//
+//        repository.save(diary);
+//
+//        //when
+//        repository.findAllDietTags().forEach(arr-> System.out.println(Arrays.toString(arr)));
+//
+//        //then
+//
+//
+//
+//    }
+//
+//    @Transactional
+//    @Test
+//    public void 테스트_다대다(){
+//
+//    }
+
 
 }

@@ -26,6 +26,7 @@ public class Diet {//식단
 
     private String foodName;
 
+    @Enumerated(EnumType.STRING)//Enum 값 자체를 저장
     private EatTime eatTime;//식사시간을 나타내는 Enum
 
 

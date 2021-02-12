@@ -34,7 +34,7 @@ public class DiabetesDiary {
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
 
-    @OneToMany(mappedBy = "diabetesDiary")
+    @OneToMany(mappedBy = "diabetesDiary" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<HashTag> hashTags=new HashSet<>();//식단 해시태그 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
 
     @JsonIgnore//양방향 참조 방지
@@ -58,10 +58,6 @@ public class DiabetesDiary {
 
     public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
        //모델 단에서 validation 하는게 효율적!
-        checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
-        checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
-        checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
-        checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
         checkNotNull(writer,"writer must be provided");
 
         this.id = id;
@@ -197,21 +193,25 @@ public class DiabetesDiary {
         }
 
         public Builder fastingPlasmaGlucose(int fastingPlasmaGlucose){
+            checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
             this.fastingPlasmaGlucose=fastingPlasmaGlucose;
             return this;
         }
 
         public Builder breakfastBloodSugar(int breakfastBloodSugar){
+            checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
             this.breakfastBloodSugar=breakfastBloodSugar;
             return this;
         }
 
         public Builder lunchBloodSugar(int lunchBloodSugar){
+            checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
             this.lunchBloodSugar=lunchBloodSugar;
             return this;
         }
 
         public Builder dinnerBloodSugar(int dinnerBloodSugar){
+            checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
             this.dinnerBloodSugar=dinnerBloodSugar;
             return this;
         }
