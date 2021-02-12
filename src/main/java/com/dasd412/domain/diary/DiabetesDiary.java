@@ -56,6 +56,10 @@ public class DiabetesDiary {
         this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"",null,null);
     }
 
+    public DiabetesDiary(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,null,null);
+    }
+
     public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
        //모델 단에서 validation 하는게 효율적!
         checkNotNull(writer,"writer must be provided");
@@ -70,6 +74,8 @@ public class DiabetesDiary {
         this.createdAt = defaultIfNull(createdAt,now());
         this.updatedAt = updatedAt;
     }
+
+
 
     public Long getId() {
         return id;
@@ -106,22 +112,22 @@ public class DiabetesDiary {
     }
 
     public void modifyFastingPlasmaGlucose(int fastingPlasmaGlucose) {
-        checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
+        checkArgument(fastingPlasmaGlucose>=0,"fastingPlasmaGlucose must be positive number");
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
     }
 
     public void modifyBreakfastBloodSugar(int breakfastBloodSugar) {
-        checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
+        checkArgument(breakfastBloodSugar>=0,"breakfastBloodSugar must be positive number");
         this.breakfastBloodSugar = breakfastBloodSugar;
     }
 
     public void modifyLunchBloodSugar(int lunchBloodSugar) {
-        checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
+        checkArgument(lunchBloodSugar>=0,"lunchBloodSugar must be positive number");
         this.lunchBloodSugar = lunchBloodSugar;
     }
 
     public void modifyDinnerBloodSugar(int dinnerBloodSugar) {
-        checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
+        checkArgument(dinnerBloodSugar>=0,"dinnerBloodSugar must be positive number");
         this.dinnerBloodSugar = dinnerBloodSugar;
     }
 
