@@ -23,6 +23,10 @@ public class DiabetesDiaryRepositoryTest {
     @Autowired
     DiabetesDiaryRepository repository;
 
+    @Autowired
+    private WriterRepository writerRepository;
+
+
     @After
     public void cleanUp(){
         repository.deleteAll();
@@ -33,12 +37,16 @@ public class DiabetesDiaryRepositoryTest {
     public void 일지를_저장하고_불러온다(){
 
         //given
+        Email email=new Email("dasd412@naver.com");
+        Writer writer=new Writer("tester", email);
+
+
         DiabetesDiary diary=new DiabetesDiary.Builder()
                 .fastingPlasmaGlucose(100)
                 .breakfastBloodSugar(95)
                 .lunchBloodSugar(100)
                 .dinnerBloodSugar(150)
-                .writer(new Writer("tester",new Email("dasd412@naver.com")))
+                .writer(writer)
                 .build();
 
         repository.save(diary);

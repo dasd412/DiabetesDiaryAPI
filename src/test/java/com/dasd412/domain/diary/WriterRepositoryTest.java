@@ -1,7 +1,6 @@
 package com.dasd412.domain.diary;
 
 import com.dasd412.domain.user.Email;
-import com.dasd412.domain.user.EmailRepository;
 
 import java.util.List;
 
@@ -23,19 +22,15 @@ public class WriterRepositoryTest {
     @Autowired
     private WriterRepository writerRepository;
 
-    @Autowired
-    private EmailRepository emailRepository;
 
     @After
     public void cleanUp(){
         writerRepository.deleteAll();
-        emailRepository.deleteAll();
     }
 
     @Test
     public void 이메일을_저장한다(){
         Email email=new Email("dasd412@naver.com");
-        emailRepository.save(email);
 
         Writer writer=new Writer("tester",email);
 

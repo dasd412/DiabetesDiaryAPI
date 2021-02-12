@@ -1,12 +1,13 @@
 package com.dasd412.domain.diet;
 
-import com.dasd412.domain.diary.DiabetesDiary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -20,8 +21,8 @@ public class Diet {//식단
     private Long id;
 
     @JsonIgnore//JSON에서 양방향 참조 방지
-    @ManyToOne(fetch = FetchType.LAZY)//다대일 관계
-    private DiabetesDiary diary;
+    @OneToMany(mappedBy = "diet")
+    private Set<HashTag>diaryList=new HashSet<>();
 
     private String foodName;
 

@@ -2,12 +2,14 @@ package com.dasd412.domain.diary;
 
 
 import com.dasd412.domain.diet.Diet;
+import com.dasd412.domain.diet.HashTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,12 +34,11 @@ public class DiabetesDiary {
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
 
-    @ManyToMany//임시로 다대다 관계 설정. <-추후 수정 필요함!!
-    @JoinTable(name="diabetesDiary_dietList")
-    private Set<Diet> dietList;//식단 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
+    @OneToMany(mappedBy = "diabetesDiary")
+    private Set<HashTag> hashTags=new HashSet<>();//식단 해시태그 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
 
     @JsonIgnore//양방향 참조 방지
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="writer_id")
     private  Writer writer;//작성한 사람
 
@@ -52,10 +53,10 @@ public class DiabetesDiary {
     public DiabetesDiary(){ }
 
     public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar, Writer writer){
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,null,writer,"",null,null);
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"",null,null);
     }
 
-    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Set<Diet> dietList, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
        //모델 단에서 validation 하는게 효율적!
         checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
         checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
@@ -68,7 +69,6 @@ public class DiabetesDiary {
         this.breakfastBloodSugar = breakfastBloodSugar;
         this.lunchBloodSugar = lunchBloodSugar;
         this.dinnerBloodSugar = dinnerBloodSugar;
-        this.dietList = dietList;
         this.writer = writer;
         this.remark = defaultIfNull(remark," ");
         this.createdAt = defaultIfNull(createdAt,now());
@@ -93,10 +93,6 @@ public class DiabetesDiary {
 
     public int getDinnerBloodSugar() {
         return dinnerBloodSugar;
-    }
-
-    public Set<Diet> getDietList() {
-        return dietList;
     }
 
     public Writer getWriter() { return writer; }
@@ -160,7 +156,6 @@ public class DiabetesDiary {
                 .append("breakfastBloodSugar",breakfastBloodSugar)
                 .append("lunchBloodSugar",lunchBloodSugar)
                 .append("dinnerBloodSugar",dinnerBloodSugar)
-                .append("dietList",dietList.toString())
                 .append("writer",writer)
                 .append("remark",remark)
                 .append("createdAt",createdAt)
@@ -177,7 +172,6 @@ public class DiabetesDiary {
         private int breakfastBloodSugar;
         private int lunchBloodSugar;
         private int dinnerBloodSugar;
-        private Set<Diet> dietList;
         private Writer writer;
         private String remark;
         private LocalDateTime createdAt;
@@ -191,7 +185,6 @@ public class DiabetesDiary {
             this.breakfastBloodSugar=diabetesDiary.breakfastBloodSugar;
             this.lunchBloodSugar=diabetesDiary.lunchBloodSugar;
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
-            this.dietList=diabetesDiary.dietList;
             this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
             this.createdAt=diabetesDiary.createdAt;
@@ -223,10 +216,6 @@ public class DiabetesDiary {
             return this;
         }
 
-        public Builder dietList(Set<Diet>dietList){
-            this.dietList=dietList;
-            return this;
-        }
 
         public Builder writer(Writer writer){
             this.writer=writer;
@@ -249,7 +238,7 @@ public class DiabetesDiary {
         }
 
         public DiabetesDiary build(){
-            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,dietList,writer,remark,createdAt,updatedAt);
+            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,createdAt,updatedAt);
         }
 
     }
