@@ -1,7 +1,5 @@
 package com.dasd412.domain.diary;
 
-
-import com.dasd412.domain.diet.Diet;
 import com.dasd412.domain.diet.HashTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -34,10 +32,11 @@ public class DiabetesDiary {
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "diabetesDiary" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<HashTag> hashTags=new HashSet<>();//식단 해시태그 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
 
-    @JsonIgnore//양방향 참조 방지
+    @JsonIgnore
     @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="writer_id")
     private  Writer writer;//작성한 사람

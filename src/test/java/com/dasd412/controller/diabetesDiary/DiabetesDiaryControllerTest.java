@@ -126,6 +126,8 @@ public class DiabetesDiaryControllerTest {
         assertThat(list.get(0).getLunchBloodSugar()).isEqualTo(55);
         assertThat(list.get(0).getDinnerBloodSugar()).isEqualTo(150);
         assertThat(list.get(0).getRemark()).isEqualTo("test");
+        assertThat(list.get(0).getWriter().getName()).isEqualTo(Optional.of("tester"));
+        assertThat(list.get(0).getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
 
 
 
