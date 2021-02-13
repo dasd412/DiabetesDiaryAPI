@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +45,8 @@ public class DiabetesDiaryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @After
     public void tearDown()throws Exception{
@@ -121,6 +125,9 @@ public class DiabetesDiaryControllerTest {
         //then
 
         List<DiabetesDiary>list=repository.findAll();
+        logger.info("diary : "+list.get(0).getFastingPlasmaGlucose()+" "+list.get(0).getBreakfastBloodSugar()+" "+list.get(0).getLunchBloodSugar()+" "+list.get(0).getDinnerBloodSugar()+" "+list.get(0).getRemark());
+        logger.info("cascade : "+list.get(0).getWriter().getName()+" "+list.get(0).getWriter().getEmail().getAddress());
+
         assertThat(list.get(0).getFastingPlasmaGlucose()).isEqualTo(100);
         assertThat(list.get(0).getBreakfastBloodSugar()).isEqualTo(20);
         assertThat(list.get(0).getLunchBloodSugar()).isEqualTo(55);

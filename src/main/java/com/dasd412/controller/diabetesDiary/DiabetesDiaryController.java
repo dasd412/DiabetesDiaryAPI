@@ -27,7 +27,12 @@ public class DiabetesDiaryController {
     }
 
     @PutMapping("/api/diabetes/diary/{id}")
-    public Long update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){ return diaryService.update(id,dto); }
+    public ApiResult<DiaryResponseDTO> update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
+        return ApiResult.OK(
+                new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class,id)
+                        ,dto.getFastingPlasmaGlucose(),dto.getBreakfastBloodSugar(),dto.getLunchBloodSugar(),dto.getDinnerBloodSugar(),dto.getRemark()))
+        );
+    }
 
     @GetMapping("/api/diabetes/diary/{id}")
     public ApiResult<DiaryResponseDTO> findById(@PathVariable Long id){
