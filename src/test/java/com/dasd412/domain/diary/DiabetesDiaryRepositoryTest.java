@@ -1,5 +1,6 @@
 package com.dasd412.domain.diary;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import com.dasd412.domain.user.Email;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +31,7 @@ public class DiabetesDiaryRepositoryTest {
     @Autowired
     DiabetesDiaryRepository repository;
 
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
 
     @After
@@ -102,6 +106,37 @@ public class DiabetesDiaryRepositoryTest {
             assertThat(d.getWriter().getName()).isEqualTo(Optional.of("tester"));
             assertThat(d.getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
         }
+    }
+    
+    @Transactional
+    @Test
+    public void testBaseTimeEntity()throws Exception{
+        LocalDateTime now=LocalDateTime.of(2020,1,20,0,0,0);
+
+        Email email=new Email("dasd412@naver.com");
+        Writer writer=new Writer("tester", email);
+
+
+        DiabetesDiary diary=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writer(writer)
+                .build();
+
+        repository.save(diary);
+
+        //when
+        List<DiabetesDiary>list=repository.findAll();
+
+        //then
+        DiabetesDiary d=list.get(0);
+        logger.info("createdAt: "+d.getCreateAt()+" updatedAt: "+d.getUpdatedAt());
+
+        assertThat(d.getCreateAt()).isAfter(now);
+        assertThat(d.getUpdatedAt()).isAfter(now);
+
     }
 
     //todo 연결 테이블 엔티티 조회 테스트 필요.

@@ -1,23 +1,22 @@
 package com.dasd412.domain.diary;
 
+import com.dasd412.domain.BaseTimeEntity;
 import com.dasd412.domain.diet.HashTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 @Entity
-public class DiabetesDiary {
+public class DiabetesDiary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,22 +43,19 @@ public class DiabetesDiary {
     @Column(columnDefinition = "TEXT",length=500)
     private String remark;//비고(500자 제한)
 
-    private  LocalDateTime createdAt;//만들어진 시기
-
-    private  LocalDateTime updatedAt;//갱신된 시기
 
     //JPA 시스템 상 기본 생성자가 필요하다.
     public DiabetesDiary(){ }
 
     public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar, Writer writer){
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"",null,null);
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"");
     }
 
     public DiabetesDiary(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,null,null);
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark);
     }
 
-    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
        //모델 단에서 validation 하는게 효율적!
         checkNotNull(writer,"writer must be provided");
 
@@ -70,8 +66,6 @@ public class DiabetesDiary {
         this.dinnerBloodSugar = dinnerBloodSugar;
         this.writer = writer;
         this.remark = defaultIfNull(remark," ");
-        this.createdAt = defaultIfNull(createdAt,now());
-        this.updatedAt = updatedAt;
     }
 
 
@@ -102,13 +96,6 @@ public class DiabetesDiary {
         return remark;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 
     public void modifyFastingPlasmaGlucose(int fastingPlasmaGlucose) {
         checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
@@ -177,8 +164,6 @@ public class DiabetesDiary {
                 .append("dinnerBloodSugar",dinnerBloodSugar)
                 .append("writer",writer)
                 .append("remark",remark)
-                .append("createdAt",createdAt)
-                .append("updatedAt",updatedAt)
                 .toString();
 
     }
@@ -193,8 +178,7 @@ public class DiabetesDiary {
         private int dinnerBloodSugar;
         private Writer writer;
         private String remark;
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
+
 
         public Builder(){ }
 
@@ -206,8 +190,6 @@ public class DiabetesDiary {
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
             this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
-            this.createdAt=diabetesDiary.createdAt;
-            this.updatedAt=diabetesDiary.updatedAt;
         }
 
         public Builder id(long id){
@@ -250,18 +232,9 @@ public class DiabetesDiary {
             return this;
         }
 
-        public Builder createAt(LocalDateTime createdAt){
-            this.createdAt=createdAt;
-            return this;
-        }
-
-        public Builder updatedAt(LocalDateTime updatedAt){
-            this.updatedAt=updatedAt;
-            return this;
-        }
 
         public DiabetesDiary build(){
-            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,createdAt,updatedAt);
+            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark);
         }
 
     }
