@@ -137,6 +137,16 @@ public class DiabetesDiary {
         this.remark = remark;
     }
 
+    public void update(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, String remark){
+        modifyFastingPlasmaGlucose(fastingPlasmaGlucose);
+        modifyBreakfastBloodSugar(breakfastBloodSugar);
+        modifyLunchBloodSugar(lunchBloodSugar);
+        modifyDinnerBloodSugar(dinnerBloodSugar);
+        if(remark!=null&&remark.length()<=500){
+            modifyRemark(remark);
+        }
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
