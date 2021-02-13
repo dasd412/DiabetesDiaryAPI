@@ -85,25 +85,25 @@ public class DiabetesDiaryRequestDTO {
         }
 
         public DiabetesDiaryRequestDTO.Builder fastingPlasmaGlucose(int fastingPlasmaGlucose){
-            checkArgument(fastingPlasmaGlucose>=0,"fastingPlasmaGlucose must be positive number");
+            checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
             this.fastingPlasmaGlucose=fastingPlasmaGlucose;
             return this;
         }
 
         public DiabetesDiaryRequestDTO.Builder breakfastBloodSugar(int breakfastBloodSugar){
-            checkArgument(breakfastBloodSugar>=0,"breakfastBloodSugar must be positive number");
+            checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
             this.breakfastBloodSugar=breakfastBloodSugar;
             return this;
         }
 
         public DiabetesDiaryRequestDTO.Builder lunchBloodSugar(int lunchBloodSugar){
-            checkArgument(lunchBloodSugar>=0,"lunchBloodSugar must be positive number");
+            checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
             this.lunchBloodSugar=lunchBloodSugar;
             return this;
         }
 
         public DiabetesDiaryRequestDTO.Builder dinnerBloodSugar(int dinnerBloodSugar){
-            checkArgument(dinnerBloodSugar>=0,"dinnerBloodSugar must be positive number");
+            checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
             this.dinnerBloodSugar=dinnerBloodSugar;
             return this;
         }

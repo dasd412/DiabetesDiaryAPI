@@ -112,22 +112,22 @@ public class DiabetesDiary {
     }
 
     public void modifyFastingPlasmaGlucose(int fastingPlasmaGlucose) {
-        checkArgument(fastingPlasmaGlucose>=0,"fastingPlasmaGlucose must be positive number");
+        checkArgument(fastingPlasmaGlucose>0,"fastingPlasmaGlucose must be positive number");
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
     }
 
     public void modifyBreakfastBloodSugar(int breakfastBloodSugar) {
-        checkArgument(breakfastBloodSugar>=0,"breakfastBloodSugar must be positive number");
+        checkArgument(breakfastBloodSugar>0,"breakfastBloodSugar must be positive number");
         this.breakfastBloodSugar = breakfastBloodSugar;
     }
 
     public void modifyLunchBloodSugar(int lunchBloodSugar) {
-        checkArgument(lunchBloodSugar>=0,"lunchBloodSugar must be positive number");
+        checkArgument(lunchBloodSugar>0,"lunchBloodSugar must be positive number");
         this.lunchBloodSugar = lunchBloodSugar;
     }
 
     public void modifyDinnerBloodSugar(int dinnerBloodSugar) {
-        checkArgument(dinnerBloodSugar>=0,"dinnerBloodSugar must be positive number");
+        checkArgument(dinnerBloodSugar>0,"dinnerBloodSugar must be positive number");
         this.dinnerBloodSugar = dinnerBloodSugar;
     }
 
@@ -138,10 +138,18 @@ public class DiabetesDiary {
     }
 
     public void update(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, String remark){
+        if(fastingPlasmaGlucose>0)
         modifyFastingPlasmaGlucose(fastingPlasmaGlucose);
+
+        if(breakfastBloodSugar>0)
         modifyBreakfastBloodSugar(breakfastBloodSugar);
+
+        if(lunchBloodSugar>0)
         modifyLunchBloodSugar(lunchBloodSugar);
+
+        if(dinnerBloodSugar>0)
         modifyDinnerBloodSugar(dinnerBloodSugar);
+
         if(remark!=null&&remark.length()<=500){
             modifyRemark(remark);
         }
