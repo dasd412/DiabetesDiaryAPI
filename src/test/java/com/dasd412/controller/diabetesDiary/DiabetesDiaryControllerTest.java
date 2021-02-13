@@ -1,5 +1,6 @@
 package com.dasd412.controller.diabetesDiary;
 
+import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
 import com.dasd412.domain.diary.Writer;
@@ -68,11 +69,10 @@ public class DiabetesDiaryControllerTest {
         String url="http://localhost:"+port+"/api/diabetes/diary/post";
 
         //when
-        ResponseEntity<Long>responseEntity=testRestTemplate.postForEntity(url,dto,Long.class);
+        ResponseEntity<ApiResult>responseEntity=testRestTemplate.postForEntity(url,dto, ApiResult.class);
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
         List<DiabetesDiary>diaryList=repository.findAll();
         assertThat(diaryList.get(0).getFastingPlasmaGlucose()).isEqualTo(90);

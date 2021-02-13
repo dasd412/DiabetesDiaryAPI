@@ -1,10 +1,15 @@
 package com.dasd412.controller.diabetesDiary;
 
+import com.dasd412.controller.ApiResult;
 import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DiabetesDiaryController {
+
+    /*
+    컨트롤러 계층에서만 DTO를 쓴다.
+     */
 
     private final DiabetesDiaryService diaryService;
 
@@ -13,8 +18,10 @@ public class DiabetesDiaryController {
     }
 
     @PostMapping("/api/diabetes/diary/post")
-    public Long postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
-        return diaryService.save(diaryDTO);
+    public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
+        return ApiResult.OK(
+                new DiaryResponseDTO(diaryService.save(diaryDTO.toEntity()))
+        );
     }
 
     @PutMapping("/api/diabetes/diary/{id}")

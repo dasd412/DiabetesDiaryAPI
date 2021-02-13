@@ -1,6 +1,5 @@
 package com.dasd412.service.diabetesDiary;
 
-import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.controller.diabetesDiary.DiabetesDiaryUpdateRequestDTO;
 import com.dasd412.controller.diabetesDiary.DiaryResponseDTO;
 import com.dasd412.controller.error.NotFoundException;
@@ -12,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class DiabetesDiaryService {
 
+    /*
+    서비스 계층에는 DTO를 쓰지 않는다.
+     */
+
     private final DiabetesDiaryRepository diaryRepository;
 
     public DiabetesDiaryService(DiabetesDiaryRepository diaryRepository) {
@@ -19,23 +22,21 @@ public class DiabetesDiaryService {
     }
 
     @Transactional
-    public Long save(DiabetesDiaryRequestDTO diaryDTO) {
-        return diaryRepository.save(diaryDTO.toEntity()).getId();
+    public DiabetesDiary save(DiabetesDiary diary) {
+        return diaryRepository.save(diary);
     }
 
     @Transactional
     public Long update(Long id, DiabetesDiaryUpdateRequestDTO dto) {
-        //todo 익셉션을 커스텀 익셉션으로 교체하기
         DiabetesDiary diary=diaryRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("해당 일지가 존재하지 않습니다."+id));//<-커스텀 익셉션으로 교체할 것!
+                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
         diary.update(dto.getFastingPlasmaGlucose(),dto.getBreakfastBloodSugar(),dto.getLunchBloodSugar(),dto.getDinnerBloodSugar(),dto.getRemark());
         return id;
     }
 
     public DiaryResponseDTO findById(Long id) {
-        //todo 익셉션을 커스텀 익셉션으로 교체하기
         DiabetesDiary entity=diaryRepository.findById(id)
-                .orElseThrow(()->new IllegalArgumentException("해당 일지가 존재하지 않습니다."+id));
+                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
 
         return new DiaryResponseDTO(entity);
     }
