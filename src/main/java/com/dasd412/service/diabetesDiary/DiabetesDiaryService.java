@@ -3,10 +3,13 @@ package com.dasd412.service.diabetesDiary;
 import com.dasd412.controller.diabetesDiary.DiabetesDiaryUpdateRequestDTO;
 import com.dasd412.controller.diabetesDiary.DiaryResponseDTO;
 import com.dasd412.controller.error.NotFoundException;
+import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
 public class DiabetesDiaryService {
@@ -34,10 +37,10 @@ public class DiabetesDiaryService {
         return id;
     }
 
-    public DiaryResponseDTO findById(Long id) {
-        DiabetesDiary entity=diaryRepository.findById(id)
+    public DiaryResponseDTO findById(Id<DiabetesDiary,Long> id) {
+        checkNotNull(id,"diary id must be provided");
+        DiabetesDiary entity=diaryRepository.findById(id.value())
                 .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
-
         return new DiaryResponseDTO(entity);
     }
 }

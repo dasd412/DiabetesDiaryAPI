@@ -1,6 +1,8 @@
 package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.controller.ApiResult;
+import com.dasd412.domain.commons.Id;
+import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,10 @@ public class DiabetesDiaryController {
     public Long update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){ return diaryService.update(id,dto); }
 
     @GetMapping("/api/diabetes/diary/{id}")
-    public DiaryResponseDTO findById(@PathVariable Long id){return diaryService.findById(id);}
+    public ApiResult<DiaryResponseDTO> findById(@PathVariable Long id){
+        return ApiResult.OK(
+                diaryService.findById(Id.of(DiabetesDiary.class, id))
+        );
+    }
 
 }
