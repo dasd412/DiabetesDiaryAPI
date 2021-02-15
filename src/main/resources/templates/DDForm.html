@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Diary</title>
+    <meta charset="Content-Type" content="text/html" charset="UTF-8"/>
+    <link href="styleDDForm.css" rel='stylesheet' type="text/css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="content-wrapper">
+    <div class="content-left">
+       <h1 class="left-h1">Diabetes Diary</h1>
+       <h2 class="left-h2">Write your own diabetes meal diary</h2>
+       <h4 class="left-h4">Fasting Plasma Glucose</h4>
+
+    
+        <input type="text" id="FastingPlasmaGlucose" placeholder="write your Fasting Plasma Glucose">
+      
+
+
+       <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
+
+       <table class="table table-bordered" id="afterMeal-table" >
+        <tbody class="afterMeal-tbody">
+            <tr >
+                <td>MealTime</td>
+                <td >BreakFast</td>
+                <td >Lunch</td>
+                <td>Dinner</td>
+            </tr>
+            <tr>
+                <td>Numerical value</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
+                <td class="afterMeal-td-diet"></td>
+                <td class="afterMeal-td-diet"></td>
+                <td class="afterMeal-td-diet"></td>
+            </tr>
+        </tbody>
+       </table>
+
+       <button type="button" class="btn-save">
+           Save!
+       </button>
+
+    </div>
+    
+    <div class="content-right">
+
+
+    </div>
+
+</div>
+  
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
