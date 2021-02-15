@@ -1,6 +1,7 @@
 package com.dasd412.domain.diet;
 
 import com.dasd412.domain.diary.DiabetesDiary;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -14,9 +15,11 @@ public class HashTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name="diabetesDiary_id")
     private DiabetesDiary diabetesDiary;
+
 
     @ManyToOne
     @JoinColumn(name="diet_id")

@@ -20,7 +20,7 @@ public class Diet {//식단
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore//JSON에서 양방향 참조 방지
+
     @OneToMany(mappedBy = "diet")
     private Set<HashTag>diaryList=new HashSet<>();
 

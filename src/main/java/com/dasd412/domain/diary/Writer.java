@@ -1,6 +1,8 @@
 package com.dasd412.domain.diary;
 
 import com.dasd412.domain.user.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,6 +13,7 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Writer {
 
     @Id
@@ -18,6 +21,7 @@ public class Writer {
     private Long id;
 
     private String name;
+
 
     @OneToOne(cascade=CascadeType.ALL)//1대1 관계
     @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
