@@ -14,10 +14,6 @@
   + Routes/EndPoints 소개
   + Controller, Service, Repository, Store Procedure 관계도
   + DB 스키마
-    + 혈당 일지 스키마
-     + ![이미지](https://github.com/dasd412/DiabetesDiaryAPI/blob/master/YRTntsoetNdPhGQDd.pngraw=true)
-
-    
 
 + Frontend Architecture
 
