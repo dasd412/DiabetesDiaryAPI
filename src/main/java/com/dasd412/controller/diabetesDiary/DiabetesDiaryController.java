@@ -4,6 +4,8 @@ import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +16,8 @@ public class DiabetesDiaryController {
      */
 
     private final DiabetesDiaryService diaryService;
+
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
     public DiabetesDiaryController(DiabetesDiaryService diaryService) {
         this.diaryService = diaryService;
@@ -34,11 +38,5 @@ public class DiabetesDiaryController {
         );
     }
 
-    @GetMapping("/api/diabetes/diary/{id}")
-    public ApiResult<DiaryResponseDTO> findById(@PathVariable Long id){
-        return ApiResult.OK(
-                diaryService.findById(Id.of(DiabetesDiary.class, id))
-        );
-    }
 
 }

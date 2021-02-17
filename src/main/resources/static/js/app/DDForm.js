@@ -53,9 +53,6 @@ const obj={
            }
         };
 
-        console.log(JSON.stringify(data));
-
-
         $.ajax({
            type:'POST',
            url:'/api/diabetes/diary/post',
@@ -66,7 +63,7 @@ const obj={
             alert('save success!');
 
         }).fail(function(error){
-            alert(JSON.stringify(error));
+            alert('blood sugar must be positive number !');
         });
     },
 

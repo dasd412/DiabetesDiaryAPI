@@ -11,14 +11,14 @@ html,body{
 
     .content-left{
         width:50%;
-        height:98%;
+        height:100%;
         float:left;
         background-color: #ffffff;
         position: relative;
     }
     .content-right{
         width:48%;
-        height:98%;
+        height:100%;
         float:right;
         background-image: linear-gradient(93deg, #28cea1, #73d999 94%);
         position: relative;

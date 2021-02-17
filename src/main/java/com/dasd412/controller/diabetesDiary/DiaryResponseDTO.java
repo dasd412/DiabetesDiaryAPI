@@ -2,6 +2,8 @@ package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.Writer;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class DiaryResponseDTO {
 
@@ -51,5 +53,18 @@ public class DiaryResponseDTO {
 
     public String getRemark() {
         return remark;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("id",id)
+                .append("fastingPlasmaGlucose",fastingPlasmaGlucose)
+                .append("breakfastBloodSugar",breakfastBloodSugar)
+                .append("lunchBloodSugar",lunchBloodSugar)
+                .append("dinnerBloodSugar",dinnerBloodSugar)
+                .append("writer",writer)
+                .append("remark",remark)
+                .toString();
     }
 }
