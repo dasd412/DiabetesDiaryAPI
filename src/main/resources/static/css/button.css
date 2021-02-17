@@ -1,0 +1,98 @@
+ #btn-save{
+      position: relative;
+      left:70%;
+      width: 110px;
+      height: 7%;
+      margin:45px 0.5px 0 110px;
+      padding: 14px 21px 14px 13px;
+      border-radius: 36px;
+
+      font-family: ArialRounded;
+      font-size: 18px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: center;
+ }
+
+
+    #btn-save.normal{
+      border: solid 1px #e11ada;
+      background-color: rgba(225, 26, 218, 0.71);
+      color: #fffdfd;
+    }
+
+    #btn-save.onmouseover{
+       border: solid 1px #73d999 ;
+       background-color: #73d999  ;
+       color: #fffdfd;
+    }
+
+
+
+    #btn-update{
+          position: relative;
+          left:50%;
+          width: 110px;
+          height: 7%;
+          margin:45px 0.5px 0 110px;
+          padding: 14px 21px 14px 13px;
+          border-radius: 36px;
+
+          font-family: ArialRounded;
+          font-size: 18px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.17;
+          letter-spacing: normal;
+          text-align: center;
+    }
+
+     .btn-update-normal{
+             border: solid 1px #e11ada;
+             background-color: rgba(225, 26, 218, 0.71);
+             color: #fffdfd;
+     }
+
+     .btn-update-onmouseover{
+            border: solid 1px #73d999 ;
+            background-color: #73d999  ;
+            color: #fffdfd;
+     }
+
+
+
+    #btn-delete{
+              position: relative;
+              left:40%;
+              width: 110px;
+              height: 7%;
+              margin:45px 0.5px 0 110px;
+              padding: 14px 21px 14px 13px;
+              border-radius: 36px;
+
+              font-family: ArialRounded;
+              font-size: 18px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.17;
+              letter-spacing: normal;
+              text-align: center;
+    }
+
+
+     .btn-delete-normal{
+         border:solid 1px #f51101;
+         background-color: #f51101;
+         color: #fffdfd;
+     }
+
+     .btn-delete-onmouseover{
+         border:solid 1px #6407dd;
+         background-color: #6407dd;
+         color: #fffdfd;
+     }
