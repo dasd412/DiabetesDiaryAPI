@@ -77,6 +77,7 @@ public class DiabetesDiaryControllerTest {
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        logger.info("json body"+responseEntity.getBody());
 
         List<DiabetesDiary>diaryList=repository.findAll();
         assertThat(diaryList.get(0).getFastingPlasmaGlucose()).isEqualTo(90);

@@ -11,7 +11,7 @@
     position: relative;
 }
 .content-right{
-    width:50%;
+    width:48%;
     float:right;
     height: 770px;
     background-image: linear-gradient(93deg, #28cea1, #73d999 94%);
@@ -60,7 +60,7 @@
     line-height: 1.14;
     letter-spacing: normal;
     text-align: left;
-    color: #000000;  
+    color: #000000;
 }
 
 
@@ -97,7 +97,7 @@
     color: #000000;
 }
 
-.afterMeal-tbody{  
+.afterMeal-tbody{
   font-family: ArialRounded;
   font-size: 18px;
   font-weight: bold;
@@ -123,7 +123,7 @@
     vertical-align: middle;
 }
 
-.btn-save{
+#btn-save{
     position: relative;
     left:70%;
     width: 110px;
@@ -131,8 +131,7 @@
   margin:110px 0.5px 0 80px;
   padding: 14px 21px 14px 13px;
   border-radius: 36px;
-  border: solid 1px #e11ada;
-  background-color: rgba(225, 26, 218, 0.71);
+
   font-family: ArialRounded;
   font-size: 18px;
   font-weight: bold;
@@ -141,5 +140,16 @@
   line-height: 1.17;
   letter-spacing: normal;
   text-align: center;
+}
+
+#btn-save.normal{
+  border: solid 1px #e11ada;
+  background-color: rgba(225, 26, 218, 0.71);
   color: #fffdfd;
+}
+
+#btn_save.onmouseover{
+   border: solid 1px #73d999 ;
+   background-color: #73d999  ;
+   color: #f9fd05;
 }
