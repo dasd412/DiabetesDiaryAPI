@@ -4,11 +4,15 @@ import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Api(tags="혈당 일지 REST 컨트롤러")
 public class DiabetesDiaryRestController {
 
     /*
@@ -24,6 +28,7 @@ public class DiabetesDiaryRestController {
     }
 
     @PostMapping("/api/diabetes/diary/post")
+    @ApiOperation(value="혈당 일지 작성")
     public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
         logger.info("DiabetesDiaryRestController post dto : "+diaryDTO.toString());
         return ApiResult.OK(
@@ -32,7 +37,8 @@ public class DiabetesDiaryRestController {
     }
 
     @PutMapping("/api/diabetes/diary/{id}")
-    public ApiResult<DiaryResponseDTO> update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
+    @ApiOperation(value="혈당 일지 수정")
+    public ApiResult<DiaryResponseDTO> update(@PathVariable  @ApiParam(value="혈당 일지 PK", example = "1") Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
         logger.info("DiabetesDiaryRestController update dto : "+id+" "+dto.toString());
         return ApiResult.OK(
                 new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class,id)
@@ -41,7 +47,8 @@ public class DiabetesDiaryRestController {
     }
 
     @DeleteMapping("/api/diabetes/diary/{id}")
-    public ApiResult<Long> delete(@PathVariable Long id){
+    @ApiOperation(value="혈당 일지 삭제")
+    public ApiResult<Long> delete(@PathVariable  @ApiParam(value="혈당 일지 PK", example = "1") Long id){
         logger.info("DiabetesDiaryRestController delete id : "+id);
         diaryService.delete(id);
         return ApiResult.OK(id);
