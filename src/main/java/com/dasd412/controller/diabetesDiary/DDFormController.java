@@ -20,16 +20,14 @@ public class DDFormController {
     public DDFormController(DiabetesDiaryService diaryService) {this.diaryService = diaryService; }
 
     @GetMapping("/api/diabetes/diary")
-    public String viewResolve(){
-        return "DDForm";
-    }
+    public String viewResolve(){return "DDForm"; }
 
 
     @GetMapping("/api/diabetes/diary/{id}")
     public String findById(@PathVariable Long id, Model model){
 
         DiaryResponseDTO dto=diaryService.findById(Id.of(DiabetesDiary.class, id));
-        logger.info("info : "+dto.toString());
+        logger.info("DDFormController find by : "+dto.toString());
         model.addAttribute("bloodSugar",dto);
 
         return "DDFormSelect";

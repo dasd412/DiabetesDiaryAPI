@@ -1,4 +1,3 @@
-
 {{>layout/header}}
 <link href="/css/styleDDForm.css" rel='stylesheet' type="text/css"/>
 <link href="/css/button.css" rel='stylesheet' type="text/css"/>
@@ -6,23 +5,22 @@
 <body>
 <div class="content-wrapper">
     {{>layout/left}}
-        <h1 class="left-h1">Diabetes Diary</h1>
-        <h2 class="left-h2">Write your own diabetes meal diary</h2>
-        <h4 class="left-h4">Fasting Plasma Glucose</h4>
+    <h1 class="left-h1">Diabetes Diary</h1>
+    <h2 class="left-h2">Write your own diabetes meal diary</h2>
+    <h4 class="left-h4">Fasting Plasma Glucose</h4>
 
 
-        <input type="text" id="FastingPlasmaGlucose" placeholder="write your Fasting Plasma Glucose">
+    <input type="text" id="FastingPlasmaGlucose" placeholder="write your Fasting Plasma Glucose">
 
 
+    <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
 
-        <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
-
-    <table class="table table-bordered" id="afterMeal-table" >
+    <table class="table table-bordered" id="afterMeal-table">
         <tbody class="afterMeal-tbody">
-        <tr >
+        <tr>
             <td>MealTime</td>
-            <td >BreakFast</td>
-            <td >Lunch</td>
+            <td>BreakFast</td>
+            <td>Lunch</td>
             <td>Dinner</td>
         </tr>
         <tr id="afterMeal-td-value">
@@ -46,11 +44,11 @@
         Save
     </button>
 
-    </div>
+</div>
 
 
-    {{>layout/right}}
-    </div>
+{{>layout/right}}
+</div>
 
 </div>
 

@@ -69,14 +69,6 @@ const ddForm={
         }).fail(function(error){
             alert('blood sugar must be positive number !');
         });
-    },
-
-    update:function(){
-
-    },
-
-    delete:function(){
-
     }
 
 };

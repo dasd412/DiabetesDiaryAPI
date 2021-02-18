@@ -25,6 +25,7 @@ public class DiabetesDiaryRestController {
 
     @PostMapping("/api/diabetes/diary/post")
     public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
+        logger.info("DiabetesDiaryRestController post dto : "+diaryDTO.toString());
         return ApiResult.OK(
                 new DiaryResponseDTO(diaryService.save(diaryDTO.toEntity()))
         );
@@ -32,10 +33,18 @@ public class DiabetesDiaryRestController {
 
     @PutMapping("/api/diabetes/diary/{id}")
     public ApiResult<DiaryResponseDTO> update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
+        logger.info("DiabetesDiaryRestController update dto : "+id+" "+dto.toString());
         return ApiResult.OK(
                 new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class,id)
                         ,dto.getFastingPlasmaGlucose(),dto.getBreakfastBloodSugar(),dto.getLunchBloodSugar(),dto.getDinnerBloodSugar(),dto.getRemark()))
         );
+    }
+
+    @DeleteMapping("/api/diabetes/diary/{id}")
+    public ApiResult<Long> delete(@PathVariable Long id){
+        logger.info("DiabetesDiaryRestController delete id : "+id);
+        diaryService.delete(id);
+        return ApiResult.OK(id);
     }
 
 
