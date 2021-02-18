@@ -1,37 +1,41 @@
-const obj={
+const ddForm={
 
     init:function(){
        const _this=this;
        const btn_save=document.querySelector("#btn-save");
+       const btn_cancel=document.querySelector("#btn-cancel");
+
        $("#btn-save").on('click',function(){
            _this.save();
        });
+
        $("#btn-save").on('mouseover',function(){
            _this.buttonHover(btn_save);
        });
        $("#btn-save").on('mouseout',function(){
          _this.buttonOut(btn_save);
        });
-
-
-
-
-
+       $("#btn-cancel").on('mouseover',function(){
+          _this.buttonHover(btn_cancel);
+       });
+       $("#btn-cancel").on('mouseout',function(){
+          _this.buttonOut(btn_cancel);
+       });
 
     },
 
-    buttonHover:function(btn_save){
-      if(btn_save.classList.contains('normal')){
-          btn_save.classList.remove('normal');
-          btn_save.classList.add('onmouseover');
+    buttonHover:function(btn){
+      if(btn.classList.contains('normal')){
+          btn.classList.remove('normal');
+          btn.classList.add('onmouseover');
 
       }
     },
 
-    buttonOut:function(btn_save){
-        if(btn_save.classList.contains('onmouseover')){
-            btn_save.classList.remove('onmouseover');
-            btn_save.classList.add('normal');
+    buttonOut:function(btn){
+        if(btn.classList.contains('onmouseover')){
+            btn.classList.remove('onmouseover');
+            btn.classList.add('normal');
         }
     },
 
@@ -77,4 +81,4 @@ const obj={
 
 };
 
-obj.init();
+ddForm.init();

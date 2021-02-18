@@ -12,7 +12,7 @@
 
 
 {{#bloodSugar}}
-    <input type="text" id="FastingPlasmaGlucose" value={{fastingPlasmaGlucose}} readonly="readonly"/>
+    <input type="text" id="FastingPlasmaGlucose" value={{fastingPlasmaGlucose}}>
 
 
 
@@ -29,9 +29,9 @@
         </tr>
         <tr id="afterMeal-td-value">
             <td>Numerical value</td>
-            <td>{{breakfastBloodSugar}}</td>
-            <td>{{lunchBloodSugar}}</td>
-            <td>{{dinnerBloodSugar}}</td>
+            <td><input type="text" id="breakFastValue" value={{breakfastBloodSugar}}></td>
+            <td><input type="text" id="lunchValue" value={{lunchBloodSugar}}></td>
+            <td><input type="text" id="dinnerValue" value={{dinnerBloodSugar}}></td>
             {{/bloodSugar}}
         </tr>
         <tr>
@@ -43,18 +43,20 @@
         </tbody>
     </table>
 
+
+    <a href="/" role="button" id="btn-cancel" class="normal">Cancel</a>
+
     <button type="button" id="btn-update" class="normal">
-        update?
+        update
     </button>
     <button type="button" id="btn-delete" class="normal">
-        delete?
+        delete
     </button>
 
 </div>
 
-<script src="/js/app/DDFormSelect.js"></script>
-{{>layout/right}}
 
+{{>layout/right}}
 </div>
 
 </div>

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class DiabetesDiaryController {
+public class DiabetesDiaryRestController {
 
     /*
     컨트롤러 계층에서만 DTO를 쓴다.
@@ -19,7 +19,7 @@ public class DiabetesDiaryController {
 
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
-    public DiabetesDiaryController(DiabetesDiaryService diaryService) {
+    public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
         this.diaryService = diaryService;
     }
 

@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc//<-Mockmvc 주입용 어노테이션
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DiabetesDiaryControllerTest {
+public class DiabetesDiaryRestControllerTest {
 
     @LocalServerPort
     private int port;
