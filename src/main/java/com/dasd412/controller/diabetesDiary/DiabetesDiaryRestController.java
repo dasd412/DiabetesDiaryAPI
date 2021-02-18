@@ -4,10 +4,12 @@ import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class DiabetesDiaryController {
+public class DiabetesDiaryRestController {
 
     /*
     컨트롤러 계층에서만 DTO를 쓴다.
@@ -15,12 +17,15 @@ public class DiabetesDiaryController {
 
     private final DiabetesDiaryService diaryService;
 
-    public DiabetesDiaryController(DiabetesDiaryService diaryService) {
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
+
+    public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
         this.diaryService = diaryService;
     }
 
     @PostMapping("/api/diabetes/diary/post")
     public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
+        logger.info("DiabetesDiaryRestController post dto : "+diaryDTO.toString());
         return ApiResult.OK(
                 new DiaryResponseDTO(diaryService.save(diaryDTO.toEntity()))
         );
@@ -28,17 +33,19 @@ public class DiabetesDiaryController {
 
     @PutMapping("/api/diabetes/diary/{id}")
     public ApiResult<DiaryResponseDTO> update(@PathVariable Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
+        logger.info("DiabetesDiaryRestController update dto : "+id+" "+dto.toString());
         return ApiResult.OK(
                 new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class,id)
                         ,dto.getFastingPlasmaGlucose(),dto.getBreakfastBloodSugar(),dto.getLunchBloodSugar(),dto.getDinnerBloodSugar(),dto.getRemark()))
         );
     }
 
-    @GetMapping("/api/diabetes/diary/{id}")
-    public ApiResult<DiaryResponseDTO> findById(@PathVariable Long id){
-        return ApiResult.OK(
-                diaryService.findById(Id.of(DiabetesDiary.class, id))
-        );
+    @DeleteMapping("/api/diabetes/diary/{id}")
+    public ApiResult<Long> delete(@PathVariable Long id){
+        logger.info("DiabetesDiaryRestController delete id : "+id);
+        diaryService.delete(id);
+        return ApiResult.OK(id);
     }
+
 
 }

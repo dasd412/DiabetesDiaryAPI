@@ -29,6 +29,7 @@ public class DiabetesDiaryService {
         return diaryRepository.save(diary);
     }
 
+    @Transactional(readOnly = true)
     public DiaryResponseDTO findById(Id<DiabetesDiary,Long> id) {
         checkNotNull(id,"diary id must be provided");
         DiabetesDiary entity=diaryRepository.findById(id.value())
@@ -44,5 +45,15 @@ public class DiabetesDiaryService {
                 .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
         diary.update(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark);
         return diary;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        checkNotNull(id,"diary id must be provided");
+
+        DiabetesDiary target=diaryRepository.findById(id)
+                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
+
+        diaryRepository.delete(target);
     }
 }

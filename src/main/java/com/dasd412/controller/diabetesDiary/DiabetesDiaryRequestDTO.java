@@ -2,6 +2,8 @@ package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.Writer;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -39,6 +41,18 @@ public class DiabetesDiaryRequestDTO {
                 .writer(writer)
                 .remark(remark)
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("fastingPlasmaGlucose",fastingPlasmaGlucose)
+                .append("breakfastBloodSugar",breakfastBloodSugar)
+                .append("lunchBloodSugar",lunchBloodSugar)
+                .append("dinnerBloodSugar",dinnerBloodSugar)
+                .append("writer",writer)
+                .append("remark",remark)
+                .toString();
     }
 
     public int getFastingPlasmaGlucose() {

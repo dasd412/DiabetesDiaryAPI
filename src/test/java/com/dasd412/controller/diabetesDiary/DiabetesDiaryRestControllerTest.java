@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc//<-Mockmvc 주입용 어노테이션
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DiabetesDiaryControllerTest {
+public class DiabetesDiaryRestControllerTest {
 
     @LocalServerPort
     private int port;
@@ -77,6 +77,7 @@ public class DiabetesDiaryControllerTest {
 
         //then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        logger.info("json body"+responseEntity.getBody());
 
         List<DiabetesDiary>diaryList=repository.findAll();
         assertThat(diaryList.get(0).getFastingPlasmaGlucose()).isEqualTo(90);

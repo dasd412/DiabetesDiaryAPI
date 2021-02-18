@@ -1,0 +1,127 @@
+    #btn-save{
+        position: relative;
+        left:50%;
+        width: 110px;
+        height: 7%;
+        margin:45px 0.5px 0 110px;
+        padding: 14px 21px 14px 13px;
+        border-radius: 36px;
+
+        font-family: ArialRounded;
+        font-size: 18px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.17;
+        letter-spacing: normal;
+        text-align: center;
+    }
+
+    #btn-save.normal{
+      border: solid 1px #e11ada;
+      background-color: rgba(225, 26, 218, 0.71);
+      color: #fffdfd;
+    }
+
+    #btn-save.onmouseover{
+       border: solid 1px #73d999 ;
+       background-color: #73d999  ;
+       color: #fffdfd;
+    }
+
+
+
+    #btn-update{
+           position: relative;
+           left:35%;
+           width: 110px;
+           height: 7%;
+           margin:45px 0.5px 0 110px;
+           padding: 14px 21px 14px 13px;
+           border-radius: 36px;
+
+           font-family: ArialRounded;
+           font-size: 18px;
+           font-weight: bold;
+           font-stretch: normal;
+           font-style: normal;
+           line-height: 1.17;
+           letter-spacing: normal;
+           text-align: center;
+     }
+
+      #btn-update.normal{
+              border: solid 1px #e11ada;
+              background-color: rgba(225, 26, 218, 0.71);
+              color: #fffdfd;
+      }
+
+      #btn-update.onmouseover{
+             border: solid 1px #73d999 ;
+             background-color: #73d999  ;
+             color: #fffdfd;
+      }
+
+
+
+     #btn-delete{
+               position: relative;
+               left:25%;
+               width: 110px;
+               height: 7%;
+               margin:45px 0.5px 0 110px;
+               padding: 14px 21px 14px 13px;
+               border-radius: 36px;
+
+               font-family: ArialRounded;
+               font-size: 18px;
+               font-weight: bold;
+               font-stretch: normal;
+               font-style: normal;
+               line-height: 1.17;
+               letter-spacing: normal;
+               text-align: center;
+     }
+
+
+      #btn-delete.normal{
+          border:solid 1px #0f0f0f;
+          background-color: #0f0f0f;
+          color: #fffdfd;
+      }
+
+      #btn-delete.onmouseover{
+          border:solid 1px #6407dd;
+          background-color: #6407dd;
+          color: #fffdfd;
+      }
+
+       #btn-cancel{
+            position: relative;
+            width: 110px;
+            height: 7%;
+            margin:45px 0.5px 0 70px;
+            padding: 14px 21px 14px 13px;
+            border-radius: 36px;
+
+            font-family: ArialRounded;
+            font-size: 18px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.17;
+            letter-spacing: normal;
+            text-align: center;
+       }
+
+       #btn-cancel.normal{
+              border: solid 1px #e60a0a;
+              background-color: #e60a0a;
+              color: #fffdfd;
+       }
+
+       #btn-cancel.onmouseover{
+              border: solid 1px #099bf0;
+              background-color: #099bf0;
+              color: #fffdfd;
+       }
