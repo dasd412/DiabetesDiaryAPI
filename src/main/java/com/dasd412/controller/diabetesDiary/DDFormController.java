@@ -25,7 +25,7 @@ public class DDFormController {
 
     @GetMapping("/api/diabetes/diary")
     @ApiOperation(value="혈당 일지 폼 뷰 리졸빙")
-    public String viewResolve(){return "DDForm"; }
+    public String viewResolve(){return "form/DDForm"; }
 
 
     @GetMapping("/api/diabetes/diary/{id}")
@@ -36,7 +36,7 @@ public class DDFormController {
         logger.info("DDFormController find by : "+dto.toString());
         model.addAttribute("bloodSugar",dto);
 
-        return "DDFormSelect";
+        return "form/DDFormSelect";
     }
 
 

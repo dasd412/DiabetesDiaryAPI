@@ -1,0 +1,71 @@
+html,body{
+    margin:0;
+    height:100%;
+}
+
+thead{
+    text-align: center;
+}
+
+.content-back{
+    width:100%;
+     height:98%;
+    height: 770px;
+    background-image: linear-gradient(93deg, #28cea1, #73d999 94%);
+    position: relative;
+}
+
+#yearMonth{
+    font:bold;
+    font-size:18px;
+}
+
+#calendarTable{
+    position: relative;
+    width: 100%;
+    border-collapse: separate;
+}
+
+#calendarThead{
+    font-family: ArialRounded;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.16;
+    letter-spacing: normal;
+
+}
+
+.weekTd{
+    background-color: #ebebeb;
+}
+
+.calendarTop{
+    background-image: linear-gradient(93deg, #a426b4, #581bc9 94%);
+}
+
+.calendarTopTitle{
+    text-align: center;
+    font-family: ArialRounded;
+    font-size: 25px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.16;
+    letter-spacing: normal;
+    color: #fffdfd;
+}
+
+#fastPre,#pre,#next,#fastNext{
+    margin:10px;
+    color: #fffdfd;
+}
+
+
+table {
+    table-layout: auto;
+    max-width: 90%;
+    margin-bottom: 1px;
+    background-color: transparent;
+}
