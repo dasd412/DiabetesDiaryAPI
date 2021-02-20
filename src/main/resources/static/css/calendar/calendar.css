@@ -34,6 +34,9 @@ thead{
     font-style: normal;
     line-height: 1.16;
     letter-spacing: normal;
+    table-layout: auto;
+    margin-bottom: 1px;
+    background-color: transparent;
 
 }
 
@@ -60,12 +63,4 @@ thead{
 #fastPre,#pre,#next,#fastNext{
     margin:10px;
     color: #fffdfd;
-}
-
-
-table {
-    table-layout: auto;
-    max-width: 90%;
-    margin-bottom: 1px;
-    background-color: transparent;
 }
