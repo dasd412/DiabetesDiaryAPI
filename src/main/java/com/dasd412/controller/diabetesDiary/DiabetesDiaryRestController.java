@@ -3,7 +3,7 @@ package com.dasd412.controller.diabetesDiary;
 import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
+import com.dasd412.service.diabetesDiaryForm.DiabetesDiaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
