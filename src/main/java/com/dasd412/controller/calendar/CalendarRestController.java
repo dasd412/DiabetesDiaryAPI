@@ -18,10 +18,7 @@ import com.google.api.services.calendar.model.Events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CalendarRestController {
@@ -122,11 +119,11 @@ public class CalendarRestController {
             Event event=new Event().setSummary(dto.getSummary()).setDescription(dto.getDescription());
 
             DateTime startDateTime=new DateTime(dto.getStartDateTime());
-            EventDateTime start=new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles");
+            EventDateTime start=new EventDateTime().setDateTime(startDateTime).setTimeZone("Asia/Seoul");
             event.setStart(start);
 
             DateTime endDateTime=new DateTime(dto.getEndDateTime());
-            EventDateTime end =new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
+            EventDateTime end =new EventDateTime().setDateTime(endDateTime).setTimeZone("Asia/Seoul");
             event.setEnd(end);
 
             service.events().insert(dto.getCalendarId(),event).execute();
@@ -171,6 +168,44 @@ public class CalendarRestController {
         Map<String,Boolean>map=new HashMap<>();
         map.put("isDeleted",isDeleted);
 
+        return ApiResult.OK(map);
+    }
+
+    @PutMapping("/api/diabetes/calendar")
+          /*
+        --JSON RequestBody Format--
+    {
+   "kind": "calendar#event",
+  "calendarId":"yjhk0001@gmail.com",
+   "eventId":"2encm0gl0jkimsf80t6a1vji5s",
+   "summary":"update test",
+   "description":"test for update!"
+     }
+
+     --Reference--
+     base 64 디코딩
+     MmVuY20wZ2wwamtpbXNmODB0NmExdmppNXMgeWpoazAwMDFAbQ ->2encm0gl0jkimsf80t6a1vji5s
+
+     */
+    public ApiResult<Map<String,Boolean>>updateCalendar(@RequestBody CalendarDTO dto){
+        logger.info("update calendar : "+dto.toString());
+
+        boolean isUpdated=false;
+
+        try{
+            Calendar service=CalendarQuickstart.getCalendarService();
+            Event event=service.events().get(dto.getCalendarId(),dto.getEventId()).execute();
+            event.setSummary(dto.getSummary()).setDescription(dto.getDescription());
+            service.events().update(dto.getCalendarId(),event.getId(),event).execute();
+
+            isUpdated=true;
+
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String,Boolean>map=new HashMap<>();
+        map.put("isUpdated",isUpdated);
         return ApiResult.OK(map);
     }
 
