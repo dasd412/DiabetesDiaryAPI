@@ -3,8 +3,11 @@ package com.dasd412.controller.calendar;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class CalendarDTO {
 
@@ -58,12 +61,14 @@ public class CalendarDTO {
         return calendarId;
     }
 
-    public LocalDateTime getStartDateTime() {
-        return LocalDateTime.parse(startDate + startTime, DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
+    public Date getStartDateTime() throws ParseException {
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-ddHH:mm");
+        return format.parse(startDate+startTime);
     }
 
-    public LocalDateTime getEndDateTime(){
-        return LocalDateTime.parse(endDate + endTime, DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm"));
+    public Date getEndDateTime() throws ParseException {
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-ddHH:mm");
+        return format.parse(endDate+endTime);
     }
 
     @Override

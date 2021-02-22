@@ -2,13 +2,18 @@ package com.dasd412.controller.calendar;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.dasd412.controller.ApiResult;
 import com.dasd412.utils.CalendarQuickstart;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,5 +97,48 @@ public class CalendarRestController {
 
         return ApiResult.ERROR("event not found", HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/api/diabetes/calendar/post")
+    /*
+        --JSON RequestBody Format--
+     {
+  "kind": "calendar#event",
+  "calendarId":"yjhk0001@gmail.com",
+   "summary":"postTest",
+   "description":"mehtod test",
+   "startDate":"2021-02-23",
+   "startTime":"12:00",
+   "endDate":"2021-02-23",
+   "endTime":"14:00"
+     }
+     */
+    public ApiResult<Map<String,Boolean>>postCalendar(@RequestBody CalendarDTO dto){
+        logger.info("post calendar : "+dto.toString());
+
+        boolean isCreated=false;
+        try{
+            Calendar service=CalendarQuickstart.getCalendarService();
+            Event event=new Event().setSummary(dto.getSummary()).setDescription(dto.getDescription());
+
+            DateTime startDateTime=new DateTime(dto.getStartDateTime());
+            EventDateTime start=new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles");
+            event.setStart(start);
+
+            DateTime endDateTime=new DateTime(dto.getEndDateTime());
+            EventDateTime end =new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
+            event.setEnd(end);
+
+            event=service.events().insert(dto.getCalendarId(),event).execute();
+
+            isCreated=true;
+        } catch (GeneralSecurityException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        Map<String, Boolean>map=new HashMap<>();
+        map.put("isCreated",isCreated);
+        return ApiResult.OK(map);
+    }
+
+
 
 }
