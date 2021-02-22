@@ -18,6 +18,7 @@ import com.google.api.services.calendar.model.Events;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +77,7 @@ public class CalendarRestController {
 
      */
 
-    public ApiResult<?>calendarEvent(@RequestBody CalendarDTO dto){
+    public ApiResult<?>findCalendarEvent(@RequestBody CalendarDTO dto){
         logger.info("Calendar event for dto id :"+dto.toString());
 
         List<Event> items = new ArrayList<>();
@@ -128,7 +129,7 @@ public class CalendarRestController {
             EventDateTime end =new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
             event.setEnd(end);
 
-            event=service.events().insert(dto.getCalendarId(),event).execute();
+            service.events().insert(dto.getCalendarId(),event).execute();
 
             isCreated=true;
         } catch (GeneralSecurityException | IOException | ParseException e) {
@@ -139,6 +140,39 @@ public class CalendarRestController {
         return ApiResult.OK(map);
     }
 
+    @DeleteMapping("/api/diabetes/calendar")
+      /*
+        --JSON RequestBody Format--
+     {
+  "kind": "calendar#event",
+  "calendarId":"yjhk0001@gmail.com",
+   "eventId":"13cg09jvch2mtondq07g3u8vks"
+     }
+
+     --Reference--
+     base 64 디코딩
+     MTNjZzA5anZjaDJtdG9uZHEwN2czdTh2a3MgeWpoazAwMDFAbQ ->13cg09jvch2mtondq07g3u8vks
+
+     */
+    public ApiResult<Map<String,Boolean>>deleteCalendarEvent(@RequestBody CalendarDTO dto){
+        logger.info("delete calendar event : "+dto.toString());
+
+        boolean isDeleted=false;
+
+        try{
+            Calendar service=CalendarQuickstart.getCalendarService();
+            service.events().delete(dto.getCalendarId(),dto.getEventId()).execute();
+
+            isDeleted=true;
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String,Boolean>map=new HashMap<>();
+        map.put("isDeleted",isDeleted);
+
+        return ApiResult.OK(map);
+    }
 
 
 }
