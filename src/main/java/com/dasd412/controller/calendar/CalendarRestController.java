@@ -25,7 +25,7 @@ public class CalendarRestController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping("/api/diabetes/calendar/eventList")
+    @GetMapping("/api/diabetes/calendar/eventList")
     /*
     --JSON RequestBody Format--
 
@@ -52,7 +52,7 @@ public class CalendarRestController {
         return ApiResult.OK(items);
     }
 
-    @PostMapping("/api/diabetes/calendar/event")
+    @GetMapping("/api/diabetes/calendar/event")
     /*
     --JSON RequestBody Format--
 
