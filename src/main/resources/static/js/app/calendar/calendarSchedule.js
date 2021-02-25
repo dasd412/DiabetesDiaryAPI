@@ -149,13 +149,6 @@ function screenWriteMonth(){
     let startIndex=monthDayIndex(monthDay,1);
     let lastIndex=monthDayIndex(calendar.makeOneCalendarArray(year,months[1]),calendar.getMaxDateNumberOfYear(year,months[1]))+startIndex;
 
-
-
-    //     let tag=new StringBuffer();
-//     tag.append("<td id="+year+month+day);
-//     tag.append("<a onclick='scheduleAdd("+year+","+month+","+day+")'>"+formatNumber(day)+"</a>");
-//     tag.append("</td>");
-
     for(let i=0;i<monthDay.length;i++){
         let trIndex=parseInt(i/7);
         let tr=$("#tbody tr").eq(trIndex);
@@ -168,41 +161,34 @@ function screenWriteMonth(){
                     sb.append((year-1));
                     sb.append(months[0]);
                     sb.append(monthDay[i]);
-                    td.attr("id",sb.toString());
-                    td.html(formatNumber(monthDay[i]));
                 }
                 else{
                     sb.append(year);
                     sb.append(months[0]);
                     sb.append(monthDay[i]);
-                    td.attr("id",sb.toString());
-                    td.html(formatNumber((monthDay[i])));
                 }
             }
             else if(i<=lastIndex){
                 sb.append(year);
                 sb.append(months[1]);
                 sb.append(monthDay[i]);
-                td.attr("id",sb.toString());
-                td.html(formatNumber((monthDay[i])));
             }
             else{
                 if(months[2]==1){
                     sb.append((year+1));
                     sb.append(months[2]);
                     sb.append(monthDay[i]);
-                    td.attr("id",sb.toString());
-                    td.html(formatNumber((monthDay[i])));
                 }
                 else{
                     sb.append(year);
                     sb.append(months[2]);
                     sb.append(monthDay[i]);
-                    td.attr("id",sb.toString());
-                    td.html(formatNumber((monthDay[i])));
+
                 }
             }
-            
+
+            td.attr("id",sb.toString());
+            td.html(formatNumber((monthDay[i])));
     }
 
 
