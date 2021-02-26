@@ -16,14 +16,19 @@ function getTime(time){
 }
 
 function scheduleAdd(year,month,day){
-console.log("y"+year+"m"+month+"d"+day);
-const calendarInfo={
- "year":year,
- "month":month,
- "day":day
-};
+let sb=new StringBuffer();
+sb.append(year);
+sb.append("/");
+sb.append(month);
+sb.append("/");
+sb.append(day);
 
 $("#ddModal").attr("style", "display:block;");
+$("#modalYear").attr("value",year);
+$("#modalMonth").attr("value",month);
+$("#modalDay").attr("value",day);
+$(".left-h2").html(sb.toString());
+
 
 }
 
