@@ -23,7 +23,7 @@ const calendarInfo={
  "day":day
 };
 
-$(".ddModal").attr("style", "display:block;");
+$("#ddModal").attr("style", "display:block;");
 
 }
 
@@ -66,7 +66,7 @@ function calendarScheduleAdd(){
         return false;
 
     }
-    $("#ddForm").modal('hide');
+    $("#ddModal").modal('hide');
     swal('calendar',"you need google token!");
 
     $.ajax({
@@ -364,7 +364,7 @@ const ddForm={
        });
 
        $("#btn-cancel").on('click',function(){
-           $(".ddModal").attr("style", "display:none;");
+           $("#ddModal").attr("style", "display:none;");
        });
 
        $("#btn-save").on('mouseover',function(){
@@ -444,7 +444,5 @@ $(document).ready(function(){
     $('#next').attr('onclick', 'moveMonthNext()');
     $('#fastPre').attr('onclick', 'moveFastMonthPre()');
     $('#fastNext').attr('onclick', 'moveFastMonthNext()');
-
-    $(".ddModal").attr("style", "display:none;");
     ddForm.init();
 });
