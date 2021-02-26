@@ -2,39 +2,56 @@
 <html>
 <head>
     <title>Diabetes Diary Calendar</title>
-    <meta charset="Content-Type" content="text/html" charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/css/background.css" rel='stylesheet' type="text/css"/>
     <link href="/css/calendar/calendar.css" rel='stylesheet' type="text/css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/css/styleDDForm.css" rel='stylesheet' type="text/css"/>
+    <link href="/css/button.css" rel='stylesheet' type="text/css"/>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/css/main.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+
 </head>
 
 <body>
 <input type='hidden' id="calendarId" value=""/>
 
 <div class="content-back">
-    <table id="calendarTable">
-        <thead id="calendarThead">
-        <tr>
-            <td colspan="7" class="calendarTop">
-                <button type='button' id='fastPre'><i class="fas fa-angle-double-left"></i></button>
-                <button type='button' id='pre'><i class="fas fa-angle-left"></i></button>
-                <span class="calendarTopTitle" id='yearMonth'>2</span>
-                <button type='button' id='next'><i class="fas fa-angle-right"></i></button>
-                <button type='button' id='fastNext'><i class="fas fa-angle-double-right"></i></button>
-                <div>
-                    <span class="calendarTopTitle">Title : </span>
-                    <div style="text-align: right">
-                        <input class='btn btn-sm btn-info' type='button' value='week'  />
-                        <input class='btn btn-sm btn-info' type='button' value='month' />
-                        <input class='btn btn-sm btn-info' type='button' value='list' />
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
     <div class="table100 ver3 m-b-110">
+        <table id="calendarTable">
+            <thead id="calendarThead">
+            <tr>
+                <td colspan="7" class="calendarTop">
+                    <button type='button' id='fastPre'><i class="fas fa-angle-double-left"></i></button>
+                    <button type='button' id='pre'><i class="fas fa-angle-left"></i></button>
+                    <span class="calendarTopTitle" id='yearMonth'></span>
+                    <button type='button' id='next'><i class="fas fa-angle-right"></i></button>
+                    <button type='button' id='fastNext'><i class="fas fa-angle-double-right"></i></button>
+                    <div>
+                        <span class="calendarTopTitle">Diabetes Diary Calendar</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
         <table data-vertable="ver3">
-            <thead>
+            <thead id="thead">
             <tr class="row100 head">
                 <th class="column100 column1" data-column="column1"></th>
                 <th class="column100 column2" data-column="column2">Sunday</th>
@@ -46,71 +63,138 @@
                 <th class="column100 column8" data-column="column8">Saturday</th>
             </tr>
             </thead>
-            <tbody>
+
+            <tbody id="tbody">
             <tr class="row100">
-                <td class="column100 column1" data-column="column1">Lawrence Scott</td>
-                <td class="column100 column2" data-column="column2">8:00 AM</td>
-                <td class="column100 column3" data-column="column3">--</td>
-                <td class="column100 column4" data-column="column4">--</td>
-                <td class="column100 column5" data-column="column5">8:00 AM</td>
-                <td class="column100 column6" data-column="column6">--</td>
-                <td class="column100 column7" data-column="column7">5:00 PM</td>
-                <td class="column100 column8" data-column="column8">8:00 AM</td>
+                <td class="column100 column1" data-column="column1"></td>
+                <td class="column100 column2" data-column="column2"></td>
+                <td class="column100 column3" data-column="column3"></td>
+                <td class="column100 column4" data-column="column4"></td>
+                <td class="column100 column5" data-column="column5"></td>
+                <td class="column100 column6" data-column="column6"></td>
+                <td class="column100 column7" data-column="column7"></td>
+                <td class="column100 column8" data-column="column8"></td>
             </tr>
 
             <tr class="row100">
-                <td class="column100 column1" data-column="column1">Jane Medina</td>
-                <td class="column100 column2" data-column="column2">--</td>
-                <td class="column100 column3" data-column="column3">5:00 PM</td>
-                <td class="column100 column4" data-column="column4">5:00 PM</td>
-                <td class="column100 column5" data-column="column5">--</td>
-                <td class="column100 column6" data-column="column6">9:00 AM</td>
-                <td class="column100 column7" data-column="column7">--</td>
-                <td class="column100 column8" data-column="column8">--</td>
+                <td class="column100 column1" data-column="column1"></td>
+                <td class="column100 column2" data-column="column2"></td>
+                <td class="column100 column3" data-column="column3"></td>
+                <td class="column100 column4" data-column="column4"></td>
+                <td class="column100 column5" data-column="column5"></td>
+                <td class="column100 column6" data-column="column6"></td>
+                <td class="column100 column7" data-column="column7"></td>
+                <td class="column100 column8" data-column="column8"></td>
             </tr>
 
             <tr class="row100">
-                <td class="column100 column1" data-column="column1">Billy Mitchell</td>
-                <td class="column100 column2" data-column="column2">9:00 AM</td>
-                <td class="column100 column3" data-column="column3">--</td>
-                <td class="column100 column4" data-column="column4">--</td>
-                <td class="column100 column5" data-column="column5">--</td>
-                <td class="column100 column6" data-column="column6">--</td>
-                <td class="column100 column7" data-column="column7">2:00 PM</td>
-                <td class="column100 column8" data-column="column8">8:00 AM</td>
+                <td class="column100 column1" data-column="column1"></td>
+                <td class="column100 column2" data-column="column2"></td>
+                <td class="column100 column3" data-column="column3"></td>
+                <td class="column100 column4" data-column="column4"></td>
+                <td class="column100 column5" data-column="column5"></td>
+                <td class="column100 column6" data-column="column6"></td>
+                <td class="column100 column7" data-column="column7"></td>
+                <td class="column100 column8" data-column="column8"></td>
             </tr>
 
             <tr class="row100">
-                <td class="column100 column1" data-column="column1">Beverly Reid</td>
-                <td class="column100 column2" data-column="column2">--</td>
-                <td class="column100 column3" data-column="column3">5:00 PM</td>
-                <td class="column100 column4" data-column="column4">5:00 PM</td>
-                <td class="column100 column5" data-column="column5">--</td>
-                <td class="column100 column6" data-column="column6">9:00 AM</td>
-                <td class="column100 column7" data-column="column7">--</td>
-                <td class="column100 column8" data-column="column8">--</td>
+                <td class="column100 column1" data-column="column1"></td>
+                <td class="column100 column2" data-column="column2"></td>
+                <td class="column100 column3" data-column="column3"></td>
+                <td class="column100 column4" data-column="column4"></td>
+                <td class="column100 column5" data-column="column5"></td>
+                <td class="column100 column6" data-column="column6"></td>
+                <td class="column100 column7" data-column="column7"></td>
+                <td class="column100 column8" data-column="column8"></td>
             </tr>
 
             <tr class="row100">
-                <td class="column100 column1" data-column="column1">Tiffany Wade</td>
-                <td class="column100 column2" data-column="column2">8:00 AM</td>
-                <td class="column100 column3" data-column="column3">--</td>
-                <td class="column100 column4" data-column="column4">--</td>
-                <td class="column100 column5" data-column="column5">8:00 AM</td>
-                <td class="column100 column6" data-column="column6">--</td>
-                <td class="column100 column7" data-column="column7">5:00 PM</td>
-                <td class="column100 column8" data-column="column8">8:00 AM</td>
+                <td class="column100 column1" data-column="column1"></td>
+                <td class="column100 column2" data-column="column2"></td>
+                <td class="column100 column3" data-column="column3"></td>
+                <td class="column100 column4" data-column="column4"></td>
+                <td class="column100 column5" data-column="column5"></td>
+                <td class="column100 column6" data-column="column6"></td>
+                <td class="column100 column7" data-column="column7"></td>
+                <td class="column100 column8" data-column="column8"></td>
             </tr>
 
             </tbody>
         </table>
     </div>
+</div><!--content back-->
 
+<div id="ddModal">
+
+    <div class="modalContent">
+
+        <h1 class="left-h1">Diabetes Diary</h1>
+        <h2 class="left-h2"></h2>
+        <h4 class="left-h4">Fasting Plasma Glucose</h4>
+
+        <input type='hidden' id="modalYear" value=""/>
+        <input type='hidden' id="modalMonth" value=""/>
+        <input type='hidden' id="modalDay" value=""/>
+
+        <input type="text" id="FastingPlasmaGlucose" placeholder="write your Fasting Plasma Glucose">
+
+
+
+        <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
+
+        <table class="table table-bordered" id="afterMeal-table" >
+            <tbody class="afterMeal-tbody">
+            <tr >
+                <td>MealTime</td>
+                <td >BreakFast</td>
+                <td >Lunch</td>
+                <td>Dinner</td>
+            </tr>
+            <tr id="afterMeal-td-value">
+                <td>Numerical value</td>
+                <td><input type="text" id="breakFastValue"></td>
+                <td><input type="text" id="lunchValue"></td>
+                <td><input type="text" id="dinnerValue"></td>
+            </tr>
+            <tr>
+                <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
+                <td class="afterMeal-td-diet"></td>
+                <td class="afterMeal-td-diet"></td>
+                <td class="afterMeal-td-diet"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button type='button' id="btn-cancel" class="normal">Cancel</button>
+
+
+        <button type="button" id="btn-save" class="normal">
+            Save
+        </button>
+
+    </div>
+
+
+<div class="modalBackground"></div>
 
 
 </div>
 
 
+<!--===============================================================================================-->
+<script src="/vendor/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/js/main.js"></script>
+<script src="/js/app/calendar/stringBuffer.js"></script>
+<script src="/js/app/calendar/calendar.js"></script>
+<script src="/js/app/calendar/calendarSchedule.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 </body>
 
 </html>

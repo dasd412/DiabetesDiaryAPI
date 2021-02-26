@@ -1,6 +1,5 @@
-package com.dasd412.service.diabetesDiary;
+package com.dasd412.service.diabetesDiaryForm;
 
-import com.dasd412.controller.diabetesDiary.DiabetesDiaryUpdateRequestDTO;
 import com.dasd412.controller.diabetesDiary.DiaryResponseDTO;
 import com.dasd412.controller.error.NotFoundException;
 import com.dasd412.domain.commons.Id;

@@ -1,9 +1,9 @@
-    #btn-save{
-        position: relative;
-        left:50%;
+#btn-save{
+     position: relative;
+        left:40%;
         width: 110px;
         height: 7%;
-        margin:45px 0.5px 0 110px;
+        margin:10px 0.5px 0 110px;
         padding: 14px 21px 14px 13px;
         border-radius: 36px;
 
@@ -15,7 +15,7 @@
         line-height: 1.17;
         letter-spacing: normal;
         text-align: center;
-    }
+}
 
     #btn-save.normal{
       border: solid 1px #e11ada;
@@ -97,21 +97,21 @@
       }
 
        #btn-cancel{
-            position: relative;
-            width: 110px;
-            height: 7%;
-            margin:45px 0.5px 0 70px;
-            padding: 14px 21px 14px 13px;
-            border-radius: 36px;
+              position: relative;
+               width: 110px;
+               height: 7%;
+               margin:10px 0.5px 0 110px;
+               padding: 14px 21px 14px 13px;
+               border-radius: 36px;
 
-            font-family: ArialRounded;
-            font-size: 18px;
-            font-weight: bold;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.17;
-            letter-spacing: normal;
-            text-align: center;
+               font-family: ArialRounded;
+               font-size: 18px;
+               font-weight: bold;
+               font-stretch: normal;
+               font-style: normal;
+               line-height: 1.17;
+               letter-spacing: normal;
+               text-align: center;
        }
 
        #btn-cancel.normal{

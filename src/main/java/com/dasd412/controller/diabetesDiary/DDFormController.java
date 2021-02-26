@@ -1,8 +1,9 @@
 package com.dasd412.controller.diabetesDiary;
 
+import com.dasd412.controller.calendar.CalendarRequestDTO;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.service.diabetesDiary.DiabetesDiaryService;
+import com.dasd412.service.diabetesDiaryForm.DiabetesDiaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Api(tags="혈당 일지 폼 컨트롤러")
@@ -23,9 +26,13 @@ public class DDFormController {
 
     public DDFormController(DiabetesDiaryService diaryService) {this.diaryService = diaryService; }
 
-    @GetMapping("/api/diabetes/diary")
+    @GetMapping("/api/diabetes/diary/{calendarInfo}")
     @ApiOperation(value="혈당 일지 폼 뷰 리졸빙")
-    public String viewResolve(){return "form/DDForm"; }
+    public String viewResolve(@PathVariable CalendarRequestDTO dto, Model model){
+        logger.info("DDForm view resolve: "+dto.toString());
+        model.addAttribute("calendarInfo",dto);
+        return "form/DDForm";
+    }
 
 
     @GetMapping("/api/diabetes/diary/{id}")
