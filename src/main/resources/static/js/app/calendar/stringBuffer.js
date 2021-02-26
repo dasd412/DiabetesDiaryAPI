@@ -1,4 +1,4 @@
-const StringBuffer = function() {
+let StringBuffer = function() {
 
     this.buffer = new Array();
 

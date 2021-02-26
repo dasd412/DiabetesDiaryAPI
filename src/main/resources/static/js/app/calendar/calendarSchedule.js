@@ -1,7 +1,6 @@
 let listOfEvent={};
 let locationOfMonth=0;
 let locationOfYear=0;
-let locationofWeek=0;
 
 
 function formatNumber(number){
@@ -17,12 +16,15 @@ function getTime(time){
 }
 
 function scheduleAdd(year,month,day){
-    $('#startDate').val(year + "-" + formatNumber(month) + "-" + formatNumber(day));
-    $('#summary').val('');
-    $('#startTime').val('');
-    $('#endTime').val('');
-    $('#description').val('');
-    $('#ddForm').modal();
+console.log("y"+year+"m"+month+"d"+day);
+const calendarInfo={
+ "year":year,
+ "month":month,
+ "day":day
+};
+
+$(".ddModal").attr("style", "display:block;");
+
 }
 
 //check validation 
@@ -153,42 +155,49 @@ function screenWriteMonth(){
         let trIndex=parseInt(i/7);
         let tr=$("#tbody tr").eq(trIndex);
         let td=tr.children().eq((i%7)+1);
-     
+        let monthForSchedule;
+
         let sb=new StringBuffer();
 
             if(i<startIndex){
                 if(months[0]==12){
                     sb.append((year-1));
                     sb.append(months[0]);
+                    monthForSchedule=months[0];
                     sb.append(monthDay[i]);
                 }
                 else{
                     sb.append(year);
                     sb.append(months[0]);
+                    monthForSchedule=months[0];
                     sb.append(monthDay[i]);
                 }
             }
             else if(i<=lastIndex){
                 sb.append(year);
                 sb.append(months[1]);
+                monthForSchedule=months[1];
                 sb.append(monthDay[i]);
             }
             else{
                 if(months[2]==1){
                     sb.append((year+1));
                     sb.append(months[2]);
+                    monthForSchedule=months[2];
                     sb.append(monthDay[i]);
                 }
                 else{
                     sb.append(year);
                     sb.append(months[2]);
+                    monthForSchedule=months[2];
                     sb.append(monthDay[i]);
 
                 }
             }
 
+
             td.attr("id",sb.toString());
-            td.html(formatNumber((monthDay[i])));
+            td.html("<a onclick='scheduleAdd("+year+","+monthForSchedule+","+monthDay[i]+")'>"+formatNumber((monthDay[i])+"</a>"));
     }
 
 
@@ -343,12 +352,99 @@ function calendarEventList() {
     });
 }
 
+const ddForm={
+
+    init:function(){
+       const _this=this;
+       const btn_save=document.querySelector("#btn-save");
+       const btn_cancel=document.querySelector("#btn-cancel");
+
+       $("#btn-save").on('click',function(){
+           _this.save();
+       });
+
+       $("#btn-cancel").on('click',function(){
+           $(".ddModal").attr("style", "display:none;");
+       });
+
+       $("#btn-save").on('mouseover',function(){
+           _this.buttonHover(btn_save);
+       });
+       $("#btn-save").on('mouseout',function(){
+         _this.buttonOut(btn_save);
+       });
+       $("#btn-cancel").on('mouseover',function(){
+          _this.buttonHover(btn_cancel);
+       });
+       $("#btn-cancel").on('mouseout',function(){
+          _this.buttonOut(btn_cancel);
+       });
+
+
+
+    },
+
+    buttonHover:function(btn){
+      if(btn.classList.contains('normal')){
+          btn.classList.remove('normal');
+          btn.classList.add('onmouseover');
+
+      }
+    },
+
+    buttonOut:function(btn){
+        if(btn.classList.contains('onmouseover')){
+            btn.classList.remove('onmouseover');
+            btn.classList.add('normal');
+        }
+    },
+
+
+    save:function(){
+        const data={
+           fastingPlasmaGlucose:$("#FastingPlasmaGlucose").val(),
+           breakfastBloodSugar:$("#breakFastValue").val(),
+           lunchBloodSugar:$("#lunchValue").val(),
+           dinnerBloodSugar:$("#dinnerValue").val(),
+           writer:{
+             name:"tester",
+             email:{
+               address:"dasd412@naver.com",
+               name:"dasd412",
+               domainName:"naver.com"
+             }
+
+           }
+        };
+
+        $.ajax({
+           type:'POST',
+           url:'/api/diabetes/diary/post',
+           dataType:'json',
+           contentType:'application/json; charset=utf-8',
+           data: JSON.stringify(data)
+        }).done(function(){
+            alert('save success!');
+
+        }).fail(function(error){
+            alert('blood sugar must be positive number !');
+        });
+    }
+
+
+};
+
+
+
 $(document).ready(function(){
 
-    calendarEventList();
+   // calendarEventList();
     screenWriteMonth();
     $('#pre').attr('onclick', 'moveMonthPre()');
     $('#next').attr('onclick', 'moveMonthNext()');
     $('#fastPre').attr('onclick', 'moveFastMonthPre()');
     $('#fastNext').attr('onclick', 'moveFastMonthNext()');
+
+    $(".ddModal").attr("style", "display:none;");
+    ddForm.init();
 });
