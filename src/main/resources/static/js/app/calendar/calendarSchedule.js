@@ -202,6 +202,12 @@ function screenWriteMonth(){
 
 
             td.attr("id",sb.toString());
+            td.mouseover(function(){
+              td.css('cursor','pointer');
+            });
+            td.mouseleave(function(){
+              td.css('cursor','default');
+            })
             td.html("<a onclick='scheduleAdd("+year+","+monthForSchedule+","+monthDay[i]+")'>"+formatNumber((monthDay[i])+"</a>"));
     }
 
@@ -434,6 +440,11 @@ const ddForm={
            day:$("#modalDay").val()
         };
 
+        if(data.fastingPlasmaGlucose<=0||data.breakfastBloodSugar<=0||data.lunchBloodSugar<=0||data.dinnerBloodSugar<=0){
+          swal("blood sugar must be positive number!");
+          return;
+        }
+
         $.ajax({
            type:'POST',
            url:'/api/diabetes/diary/post',
@@ -441,10 +452,9 @@ const ddForm={
            contentType:'application/json; charset=utf-8',
            data: JSON.stringify(data)
         }).done(function(){
-            alert('save success!');
-
+          swal('save success!');
         }).fail(function(error){
-            alert(JSON.stringify(error));
+            swal(JSON.stringify(error));
         });
     }
 
