@@ -52,9 +52,7 @@ public class DiabetesDiaryRequestDTO {
                 .dinnerBloodSugar(dinnerBloodSugar)
                 .writer(writer)
                 .remark(remark)
-                .year(year)
-                .month(month)
-                .day(day)
+                .writtenTime(year,month,day)
                 .build();
     }
 

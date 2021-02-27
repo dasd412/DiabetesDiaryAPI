@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class DiaryResponseDTO {
 
     /*
@@ -47,9 +50,12 @@ public class DiaryResponseDTO {
         this.dinnerBloodSugar = entity.getDinnerBloodSugar();
         this.writer = entity.getWriter();
         this.remark = entity.getRemark();
-        this.year=entity.getYear();
-        this.month=entity.getMonth();
-        this.day=entity.getDay();
+        LocalDateTime date=entity.getWrittenTime();
+
+       String[]array=date.format(DateTimeFormatter.ISO_DATE).split("-");
+       this.year=array[0];
+       this.month=array[1];
+       this.day=array[2];
     }
 
     public Long getId() {
