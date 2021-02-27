@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @Api(tags="혈당 일지 REST 컨트롤러")
@@ -54,5 +55,10 @@ public class DiabetesDiaryRestController {
         return ApiResult.OK(id);
     }
 
+    @GetMapping("/api/diabetes/diary/list")
+    public ApiResult<List<DiabetesDiary>>getDiaryList(){
+        logger.info("DiabetesDiaryRestController get all list");
+        return ApiResult.OK(diaryService.getDiaryList());
+    }
 
 }

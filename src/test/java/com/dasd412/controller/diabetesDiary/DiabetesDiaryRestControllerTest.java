@@ -6,6 +6,7 @@ import com.dasd412.domain.diary.DiabetesDiaryRepository;
 import com.dasd412.domain.diary.Writer;
 import com.dasd412.domain.user.Email;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,9 @@ public class DiabetesDiaryRestControllerTest {
                 .dinnerBloodSugar(110)
                 .writer(writer)
                 .remark("test")
+                .year("2021")
+                .month("02")
+                .day("07")
                 .build();
 
         String url="http://localhost:"+port+"/api/diabetes/diary/post";
@@ -88,6 +92,12 @@ public class DiabetesDiaryRestControllerTest {
         assertThat(diaryList.get(0).getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
         assertThat(diaryList.get(0).getRemark()).isEqualTo("test");
 
+
+        String[]array=diaryList.get(0).getWrittenTime().format(DateTimeFormatter.ISO_DATE).split("-");
+        assertThat(array[0]).isEqualTo("2021");
+        assertThat(array[1]).isEqualTo("02");
+        assertThat(array[2]).isEqualTo("07");
+
     }
 
     @Transactional
@@ -104,6 +114,7 @@ public class DiabetesDiaryRestControllerTest {
                 .lunchBloodSugar(100)
                 .dinnerBloodSugar(150)
                 .writer(writer)
+                .writtenTime("2021","02","27")
                 .build();
 
         repository.save(savedDiary);
@@ -137,7 +148,10 @@ public class DiabetesDiaryRestControllerTest {
         assertThat(list.get(0).getWriter().getName()).isEqualTo(Optional.of("tester"));
         assertThat(list.get(0).getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
 
-
+        String[]array=list.get(0).getWrittenTime().format(DateTimeFormatter.ISO_DATE).split("-");
+        assertThat(array[0]).isEqualTo("2021");
+        assertThat(array[1]).isEqualTo("02");
+        assertThat(array[2]).isEqualTo("27");
 
     }
 

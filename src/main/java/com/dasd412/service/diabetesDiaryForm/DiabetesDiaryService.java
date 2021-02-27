@@ -8,6 +8,8 @@ import com.dasd412.domain.diary.DiabetesDiaryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
@@ -54,5 +56,10 @@ public class DiabetesDiaryService {
                 .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
 
         diaryRepository.delete(target);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DiabetesDiary> getDiaryList() {
+        return diaryRepository.findAll();
     }
 }

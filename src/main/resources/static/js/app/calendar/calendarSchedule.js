@@ -160,7 +160,8 @@ function calendarEventList() {
         type: 'get'
 
     });
-}
+}//get calendar list
+
 
 const ddForm={
 

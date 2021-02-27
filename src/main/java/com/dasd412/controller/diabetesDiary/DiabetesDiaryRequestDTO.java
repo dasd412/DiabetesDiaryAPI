@@ -5,10 +5,6 @@ import com.dasd412.domain.diary.Writer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class DiabetesDiaryRequestDTO {
@@ -101,10 +97,6 @@ public class DiabetesDiaryRequestDTO {
 
     public String getDay() { return day; }
 
-    public Date getDate() throws ParseException {
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-ddHH:mm");
-        return format.parse(year+month+day);
-    }
 
 
     static public class Builder{
