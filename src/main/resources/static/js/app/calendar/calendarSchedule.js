@@ -28,71 +28,8 @@ $("#modalYear").attr("value",year);
 $("#modalMonth").attr("value",formatNumber(month));
 $("#modalDay").attr("value",formatNumber(day));
 $(".left-h2").html(sb.toString());
-
-
 }
 
-//check validation 
-
-function calendarScheduleAdd(){
-    let summary=$("#summary").val();
-    let startTime=$("#startTime").val().split(":");
-    let endTime=$("#endTime").val().split(":");
-
-    if(summary.trim()==""||summary.trim().length==0){
-
-        swal("title","write down your title");
-        return false;
-
-    }
-    else if($('#startTime').val()==""){
-
-        swal("startTime", "write down your startTime");
-        return false;
-    }
-    else if($('#endTime').val()==""){
-
-        swal('endTime',"write down your endTime");
-        return false;
-
-    }else if(new Date(0,0,0,endTime[0],endTime[1]).getTime() - new Date(0,0,0,startTime[0],startTime[1]).getTime() < 0) {
-
-        swal('time','startTime is later than endTime');
-        return false;
-
-    }else if($('#endDate').val() == '') {
-
-        swal('endDate','write down your endDate');
-        return false;
-
-    }else if(new Date($('#endDate').val()).getTime() - new Date($('#startDate').val()).getTime() < 0) {
-       
-        swal('date','startDate is later than endDate');
-        return false;
-
-    }
-    $("#ddModal").modal('hide');
-    swal('calendar',"you need google token!");
-
-    $.ajax({
-        url:"/api/diabetes/calendar/post",
-        type:'post',
-        async:false,
-        data:$("#frmSchedule").serialize(),
-        success:function(msg){
-            if(msg.isCreated){
-                swal('save',"success");
-            }
-            else{
-                swal('save',"fail");
-            }
-        }
-    });
-
-    calendarEventList();
-    screenWriteMonth();
-
-}
 
 function monthDayIndex(month,day){
     for(let i=0;i<month.length;i++){
@@ -214,152 +151,14 @@ function screenWriteMonth(){
 
     $("#yearMonth").text(year+"."+formatNumber(months[1]));
 
-    if(listOfEvent.check){
-        for(let i=0;i<listOfEvent.count;i++){
-            let itemMonth=listOfEvent.start[i].getMonth()+1;
-            let itemYear=listOfEvent.start[i].getFullYear();
-
-            if((itemMonth == months[1] || itemMonth == months[0] || itemMonth == months[2])
-            && (itemYear == year || itemYear == year-1 || itemYear == year+1)) {
-        $('#'+itemYear+itemMonth+listOfEvent.start[i].getDate()).append(eventTagFormat(getTime(listOfEvent.start[i]), listOfEvent.title[i], listOfEvent.eventId[i], listOfEvent.description[i]));
-        }
-
-        }
-    }
 }//screen write month()
-
-function eventTagFormat(time,title, eventId, description){
-    let tag = new StringBuffer();
-
-    tag.append("<p>");
-    tag.append('<a data-toggle="collapse" data-target="#collapseExample'+eventId+'" aria-expanded="false" aria-controls="collapseTarget" onclick="collapse(\''+eventId+'\')">');
-    tag.append(time+"  "+title);
-    tag.append('</a>');
-    tag.append('<div class="collapse" id="collapseTarget'+eventId+'">');
-
-    if(description == null) {
-        tag.append('<div class="well">no content!</div>');
-    }else {
-        tag.append('<div class="well">'+description+'</div>');
-    }
-
-    tag.append('<div style="text-align: right;"><input type="button" class="btn btn-sm btn-warning" value="modify" onclick="modifyEventModal(\''+title+'\',\''+eventId+'\',\''+description+'\')"/> ');
-    tag.append('<input type="button" class="btn btn-sm btn-warning" value="delete" onclick="removeEventOne(\''+eventId+'\')"/></div>');
-    tag.append('</div>');
-    tag.append("</p>");
-
-    return tag.toString();
-
-}
-
-function collapse(eventId) {
-    $('.collapse').not('#collapseTarget'+eventId).each(function(){
-        $(this).attr('class', 'collapse collapse');
-    });    
-}
-
-function modifyEventModal(title, eventId, description) {
-
-    $('#modifySummary').val(title);
-
-    if(description != 'undefined') {
-        $('#modifyDescription').val(description);
-    }else {
-        $('#modifyDescription').val('');
-    }
-
-    $('#modifyEventId').val(eventId);
-    $('#ddFormModify').modal();
-
-}
-
-function modifyEvent() {
-
-    var summary = $('#modifySummary').val();
-
-    if(summary.trim() == '' || summary.trim().length == 0) {
-        swal('title','write down your title');
-        return false;    
-    }
-
-    $("#ddFormModify").modal('hide');
-
-    $.ajax({
-        url:"/api/diabetes/calendar",
-        type: "put",
-        async: false,
-        data: $('#frmSchduleModify').serialize(),
-        success: function(msg) {
-            if(msg.isUpdated) {
-                swal('update', 'success');
-            }else {
-                swal('update', 'fail');
-            }
-        }
-    });
-    calendarEventList();    
-}
-
-function removeEventOne(eventId) {
-
-    $.ajax({
-        url: "/api/diabetes/calendar",
-        type: 'delete',
-        async: false,
-
-        data : {
-            "eventId" : eventId,
-            "calendarId" : $('#calendarId').val()
-        },
-
-        success: function(msg) {
-            if(msg.isDeleted) {
-                swal('delete', 'success');
-            }else {
-                swal('delete', 'fail');
-            }
-        }
-    });
-
-    calendarEventList();
-}
 
 function calendarEventList() {
 
     $.ajax({
         url: "/api/diabetes/calendar/eventList",
-        type: 'get',
-        data: {
-            "calendarId" : $('#calendarId').val()
-        },
+        type: 'get'
 
-        async: false,
-        success: function(lists) {
-
-            if(lists.length != 0) {
-
-                listOfEvent.check = true;
-                listOfEvent.count = lists.length;
-                listOfEvent.title = new Array();
-                listOfEvent.description = new Array();
-                listOfEvent.start = new Array();
-                listOfEvent.end = new Array();
-                listOfEvent.eventId = new Array();
-
-                $.each(lists, function(i, item){
-
-                    listOfEvent.title[i] = item.summary;
-                    listOfEvent.description[i] = item.description;
-                    listOfEvent.start[i] = new Date(item.start.dateTime.value);
-                    listOfEvent.end[i] = new Date(item.end.dateTime.value);
-                    listOfEvent.eventId[i] = item.id;
-
-                });
-
-            }else {
-                listOfEvent.check = false;
-            }
-        }
     });
 }
 
@@ -461,7 +260,114 @@ const ddForm={
 
 };
 
+const ddFormSelect={
 
+    init:function(){
+       const _this=this;
+       const btn_update=document.querySelector("#btn-update");
+       const btn_delete=document.querySelector("#btn-delete");
+
+       $("#btn-update").on('mouseover',function(){
+           _this.buttonHover(btn_update);
+       });
+       $("#btn-update").on('mouseout',function(){
+         _this.buttonOut(btn_update);
+       });
+
+       $("#btn-update").on('click',function(){
+          _this.update();
+       });
+
+
+
+
+       $("#btn-delete").on('mouseover',function(){
+         _this.buttonHover(btn_delete);
+       });
+       $("#btn-delete").on('mouseout',function(){
+         _this.buttonOut(btn_delete);
+       });
+       $("#btn-delete").on('click',function(){
+         _this.delete();
+       });
+
+
+
+    },
+
+    buttonHover:function(btn){
+      if(btn.classList.contains('normal')){
+          btn.classList.remove('normal');
+          btn.classList.add('onmouseover');
+
+      }
+    },
+
+    buttonOut:function(btn){
+        if(btn.classList.contains('onmouseover')){
+            btn.classList.remove('onmouseover');
+            btn.classList.add('normal');
+        }
+    },
+
+    update : function(){
+           const data={
+                fastingPlasmaGlucose:$("#FastingPlasmaGlucose").val(),
+                breakfastBloodSugar:$("#breakFastValue").val(),
+                lunchBloodSugar:$("#lunchValue").val(),
+                dinnerBloodSugar:$("#dinnerValue").val(),
+                writer:{
+                  name:"tester",
+                  email:{
+                    address:"dasd412@naver.com",
+                    name:"dasd412",
+                    domainName:"naver.com"
+                  }
+
+                }
+           };
+
+        const id=$("#diaryId").val();
+
+         $.ajax({
+           type:'PUT',
+           url:'/api/diabetes/diary/'+id,
+           dataType:'json',
+           contentType:'application/json;charset=utf-8',
+           data:JSON.stringify(data)
+         }).done(function(){
+           alert('update success!');
+           window.location.href='/';
+         }).fail(function(error){
+           alert(JSON.stringify(error));
+         })
+
+
+
+    },
+
+    delete : function(){
+       const id=$("#diaryId").val();
+
+       $.ajax({
+       type:'DELETE',
+       url:'/api/diabetes/diary/'+id,
+       dataType:'json',
+       contentType:'application/json; charset=utf-8'
+
+
+       }).done(function(){
+         alert('delete success!');
+         window.location.href='/';
+       }).fail(function(error){
+       alert(JSON.stringify(error));
+
+       });
+
+    }
+
+
+};
 
 $(document).ready(function(){
 
@@ -472,4 +378,5 @@ $(document).ready(function(){
     $('#fastPre').attr('onclick', 'moveFastMonthPre()');
     $('#fastNext').attr('onclick', 'moveFastMonthNext()');
     ddForm.init();
+    ddFormSelect.init();
 });
