@@ -1,6 +1,21 @@
-let listOfEvent={};
+let listOfEvent=new Array();
 let locationOfMonth=0;
 let locationOfYear=0;
+
+class Event {
+    constructor(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,createAt,updatedAt,writtenTime,dirty){
+        this.id=id;
+        this.fastingPlasmaGlucose=fastingPlasmaGlucose;
+        this.breakfastBloodSugar=breakfastBloodSugar;
+        this.lunchBloodSugar=lunchBloodSugar;
+        this.dinnerBloodSugar=dinnerBloodSugar;
+        this.remark=remark;
+        this.createAt=createAt;
+        this.updatedAt=updatedAt;
+        this.writtenTime=writtenTime;
+        this.dirty=false;
+    }
+}//event class
 
 
 function formatNumber(number){
@@ -156,9 +171,18 @@ function screenWriteMonth(){
 function calendarEventList() {
 
     $.ajax({
-        url: "/api/diabetes/calendar/eventList",
+        url: "/api/diabetes/diary/list",
         type: 'get'
 
+    }).done(function(data){
+
+
+//    console.log(data.response); <-response의 경우 배열
+//  console.log(data.response[0].id);
+//  listOfEvent.push(data.response[?]); <---중복 체크하는 로직 필요!!!
+
+    }).fail(function(error){
+    alert(JSON.stringify(error));
     });
 }//get calendar list
 
@@ -240,10 +264,23 @@ const ddForm={
            day:$("#modalDay").val()
         };
 
-        if(data.fastingPlasmaGlucose<=0||data.breakfastBloodSugar<=0||data.lunchBloodSugar<=0||data.dinnerBloodSugar<=0){
-          swal("blood sugar must be positive number!");
+        if(data.fastingPlasmaGlucose<=0){
+          swal("fasting plasma glucose must be positive number!");
           return;
         }
+        else if(data.breakfastBloodSugar<=0){
+           swal("breakfast blood sugar must be positive number!");
+           return;
+        }
+        else if(data.lunchBloodSugar<=0){
+           swal("lunch blood sugar must be positive number!");
+           return;
+        }
+        else if(data.dinnerBloodSugar<=0){
+           swal("dinner blood sugar must be positive number!");
+           return;
+        }
+
 
         $.ajax({
            type:'POST',
@@ -252,7 +289,11 @@ const ddForm={
            contentType:'application/json; charset=utf-8',
            data: JSON.stringify(data)
         }).done(function(){
+
           swal('save success!');
+          $("#ddModal").attr("style", "display:none;");
+          calendarEventList();
+
         }).fail(function(error){
             swal(JSON.stringify(error));
         });
@@ -371,8 +412,7 @@ const ddFormSelect={
 };
 
 $(document).ready(function(){
-
-   // calendarEventList();
+    calendarEventList();
     screenWriteMonth();
     $('#pre').attr('onclick', 'moveMonthPre()');
     $('#next').attr('onclick', 'moveMonthNext()');
