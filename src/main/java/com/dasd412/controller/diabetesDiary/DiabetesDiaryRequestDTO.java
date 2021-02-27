@@ -5,6 +5,10 @@ import com.dasd412.domain.diary.Writer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class DiabetesDiaryRequestDTO {
@@ -16,20 +20,28 @@ public class DiabetesDiaryRequestDTO {
     private Writer writer;
     private String remark;
 
+    //캘린더의 년,월,일
+    private  String year;
+    private  String month;
+    private  String day;
+
     public DiabetesDiaryRequestDTO() { }
 
 
     public DiabetesDiaryRequestDTO(Writer writer) {
-        this(0,0,0,0,writer,"");
+        this(0,0,0,0,writer,"","","","");
     }
 
-    public DiabetesDiaryRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
+    public DiabetesDiaryRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark,String year, String month,String day) {
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
         this.breakfastBloodSugar = breakfastBloodSugar;
         this.lunchBloodSugar = lunchBloodSugar;
         this.dinnerBloodSugar = dinnerBloodSugar;
         this.writer = writer;
         this.remark = remark;
+        this.year=year;
+        this.month=month;
+        this.day=day;
     }
 
     public DiabetesDiary toEntity() {
@@ -40,6 +52,9 @@ public class DiabetesDiaryRequestDTO {
                 .dinnerBloodSugar(dinnerBloodSugar)
                 .writer(writer)
                 .remark(remark)
+                .year(year)
+                .month(month)
+                .day(day)
                 .build();
     }
 
@@ -52,6 +67,9 @@ public class DiabetesDiaryRequestDTO {
                 .append("dinnerBloodSugar",dinnerBloodSugar)
                 .append("writer",writer)
                 .append("remark",remark)
+                .append("year",year)
+                .append("month",month)
+                .append("day",day)
                 .toString();
     }
 
@@ -79,6 +97,18 @@ public class DiabetesDiaryRequestDTO {
         return remark;
     }
 
+    public String getYear() { return year; }
+
+    public String getMonth() { return month; }
+
+    public String getDay() { return day; }
+
+    public Date getDate() throws ParseException {
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-ddHH:mm");
+        return format.parse(year+month+day);
+    }
+
+
     static public class Builder{
         private int fastingPlasmaGlucose;
         private int breakfastBloodSugar;
@@ -86,6 +116,9 @@ public class DiabetesDiaryRequestDTO {
         private int dinnerBloodSugar;
         private Writer writer;
         private String remark;
+        private String year;
+        private String month;
+        private String day;
 
         public Builder(){ }
 
@@ -96,6 +129,9 @@ public class DiabetesDiaryRequestDTO {
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
             this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
+            this.year=diabetesDiary.year;
+            this.month=diabetesDiary.month;
+            this.day=diabetesDiary.day;
         }
 
         public DiabetesDiaryRequestDTO.Builder fastingPlasmaGlucose(int fastingPlasmaGlucose){
@@ -133,9 +169,26 @@ public class DiabetesDiaryRequestDTO {
             return this;
         }
 
+        public DiabetesDiaryRequestDTO.Builder year(String year){
+            this.year=year;
+            return this;
+        }
+
+
+        public DiabetesDiaryRequestDTO.Builder month(String month){
+            this.month=month;
+            return this;
+        }
+
+
+        public DiabetesDiaryRequestDTO.Builder day(String day){
+            this.day=day;
+            return this;
+        }
+
 
         public DiabetesDiaryRequestDTO build(){
-            return new DiabetesDiaryRequestDTO(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark);
+            return new DiabetesDiaryRequestDTO(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,year,month,day);
         }
 
     }

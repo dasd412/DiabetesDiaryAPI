@@ -25,8 +25,8 @@ sb.append(day);
 
 $("#ddModal").attr("style", "display:block;");
 $("#modalYear").attr("value",year);
-$("#modalMonth").attr("value",month);
-$("#modalDay").attr("value",day);
+$("#modalMonth").attr("value",formatNumber(month));
+$("#modalDay").attr("value",formatNumber(day));
 $(".left-h2").html(sb.toString());
 
 
@@ -370,6 +370,15 @@ const ddForm={
 
        $("#btn-cancel").on('click',function(){
            $("#ddModal").attr("style", "display:none;");
+           $("#FastingPlasmaGlucose").attr("value","");
+           $("#breakFastValue").attr("value","");
+           $("#lunchValue").attr("value","");
+           $("#dinnerValue").attr("value","");
+           $("#modalYear").attr("value","");
+           $("#modalMonth").attr("value","");
+           $("#modalDay").attr("value","");
+           $(".left-h2").html("");
+
        });
 
        $("#btn-save").on('mouseover',function(){
@@ -419,7 +428,10 @@ const ddForm={
                domainName:"naver.com"
              }
 
-           }
+           },
+           year:$("#modalYear").val(),
+           month:$("#modalMonth").val(),
+           day:$("#modalDay").val()
         };
 
         $.ajax({
@@ -432,7 +444,7 @@ const ddForm={
             alert('save success!');
 
         }).fail(function(error){
-            alert('blood sugar must be positive number !');
+            alert(JSON.stringify(error));
         });
     }
 

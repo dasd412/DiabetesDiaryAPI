@@ -33,6 +33,10 @@ public class DiaryResponseDTO {
     @ApiModelProperty(value = "비고", required = true)
     private String remark;
 
+    private  String year;
+    private  String month;
+    private  String day;
+
     public DiaryResponseDTO() { }
 
     public DiaryResponseDTO(DiabetesDiary entity) {
@@ -43,6 +47,9 @@ public class DiaryResponseDTO {
         this.dinnerBloodSugar = entity.getDinnerBloodSugar();
         this.writer = entity.getWriter();
         this.remark = entity.getRemark();
+        this.year=entity.getYear();
+        this.month=entity.getMonth();
+        this.day=entity.getDay();
     }
 
     public Long getId() {
@@ -73,6 +80,12 @@ public class DiaryResponseDTO {
         return remark;
     }
 
+    public String getYear() { return year; }
+
+    public String getMonth() { return month; }
+
+    public String getDay() { return day; }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -83,6 +96,9 @@ public class DiaryResponseDTO {
                 .append("dinnerBloodSugar",dinnerBloodSugar)
                 .append("writer",writer)
                 .append("remark",remark)
+                .append("year",year)
+                .append("month",month)
+                .append("day",day)
                 .toString();
     }
 }

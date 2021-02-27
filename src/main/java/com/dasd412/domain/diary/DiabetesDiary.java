@@ -1,5 +1,6 @@
 package com.dasd412.domain.diary;
 
+import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.domain.BaseTimeEntity;
 import com.dasd412.domain.diet.HashTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -43,22 +46,27 @@ public class DiabetesDiary extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT",length=500)
     private String remark;//비고(500자 제한)
 
+    private String year;
+
+    private String month;
+
+    private String day;
+
 
     //JPA 시스템 상 기본 생성자가 필요하다.
     public DiabetesDiary(){ }
 
     public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar, Writer writer){
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"");
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"","","","");
     }
 
     public DiabetesDiary(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark);
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,"","","");
     }
 
-    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
+    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark,String year, String month, String day) {
        //모델 단에서 validation 하는게 효율적!
         checkNotNull(writer,"writer must be provided");
-
         this.id = id;
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
         this.breakfastBloodSugar = breakfastBloodSugar;
@@ -66,6 +74,12 @@ public class DiabetesDiary extends BaseTimeEntity {
         this.dinnerBloodSugar = dinnerBloodSugar;
         this.writer = writer;
         this.remark = defaultIfNull(remark," ");
+
+        if(isCorrectDateFormat(year,month,day)){
+            this.year=year;
+            this.month=month;
+            this.day=day;
+        }
     }
 
 
@@ -95,6 +109,12 @@ public class DiabetesDiary extends BaseTimeEntity {
     public String getRemark() {
         return remark;
     }
+
+    public String getYear() { return year; }
+
+    public String getMonth() { return month; }
+
+    public String getDay() { return day; }
 
 
     public void modifyFastingPlasmaGlucose(int fastingPlasmaGlucose) {
@@ -141,6 +161,22 @@ public class DiabetesDiary extends BaseTimeEntity {
         }
     }
 
+    private boolean isCorrectDateFormat(String year, String month,String day){
+        StringBuilder sb=new StringBuilder();
+        sb.append(year);
+        sb.append(month);
+        sb.append(day);
+
+        SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd");
+
+        try{
+            format.parse(sb.toString());
+            return true;
+        }catch (ParseException e) {
+            return false;
+        }
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -164,6 +200,9 @@ public class DiabetesDiary extends BaseTimeEntity {
                 .append("dinnerBloodSugar",dinnerBloodSugar)
                 .append("writer",writer)
                 .append("remark",remark)
+                .append("year",year)
+                .append("month",month)
+                .append("day",day)
                 .toString();
 
     }
@@ -179,6 +218,10 @@ public class DiabetesDiary extends BaseTimeEntity {
         private Writer writer;
         private String remark;
 
+        private String year;
+        private String month;
+        private String day;
+
 
         public Builder(){ }
 
@@ -190,6 +233,9 @@ public class DiabetesDiary extends BaseTimeEntity {
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
             this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
+            this.year=diabetesDiary.year;
+            this.month=diabetesDiary.month;
+            this.day=diabetesDiary.day;
         }
 
         public Builder id(long id){
@@ -233,8 +279,26 @@ public class DiabetesDiary extends BaseTimeEntity {
         }
 
 
+        public Builder year(String year){
+            this.year=year;
+            return this;
+        }
+
+
+        public Builder month(String month){
+            this.month=month;
+            return this;
+        }
+
+
+        public Builder day(String day){
+            this.day=day;
+            return this;
+        }
+
+
         public DiabetesDiary build(){
-            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark);
+            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,year,month,day);
         }
 
     }
