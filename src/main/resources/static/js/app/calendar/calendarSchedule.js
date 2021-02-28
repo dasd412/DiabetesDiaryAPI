@@ -1,9 +1,11 @@
-let listOfEvent=new Array();
+const listSet=new Set();//자바의 Set과 동일함.
+const listOfEvent=new Array();
+
 let locationOfMonth=0;
 let locationOfYear=0;
 
 class Event {
-    constructor(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,createAt,updatedAt,writtenTime,dirty){
+    constructor(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,createAt,updatedAt,writtenTime){
         this.id=id;
         this.fastingPlasmaGlucose=fastingPlasmaGlucose;
         this.breakfastBloodSugar=breakfastBloodSugar;
@@ -13,7 +15,6 @@ class Event {
         this.createAt=createAt;
         this.updatedAt=updatedAt;
         this.writtenTime=writtenTime;
-        this.dirty=false;
     }
 }//event class
 
@@ -176,10 +177,15 @@ function calendarEventList() {
 
     }).done(function(data){
 
+     for(let i=0;i<data.response.length;i++){
+         if(!listSet.has(data.response[i].id)){
+            listSet.add(data.response[i].id);
+            listOfEvent.push(data.response[i]);
+         }
+     }
 
-//    console.log(data.response); <-response의 경우 배열
-//  console.log(data.response[0].id);
-//  listOfEvent.push(data.response[?]); <---중복 체크하는 로직 필요!!!
+     console.log(listSet);
+     console.log(listOfEvent);
 
     }).fail(function(error){
     alert(JSON.stringify(error));
