@@ -4,6 +4,71 @@ const listOfEvent=new Array();
 let locationOfMonth=0;
 let locationOfYear=0;
 
+
+class HashMap{
+    constructor(){
+        this.map=new Array();
+    }
+
+    put(key,value){
+        this.map[key]=value;
+    }
+
+    get(key){
+        return this.map[key];
+    }
+
+    containsKey(key){
+        return key in this.map;
+    }
+
+    containsValue(value){
+       for(let i in this.map){
+         if(this.map[i]==value){
+            return true;
+         }
+       }
+       return false;
+    }
+
+    getAll(){
+        return this.map;
+    }
+
+    clear(){
+        this.map=new Array();
+    }
+
+    remove(key){
+        delete this.map[key];
+    }
+
+    keys(){
+        const keys=new Array();
+        for(let i in this.map){
+            keys.push(i);
+        }
+        return keys;
+    }
+
+    values(){
+      const values=new Array();
+      for(let i in this.map){
+         values.push(this.map[i]);
+      }
+      return values;
+    }
+
+    size(){
+      let count=0;
+      for(let i in this.map){
+         count++;
+      }
+      return count;
+    }
+
+}//HashMap class
+
 class Event {
     constructor(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,createAt,updatedAt,writtenTime){
         this.id=id;
@@ -19,12 +84,32 @@ class Event {
 }//event class
 
 
-function formatNumber(number){
+const hashMap=new HashMap();//(key,value)==(event의 id값, event 객체)
+
+
+function convertDateFormat(str){// "2020-02-01:T00:00:00" -> 202021
+    const strArr=str.split('T');
+    const arr=strArr[0].split('-');
+
+    return arr[0]+formatString(arr[1])+formatString(arr[2]);
+}
+
+
+function formatNumber(number){// 5-> "05"
     let str=""+number;
     if(number<10&&str.indexOf('0')==-1||str.length==1){
         str="0"+number;
     }
     return str;
+}
+
+function formatString(str){// "05"->5
+    if(str.indexOf(0)=='0'){
+      return  parseInt(str.substring(1,2));
+    }
+    else{
+      return parseInt(str);
+    }
 }
 
 function getTime(time){
@@ -155,6 +240,7 @@ function screenWriteMonth(){
 
 
             td.attr("id",sb.toString());
+
             td.mouseover(function(){
               td.css('cursor','pointer');
             });
@@ -162,8 +248,23 @@ function screenWriteMonth(){
               td.css('cursor','default');
             })
             td.html("<a onclick='scheduleAdd("+year+","+monthForSchedule+","+monthDay[i]+")'>"+formatNumber((monthDay[i])+"</a>"));
-    }
+    }//날짜 그리기
 
+    for(j in listOfEvent){
+       hashMap.put(convertDateFormat(listOfEvent[j].writtenTime),listOfEvent[j]);
+    }//이벤트를 해시맵에 넣기
+
+   for(let i=0;i<5;i++){
+      const tr=$("#tbody tr").eq(i);
+      for(let j=1;j<=7;j++){
+       const td=tr.children().eq(j);
+        if(hashMap.containsKey((td.attr("id")))){
+          //console.log(hashMap.get(td.attr("id")));
+          //다음 줄부터 해시맵 밸류를 td에 뿌릴 예정.
+
+         }
+      }
+   }
 
     $("#yearMonth").text(year+"."+formatNumber(months[1]));
 
@@ -180,12 +281,11 @@ function calendarEventList() {
      for(let i=0;i<data.response.length;i++){
          if(!listSet.has(data.response[i].id)){
             listSet.add(data.response[i].id);
-            listOfEvent.push(data.response[i]);
+            const e=data.response[i];
+            listOfEvent.push(new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
          }
      }
-
-     console.log(listSet);
-     console.log(listOfEvent);
+      screenWriteMonth();
 
     }).fail(function(error){
     alert(JSON.stringify(error));
@@ -419,7 +519,6 @@ const ddFormSelect={
 
 $(document).ready(function(){
     calendarEventList();
-    screenWriteMonth();
     $('#pre').attr('onclick', 'moveMonthPre()');
     $('#next').attr('onclick', 'moveMonthNext()');
     $('#fastPre').attr('onclick', 'moveFastMonthPre()');
