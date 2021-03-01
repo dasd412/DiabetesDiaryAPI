@@ -320,13 +320,13 @@ const ddForm={
 
        $("#btn-cancel").on('click',function(){
            $("#ddModal").attr("style", "display:none;");
-           $("#FastingPlasmaGlucose").attr("value","");
-           $("#breakFastValue").attr("value","");
-           $("#lunchValue").attr("value","");
-           $("#dinnerValue").attr("value","");
-           $("#modalYear").attr("value","");
-           $("#modalMonth").attr("value","");
-           $("#modalDay").attr("value","");
+           $("#FastingPlasmaGlucose").val('');
+           $("#breakFastValue").val('');
+           $("#lunchValue").val('');
+           $("#dinnerValue").val('');
+           $("#modalYear").val('');
+           $("#modalMonth").val('');
+           $("#modalDay").val('');
            $(".left-h2").html("");
 
        });
@@ -409,8 +409,14 @@ const ddForm={
            contentType:'application/json; charset=utf-8',
            data: JSON.stringify(data)
         }).done(function(){
-
           swal('save success!');
+          $("#FastingPlasmaGlucose").val('');
+          $("#breakFastValue").val('');
+          $("#lunchValue").val('');
+          $("#dinnerValue").val('');
+          $("#modalYear").val('');
+          $("#modalMonth").val('');
+          $("#modalDay").val('');
           $("#ddModal").attr("style", "display:none;");
           calendarEventList();
 
@@ -498,8 +504,8 @@ const ddFormSelect={
            contentType:'application/json;charset=utf-8',
            data:JSON.stringify(data)
          }).done(function(){
-           alert('update success!');
-           window.location.href='/';
+           swal('update success!');
+           $("#ddModalSelect").attr("style", "display:none;");
          }).fail(function(error){
            alert(JSON.stringify(error));
          })
@@ -519,8 +525,8 @@ const ddFormSelect={
 
 
        }).done(function(){
-         alert('delete success!');
-         window.location.href='/';
+         swal('delete success!');
+         $("#ddModalSelect").attr("style", "display:none;");
        }).fail(function(error){
        alert(JSON.stringify(error));
 
