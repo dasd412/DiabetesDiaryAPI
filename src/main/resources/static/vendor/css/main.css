@@ -133,7 +133,7 @@ th, td {
 }
 
 .column100.column1 {
-  width: 265px;
+  width: 100px;
   padding-left: 42px;
 }
 
@@ -274,7 +274,7 @@ th, td {
   font-family: Montserrat-Regular;
   font-size: 14px;
   color: #808080;
-  line-height: 1.4;
+  line-height: 4.0;
 }
 
 .table100.ver3 th {
