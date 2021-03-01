@@ -259,9 +259,8 @@ function screenWriteMonth(){
       for(let j=1;j<=7;j++){
        const td=tr.children().eq(j);
         if(hashMap.containsKey((td.attr("id")))){
-          //console.log(hashMap.get(td.attr("id")));
-          //다음 줄부터 해시맵 밸류를 td에 뿌릴 예정.
-
+            const e=hashMap.get(td.attr("id"));
+            td.append(eventTagFormat(e.fastingPlasmaGlucose));
          }
       }
    }
@@ -269,6 +268,21 @@ function screenWriteMonth(){
     $("#yearMonth").text(year+"."+formatNumber(months[1]));
 
 }//screen write month()
+
+
+function eventTagFormat(fastingPlasmaGlucose) {
+
+    var tag = new StringBuffer();
+
+    tag.append("<p>");
+
+    tag.append("blood sugar :"+fastingPlasmaGlucose);
+
+    tag.append("</p>");
+
+    return tag.toString();
+
+}
 
 function calendarEventList() {
 
