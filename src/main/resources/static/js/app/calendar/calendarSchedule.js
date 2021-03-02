@@ -84,7 +84,7 @@ class Event {
 }//event class
 
 
-const hashMap=new HashMap();//(key,value)==(event의 id값, event 객체)
+const hashMap=new HashMap();//(key,value)==(event의 id값(db id값이 아닌 날짜 기준 ), event 객체)
 
 
 function convertDateFormat(str){// "2020-02-01:T00:00:00" -> 202021
@@ -124,12 +124,47 @@ sb.append(month);
 sb.append("/");
 sb.append(day);
 
-$("#ddModal").attr("style", "display:block;");
-$("#modalYear").attr("value",year);
-$("#modalMonth").attr("value",formatNumber(month));
-$("#modalDay").attr("value",formatNumber(day));
+let key=new StringBuffer();
+key.append(year);
+key.append(month);
+key.append(day);
+
+if(hashMap.get(key.toString())){
+  selectCalendarEvent(key.toString(),year,month,day);
+  $("#ddModalSelect").attr("style", "display:block;");
+}else{
+  $("#modalYear").attr("value",year);
+  $("#modalMonth").attr("value",formatNumber(month));
+  $("#modalDay").attr("value",formatNumber(day));
+  $("#ddModal").attr("style", "display:block;");
+}
 $(".left-h2").html(sb.toString());
 }
+
+function selectCalendarEvent(eventKey,year,month,day){
+    const id=hashMap.get(eventKey).id;//날짜 기준이 아닌 db 기준 id
+    console.log(id);
+    $.ajax({
+        url: "/api/diabetes/diary/"+id,
+        type: 'get',
+        dataType:'json',
+        contentType:'application/json;charset=utf-8'
+    }).done(function(data){
+     const e=data.response;
+     console.log(e);
+      $("#FastingPlasmaGlucoseSelect").attr("value",e.fastingPlasmaGlucose);
+      $("#breakFastValueSelect").attr("value",e.breakfastBloodSugar);
+      $("#lunchValueSelect").attr("value",e.lunchBloodSugar);
+      $("#dinnerValueSelect").attr("value",e.dinnerBloodSugar);
+      $("#diaryId").attr("value",e.id);
+      $("#modalYearSelect").attr("value",year);
+      $("#modalMonthSelect").attr("value",formatNumber(month));
+      $("#modalDaySelect").attr("value",formatNumber(day));
+
+    }).fail(function(error){
+    alert(JSON.stringify(error));
+    });
+}//get data selected
 
 
 function monthDayIndex(month,day){
@@ -299,6 +334,10 @@ function calendarEventList() {
             listOfEvent.push(new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
          }
      }
+
+     console.log(listOfEvent);
+     console.log(hashMap);
+
       screenWriteMonth();
 
     }).fail(function(error){
@@ -503,15 +542,41 @@ const ddFormSelect={
            dataType:'json',
            contentType:'application/json;charset=utf-8',
            data:JSON.stringify(data)
-         }).done(function(){
-           swal('update success!');
-           $("#ddModalSelect").attr("style", "display:none;");
+         }).done(function(data){
+         const e=data.response;
+         console.log("update");
+         console.log(e);
+
+         let sb=new StringBuffer();
+
+         sb.append($("#modalYearSelect").val());
+         sb.append($("#modalMonthSelect").val());
+         sb.append($("#modalDaySelect").val());
+
+         const found=listOfEvent.find(function(item){
+           return item.id==e.id;
+         });
+          if(listOfEvent.indexOf(found)>-1){
+          listOfEvent.splice(listOfEvent.indexOf(found),1);
+
+          }
+
+         listOfEvent.push(new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
+         hashMap.remove(sb.toString());
+         hashMap.put(sb.toString(),new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
+
+          swal('update success!');
+          $("#ddModalSelect").attr("style", "display:none;");
+          $("#FastingPlasmaGlucoseSelect").val('');
+          $("#breakFastValueSelect").val('');
+          $("#lunchValueSelect").val('');
+          $("#dinnerValueSelect").val('');
+          $("#modalYearSelect").val('');
+          $("#modalMonthSelect").val('');
+          $("#modalDaySelect").val('');
          }).fail(function(error){
            alert(JSON.stringify(error));
          })
-
-
-
     },
 
     delete : function(){
@@ -524,9 +589,36 @@ const ddFormSelect={
        contentType:'application/json; charset=utf-8'
 
 
-       }).done(function(){
+       }).done(function(data){
+        const id=data.response.id;
+        console.log("delete");
+        console.log(id);
+
+        let sb=new StringBuffer();
+
+        sb.append($("#modalYearSelect").val());
+        sb.append($("#modalMonthSelect").val());
+        sb.append($("#modalDaySelect").val());
+
+        const found=listOfEvent.find(function(item){
+                return item.id==id;
+        });
+        if(listOfEvent.indexOf(found)>-1){
+                listOfEvent.splice(listOfEvent.indexOf(found),1);
+        }
+
+
+        hashMap.remove(sb.toString());
+
          swal('delete success!');
          $("#ddModalSelect").attr("style", "display:none;");
+         $("#FastingPlasmaGlucoseSelect").val('');
+         $("#breakFastValueSelect").val('');
+         $("#lunchValueSelect").val('');
+         $("#dinnerValueSelect").val('');
+         $("#modalYearSelect").val('');
+         $("#modalMonthSelect").val('');
+         $("#modalDaySelect").val('');
        }).fail(function(error){
        alert(JSON.stringify(error));
 

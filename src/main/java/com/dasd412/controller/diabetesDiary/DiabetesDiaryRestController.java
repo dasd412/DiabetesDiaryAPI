@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -59,6 +60,14 @@ public class DiabetesDiaryRestController {
     public ApiResult<List<DiabetesDiary>>getDiaryList(){
         logger.info("DiabetesDiaryRestController get all list");
         return ApiResult.OK(diaryService.getDiaryList());
+    }
+
+    @GetMapping("/api/diabetes/diary/{id}")
+    @ApiOperation(value="혈당 일지 조회")
+    public ApiResult<DiaryResponseDTO> findById(@PathVariable @ApiParam(value="혈당 일지 PK", example = "1")Long id){
+        DiaryResponseDTO dto=diaryService.findById(Id.of(DiabetesDiary.class, id));
+        logger.info("DiabetesDiaryRestController find  : "+dto.toString());
+        return ApiResult.OK(dto);
     }
 
 }

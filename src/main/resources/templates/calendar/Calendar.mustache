@@ -186,9 +186,12 @@
         <h4 class="left-h4">Fasting Plasma Glucose</h4>
 
 
-        {{#bloodSugar}}
-            <input type="text" id="FastingPlasmaGlucose" value={{fastingPlasmaGlucose}}>
-            <input type="hidden" id="diaryId" value={{id}}>
+        <input type='hidden' id="modalYearSelect" value=""/>
+        <input type='hidden' id="modalMonthSelect" value=""/>
+        <input type='hidden' id="modalDaySelect" value=""/>
+
+            <input type="text" id="FastingPlasmaGlucoseSelect" value="">
+            <input type="hidden" id="diaryId" value="">
 
 
             <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
@@ -204,10 +207,9 @@
         </tr>
         <tr id="afterMeal-td-value">
             <td>Numerical value</td>
-            <td><input type="text" id="breakFastValue" value={{breakfastBloodSugar}}></td>
-            <td><input type="text" id="lunchValue" value={{lunchBloodSugar}}></td>
-            <td><input type="text" id="dinnerValue" value={{dinnerBloodSugar}}></td>
-        {{/bloodSugar}}
+            <td><input type="text" id="breakFastValueSelect"></td>
+            <td><input type="text" id="lunchValueSelect"></td>
+            <td><input type="text" id="dinnerValueSelect"></td>
     </tr>
     <tr>
         <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
