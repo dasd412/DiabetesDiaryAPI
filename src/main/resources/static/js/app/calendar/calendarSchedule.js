@@ -130,6 +130,7 @@ key.append(month);
 key.append(day);
 
 if(hashMap.get(key.toString())){
+  calendarEventList();
   selectCalendarEvent(key.toString(),year,month,day);
   $("#ddModalSelect").attr("style", "display:block;");
 }else{
@@ -143,7 +144,7 @@ $(".left-h2").html(sb.toString());
 
 function selectCalendarEvent(eventKey,year,month,day){
     const id=hashMap.get(eventKey).id;//날짜 기준이 아닌 db 기준 id
-    console.log(id);
+
     $.ajax({
         url: "/api/diabetes/diary/"+id,
         type: 'get',
@@ -151,7 +152,7 @@ function selectCalendarEvent(eventKey,year,month,day){
         contentType:'application/json;charset=utf-8'
     }).done(function(data){
      const e=data.response;
-     console.log(e);
+
       $("#FastingPlasmaGlucoseSelect").attr("value",e.fastingPlasmaGlucose);
       $("#breakFastValueSelect").attr("value",e.breakfastBloodSugar);
       $("#lunchValueSelect").attr("value",e.lunchBloodSugar);
@@ -160,9 +161,6 @@ function selectCalendarEvent(eventKey,year,month,day){
       $("#modalYearSelect").attr("value",year);
       $("#modalMonthSelect").attr("value",formatNumber(month));
       $("#modalDaySelect").attr("value",formatNumber(day));
-
-    }).fail(function(error){
-    alert(JSON.stringify(error));
     });
 }//get data selected
 
@@ -514,11 +512,11 @@ const ddFormSelect={
     },
 
     update : function(){
-           const data={
-                fastingPlasmaGlucose:$("#FastingPlasmaGlucose").val(),
-                breakfastBloodSugar:$("#breakFastValue").val(),
-                lunchBloodSugar:$("#lunchValue").val(),
-                dinnerBloodSugar:$("#dinnerValue").val(),
+           const updateRequest={
+                fastingPlasmaGlucose:$("#FastingPlasmaGlucoseSelect").val(),
+                breakfastBloodSugar:$("#breakFastValueSelect").val(),
+                lunchBloodSugar:$("#lunchValueSelect").val(),
+                dinnerBloodSugar:$("#dinnerValueSelect").val(),
                 writer:{
                   name:"tester",
                   email:{
@@ -537,39 +535,37 @@ const ddFormSelect={
            url:'/api/diabetes/diary/'+id,
            dataType:'json',
            contentType:'application/json;charset=utf-8',
-           data:JSON.stringify(data)
+           data:JSON.stringify(updateRequest)
          }).done(function(data){
          const e=data.response;
-         console.log("update");
-         console.log(e);
-
          let sb=new StringBuffer();
 
+
+
          sb.append($("#modalYearSelect").val());
-         sb.append($("#modalMonthSelect").val());
-         sb.append($("#modalDaySelect").val());
+         sb.append(formatString($("#modalMonthSelect").val()));
+         sb.append(formatString($("#modalDaySelect").val()));
+
+         const writtenTime=hashMap.get(sb.toString()).writtenTime;
+         const createAt=hashMap.get(sb.toString()).createAt;
 
          const found=listOfEvent.find(function(item){
            return item.id==e.id;
          });
           if(listOfEvent.indexOf(found)>-1){
           listOfEvent.splice(listOfEvent.indexOf(found),1);
-
           }
+          hashMap.remove(sb.toString());
 
-         listOfEvent.push(new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
-         hashMap.remove(sb.toString());
-         hashMap.put(sb.toString(),new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
+         const updatedEvent=new Event(updateRequest.id,updateRequest.fastingPlasmaGlucose,updateRequest.breakfastBloodSugar,updateRequest.lunchBloodSugar,updateRequest.dinnerBloodSugar,updateRequest.remark,createAt,new Date(),writtenTime);
+         listOfEvent.push(updatedEvent);
+         hashMap.put(sb.toString(),updatedEvent);
 
           swal('update success!');
           $("#ddModalSelect").attr("style", "display:none;");
-          $("#FastingPlasmaGlucoseSelect").val('');
-          $("#breakFastValueSelect").val('');
-          $("#lunchValueSelect").val('');
-          $("#dinnerValueSelect").val('');
-          $("#modalYearSelect").val('');
-          $("#modalMonthSelect").val('');
-          $("#modalDaySelect").val('');
+
+          calendarEventList();
+
          }).fail(function(error){
            alert(JSON.stringify(error));
          })
