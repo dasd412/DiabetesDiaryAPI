@@ -334,10 +334,6 @@ function calendarEventList() {
             listOfEvent.push(new Event(e.id,e.fastingPlasmaGlucose,e.breakfastBloodSugar,e.lunchBloodSugar,e.dinnerBloodSugar,e.remark,e.createAt,e.updatedAt,e.writtenTime));
          }
      }
-
-     console.log(listOfEvent);
-     console.log(hashMap);
-
       screenWriteMonth();
 
     }).fail(function(error){
@@ -590,35 +586,28 @@ const ddFormSelect={
 
 
        }).done(function(data){
-        const id=data.response.id;
-        console.log("delete");
-        console.log(id);
+        const id=data.response;
 
         let sb=new StringBuffer();
 
         sb.append($("#modalYearSelect").val());
-        sb.append($("#modalMonthSelect").val());
-        sb.append($("#modalDaySelect").val());
+        sb.append(formatString($("#modalMonthSelect").val()));
+        sb.append(formatString($("#modalDaySelect").val()));
 
         const found=listOfEvent.find(function(item){
                 return item.id==id;
         });
+
         if(listOfEvent.indexOf(found)>-1){
                 listOfEvent.splice(listOfEvent.indexOf(found),1);
         }
-
 
         hashMap.remove(sb.toString());
 
          swal('delete success!');
          $("#ddModalSelect").attr("style", "display:none;");
-         $("#FastingPlasmaGlucoseSelect").val('');
-         $("#breakFastValueSelect").val('');
-         $("#lunchValueSelect").val('');
-         $("#dinnerValueSelect").val('');
-         $("#modalYearSelect").val('');
-         $("#modalMonthSelect").val('');
-         $("#modalDaySelect").val('');
+        calendarEventList();
+
        }).fail(function(error){
        alert(JSON.stringify(error));
 
