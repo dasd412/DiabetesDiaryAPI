@@ -29,24 +29,25 @@
       color: #000000;
     }
 
-    .left-h4{
-        width: 200px;
-        height: 2%;
-        margin: 30px 10px 0 30px;
-        font-family: ArialRounded;
-        font-size: 14px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.14;
-        letter-spacing: normal;
-        text-align: left;
-        color: #000000;
-    }
+.left-h4{
+    width: 200px;
+    height: 3%;
+    margin: 10px 10px 0 30px;
+    font-family: ArialRounded;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.14;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
 
 
 
-    #FastingPlasmaGlucose{
+
+    #FastingPlasmaGlucose,#FastingPlasmaGlucoseSelect{
         width: 400px;
         height: 4%;
         opacity: 0.7;

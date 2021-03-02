@@ -173,13 +173,67 @@
             Save
         </button>
 
-    </div>
+    </div><!--modal content-->
 
 
 <div class="modalBackground"></div>
+</div><!--dd modal -->
+
+<div id="ddModalSelect">
+    <div class="modalContent">
+        <h1 class="left-h1">Diabetes Diary</h1>
+        <h2 class="left-h2"></h2>
+        <h4 class="left-h4">Fasting Plasma Glucose</h4>
 
 
-</div>
+        <input type='hidden' id="modalYearSelect" value=""/>
+        <input type='hidden' id="modalMonthSelect" value=""/>
+        <input type='hidden' id="modalDaySelect" value=""/>
+
+            <input type="text" id="FastingPlasmaGlucoseSelect" value="">
+            <input type="hidden" id="diaryId" value="">
+
+
+            <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
+
+        <table class="table table-bordered" id="afterMeal-table">
+        <tbody class="afterMeal-tbody">
+
+        <tr>
+            <td>MealTime</td>
+            <td>BreakFast</td>
+            <td>Lunch</td>
+            <td>Dinner</td>
+        </tr>
+        <tr id="afterMeal-td-value">
+            <td>Numerical value</td>
+            <td><input type="text" id="breakFastValueSelect"></td>
+            <td><input type="text" id="lunchValueSelect"></td>
+            <td><input type="text" id="dinnerValueSelect"></td>
+    </tr>
+    <tr>
+        <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
+        <td class="afterMeal-td-diet"></td>
+        <td class="afterMeal-td-diet"></td>
+        <td class="afterMeal-td-diet"></td>
+    </tr>
+    </tbody>
+    </table>
+
+
+        <a href="/api/diabetes/calendar" role="button" id="btn-cancel" class="normal">Cancel</a>
+
+        <button type="button" id="btn-update" class="normal">
+            update
+        </button>
+        <button type="button" id="btn-delete" class="normal">
+            delete
+        </button>
+    </div><!--modal content-->
+
+    <div class="modalBackground"></div>
+
+</div><!--ddModalSelect-->
 
 
 <!--===============================================================================================-->

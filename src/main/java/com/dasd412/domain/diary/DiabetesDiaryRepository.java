@@ -9,8 +9,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DiabetesDiaryRepository extends JpaRepository<DiabetesDiary,Long> {
 
-//    @Query(value="SELECT dt.foodName FROM Diet dt WHERE dt.id IN "
-//            +"(SELECT  h.diet FROM HashTag h LEFT OUTER JOIN DiabetesDiary dd ON dd.id=h.diabetesDiary WHERE dd.id>0 GROUP BY dd)")
-//    public List<Object[]>findAllDietTags();
-
 }
