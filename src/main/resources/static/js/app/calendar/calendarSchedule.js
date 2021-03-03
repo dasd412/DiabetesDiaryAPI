@@ -334,8 +334,6 @@ function calendarEventList() {
      }
       screenWriteMonth();
 
-    }).fail(function(error){
-    alert(JSON.stringify(error));
     });
 }//get calendar list
 
@@ -453,8 +451,6 @@ const ddForm={
           $("#ddModal").attr("style", "display:none;");
           calendarEventList();
 
-        }).fail(function(error){
-            swal(JSON.stringify(error));
         });
     }
 
@@ -565,10 +561,9 @@ const ddFormSelect={
           $("#ddModalSelect").attr("style", "display:none;");
 
           calendarEventList();
+          window.location.reload(true);
 
-         }).fail(function(error){
-           alert(JSON.stringify(error));
-         })
+         });
     },
 
     delete : function(){
@@ -603,15 +598,10 @@ const ddFormSelect={
          swal('delete success!');
          $("#ddModalSelect").attr("style", "display:none;");
         calendarEventList();
-
-       }).fail(function(error){
-       alert(JSON.stringify(error));
+        window.location.reload(true);
 
        });
-
     }
-
-
 };
 
 $(document).ready(function(){

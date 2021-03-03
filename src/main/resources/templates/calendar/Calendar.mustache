@@ -126,7 +126,6 @@
 </div><!--content back-->
 
 <div id="ddModal">
-
     <div class="modalContent">
 
         <h1 class="left-h1">Diabetes Diary</h1>
@@ -137,46 +136,45 @@
         <input type='hidden' id="modalMonth" value=""/>
         <input type='hidden' id="modalDay" value=""/>
 
+
         <input type="text" id="FastingPlasmaGlucose" placeholder="write your Fasting Plasma Glucose">
 
-
-
         <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
-
-        <table class="table table-bordered" id="afterMeal-table" >
-            <tbody class="afterMeal-tbody">
-            <tr >
-                <td>MealTime</td>
-                <td >BreakFast</td>
-                <td >Lunch</td>
-                <td>Dinner</td>
-            </tr>
-            <tr id="afterMeal-td-value">
-                <td>Numerical value</td>
-                <td><input type="text" id="breakFastValue"></td>
-                <td><input type="text" id="lunchValue"></td>
-                <td><input type="text" id="dinnerValue"></td>
-            </tr>
-            <tr>
-                <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
-                <td class="afterMeal-td-diet"></td>
-                <td class="afterMeal-td-diet"></td>
-                <td class="afterMeal-td-diet"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table100 ver2 m-b-110">
+            <table data-vertable="ver2">
+                <thead id="thead">
+                <tr class="row100 head">
+                    <th class="column100 column1" data-column="column1">MealTime</th>
+                    <th class="column100 column2" data-column="column2">BreakFast</th>
+                    <th class="column100 column3" data-column="column3">Lunch</th>
+                    <th class="column100 column4" data-column="column4">Dinner</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="row100">
+                    <td class="column100 column1" data-column="column1">Numerical value</td>
+                    <td class="column100 column2" data-column="column2"><input type="text" id="breakFastValue"></td>
+                    <td class="column100 column3" data-column="column3"><input type="text" id="lunchValue"></td>
+                    <td class="column100 column4" data-column="column4"><input type="text" id="dinnerValue"></td>
+                </tr>
+                <tr class="row100">
+                    <td class="column100 column1" data-column="column1" id="afterMeal-td-diet">Diet</td>
+                    <td class="column100 column2" data-column="column2" id="afterMeal-td-diet"></td>
+                    <td class="column100 column3" data-column="column3" id="afterMeal-td-diet"></td>
+                    <td class="column100 column4" data-column="column4" id="afterMeal-td-diet"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <button type='button' id="btn-cancel" class="normal">Cancel</button>
-
 
         <button type="button" id="btn-save" class="normal">
             Save
         </button>
 
-    </div><!--modal content-->
-
-
-<div class="modalBackground"></div>
+    </div>
+    <div class="modalBackground"></div>
 </div><!--dd modal -->
 
 <div id="ddModalSelect">
@@ -185,41 +183,44 @@
         <h2 class="left-h2"></h2>
         <h4 class="left-h4">Fasting Plasma Glucose</h4>
 
-
         <input type='hidden' id="modalYearSelect" value=""/>
         <input type='hidden' id="modalMonthSelect" value=""/>
         <input type='hidden' id="modalDaySelect" value=""/>
 
-            <input type="text" id="FastingPlasmaGlucoseSelect" value="">
-            <input type="hidden" id="diaryId" value="">
+        <input type="text" id="FastingPlasmaGlucoseSelect" value="">
+        <input type="hidden" id="diaryId" value="">
 
 
-            <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
+        <h3 class="afterMeal-h3">Blood Sugar After Meal</h3>
 
-        <table class="table table-bordered" id="afterMeal-table">
-        <tbody class="afterMeal-tbody">
+        <div class="table100 ver2 m-b-110">
+            <table data-vertable="ver2">
+                <thead id="thead">
+                <tr class="row100 head">
+                    <th class="column100 column1" data-column="column1">MealTime</th>
+                    <th class="column100 column2" data-column="column2">BreakFast</th>
+                    <th class="column100 column3" data-column="column3">Lunch</th>
+                    <th class="column100 column4" data-column="column4">Dinner</th>
+                </tr>
+                </thead>
 
-        <tr>
-            <td>MealTime</td>
-            <td>BreakFast</td>
-            <td>Lunch</td>
-            <td>Dinner</td>
-        </tr>
-        <tr id="afterMeal-td-value">
-            <td>Numerical value</td>
-            <td><input type="text" id="breakFastValueSelect"></td>
-            <td><input type="text" id="lunchValueSelect"></td>
-            <td><input type="text" id="dinnerValueSelect"></td>
-    </tr>
-    <tr>
-        <td class="afterMeal-td-diet" id="afterMeal-td-diet">Diet</td>
-        <td class="afterMeal-td-diet"></td>
-        <td class="afterMeal-td-diet"></td>
-        <td class="afterMeal-td-diet"></td>
-    </tr>
-    </tbody>
-    </table>
+                <tbody>
 
+                <tr class="row100">
+                    <td class="column100 column1" data-column="column1">Numerical value</td>
+                    <td class="column100 column2" data-column="column2"><input type="text" id="breakFastValueSelect"></td>
+                    <td class="column100 column3" data-column="column3"><input type="text" id="lunchValueSelect"></td>
+                    <td class="column100 column4" data-column="column4"><input type="text" id="dinnerValueSelect"></td>
+                </tr>
+                <tr class="row100">
+                    <td class="column100 column1" data-column="column1" id="afterMeal-td-diet">Diet</td>
+                    <td class="column100 column2" data-column="column2" id="afterMeal-td-diet"></td>
+                    <td class="column100 column3" data-column="column3" id="afterMeal-td-diet"></td>
+                    <td class="column100 column4" data-column="column4" id="afterMeal-td-diet"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <a href="/api/diabetes/calendar" role="button" id="btn-cancel" class="normal">Cancel</a>
 

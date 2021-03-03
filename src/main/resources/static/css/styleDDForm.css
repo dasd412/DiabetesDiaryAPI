@@ -97,17 +97,10 @@
         table-layout: auto;
         width: 100%;
         border-collapse: collapse;
-        margin-left: 10px;
     }
 
-    .afterMeal-td-diet{
-        height:255px;
-    }
     #afterMeal-td-diet{
-        vertical-align: middle;
-    }
-
-    #afterMeal-td-value{
+        height:120px;
         vertical-align: middle;
     }
 
