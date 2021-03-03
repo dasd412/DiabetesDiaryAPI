@@ -2,23 +2,38 @@ package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.Writer;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class DiabetesDiaryRequestDTO {
-
+    @ApiModelProperty(value = "공복 혈당", required = true)
     private int fastingPlasmaGlucose;//공복 혈당(양수)
+
+    @ApiModelProperty(value = "아침 식사 후 혈당", required = true)
     private int breakfastBloodSugar;//아침 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "점심 식사 후 혈당", required = true)
     private int lunchBloodSugar;//점식 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "작성자", required = true)
     private Writer writer;
+
+    @ApiModelProperty(value = "비고")
     private String remark;
 
-    //캘린더의 년,월,일
+    @ApiModelProperty(value="년",required = true)
     private  String year;
+
+    @ApiModelProperty(value="월",required = true)
     private  String month;
+
+    @ApiModelProperty(value="일",required = true)
     private  String day;
 
     public DiabetesDiaryRequestDTO() { }

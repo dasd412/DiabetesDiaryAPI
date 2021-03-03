@@ -1,6 +1,7 @@
 package com.dasd412.controller.diabetesDiary;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -8,10 +9,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class DiabetesDiaryUpdateRequestDTO {
 
+    @ApiModelProperty(value = "공복 혈당", required = true)
     private int fastingPlasmaGlucose;//공복 혈당(양수)
+
+    @ApiModelProperty(value = "아침 식사 후 혈당", required = true)
     private int breakfastBloodSugar;//아침 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "점심 식사 후 혈당", required = true)
     private int lunchBloodSugar;//점식 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
+
+    @ApiModelProperty(value = "비고")
     private String remark;
 
     public DiabetesDiaryUpdateRequestDTO() { }

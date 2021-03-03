@@ -36,8 +36,13 @@ public class DiaryResponseDTO {
     @ApiModelProperty(value = "비고", required = true)
     private String remark;
 
+    @ApiModelProperty(value="년",required = true)
     private  String year;
+    
+    @ApiModelProperty(value="월",required = true)
     private  String month;
+    
+    @ApiModelProperty(value="일",required = true)
     private  String day;
 
     public DiaryResponseDTO() { }
