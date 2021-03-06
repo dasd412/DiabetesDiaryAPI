@@ -1,7 +1,6 @@
 package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.diary.Writer;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

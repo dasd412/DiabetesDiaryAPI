@@ -1,4 +1,4 @@
-package com.dasd412.domain.diary;
+package com.dasd412.domain.user;
 
 import com.dasd412.domain.user.Email;
 
@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Entity
@@ -28,22 +29,19 @@ public class Writer {
     @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
     private Email email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     public Writer(){}
 
-    public Writer(Email email){
-        this(null,null,email);
-    }
-
-    public Writer(String name, Email email){
-        this(null,name,email);
-    }
-
-    public Writer(Long id,String name, Email email) {
+    public Writer(String name, Email email,Role role) {
+        checkArgument(name.length()>0,"name length must be longer than zero");
         checkNotNull(email,"Email must be provided!");
-        this.id=id;
+        checkNotNull(role,"Role must be provided!");
         this.name = name;
         this.email = email;
+        this.role=role;
     }
 
     public Optional<String> getName() {
@@ -54,12 +52,19 @@ public class Writer {
         return email;
     }
 
+    public Writer updateName(String name){
+        this.name=name;
+        return this;
+    }
+
+    public String getRoleKey(){ return this.role.getKey(); }
 
     @Override
     public String toString() {
       return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
               .append("name",name)
               .append("email",email)
+              .append("role",role)
               .toString();
     }
 }
