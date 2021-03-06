@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/sidebar-07/css/style.css">
+    {{>layout/calendarHeader}}
 </head>
 <body>
 
@@ -23,7 +24,7 @@
                 <a href="#"><span class="fa fa-sign-in"></span> Login</a>
             </li>
             <li>
-                <a href="#"><span class="fa fa-calendar" ></span> Calendar</a>
+                <a href="/api/diabetes/calendar"><span class="fa fa-calendar" ></span> Calendar</a>
             </li>
             <li>
                 <a href="#"><span class="fa fa-line-chart"></span> Graph</a>
@@ -61,7 +62,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home</a>
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
@@ -84,5 +85,6 @@
 <script src="/sidebar-07/js/popper.js"></script>
 <script src="/sidebar-07/js/bootstrap.min.js"></script>
 <script src="/sidebar-07/js/main.js"></script>
+{{>layout/calendarFooter}}
 </body>
 </html>
