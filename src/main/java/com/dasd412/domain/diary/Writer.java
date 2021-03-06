@@ -20,6 +20,7 @@ public class Writer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
 
@@ -27,8 +28,6 @@ public class Writer {
     @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
     private Email email;
 
-    @OneToMany(mappedBy = "writer")
-    private Set<DiabetesDiary> diaries;
 
     public Writer(){}
 

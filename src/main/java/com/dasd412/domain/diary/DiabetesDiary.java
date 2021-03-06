@@ -41,11 +41,6 @@ public class DiabetesDiary extends BaseTimeEntity {
     @OneToMany(mappedBy = "diabetesDiary" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<HashTag> hashTags=new HashSet<>();//식단 해시태그 세트 (비중복 순서 무상관이므로 리스트보다는 셋이 적합함)
 
-    @JsonIgnore
-    @ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name="writer_id")
-    private  Writer writer;//작성한 사람
-
     @Column(columnDefinition = "TEXT",length=500)
     private String remark;//비고(500자 제한)
 
@@ -54,23 +49,21 @@ public class DiabetesDiary extends BaseTimeEntity {
     //JPA 시스템 상 기본 생성자가 필요하다.
     public DiabetesDiary(){ }
 
-    public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar, Writer writer){
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,"",null);
+    public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar){
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,"",null);
     }
 
-    public DiabetesDiary(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark) {
-        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,null);
+    public DiabetesDiary(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar,  String remark) {
+        this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,null);
     }
 
-    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark,LocalDateTime writtenTime) {
+    public DiabetesDiary(Long id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, String remark,LocalDateTime writtenTime) {
        //모델 단에서 validation 하는게 효율적!
-        checkNotNull(writer,"writer must be provided");
         this.id = id;
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
         this.breakfastBloodSugar = breakfastBloodSugar;
         this.lunchBloodSugar = lunchBloodSugar;
         this.dinnerBloodSugar = dinnerBloodSugar;
-        this.writer = writer;
         this.remark = defaultIfNull(remark," ");
         this.writtenTime=writtenTime;
     }
@@ -96,8 +89,6 @@ public class DiabetesDiary extends BaseTimeEntity {
     public int getDinnerBloodSugar() {
         return dinnerBloodSugar;
     }
-
-    public Writer getWriter() { return writer; }
 
     public String getRemark() {
         return remark;
@@ -170,7 +161,6 @@ public class DiabetesDiary extends BaseTimeEntity {
                 .append("breakfastBloodSugar",breakfastBloodSugar)
                 .append("lunchBloodSugar",lunchBloodSugar)
                 .append("dinnerBloodSugar",dinnerBloodSugar)
-                .append("writer",writer)
                 .append("remark",remark)
                 .append("writtenTime",writtenTime)
                 .toString();
@@ -185,7 +175,6 @@ public class DiabetesDiary extends BaseTimeEntity {
         private int breakfastBloodSugar;
         private int lunchBloodSugar;
         private int dinnerBloodSugar;
-        private Writer writer;
         private String remark;
 
         LocalDateTime writtenTime;
@@ -199,7 +188,6 @@ public class DiabetesDiary extends BaseTimeEntity {
             this.breakfastBloodSugar=diabetesDiary.breakfastBloodSugar;
             this.lunchBloodSugar=diabetesDiary.lunchBloodSugar;
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
-            this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
             this.writtenTime=diabetesDiary.writtenTime;
         }
@@ -233,12 +221,6 @@ public class DiabetesDiary extends BaseTimeEntity {
             return this;
         }
 
-
-        public Builder writer(Writer writer){
-            this.writer=writer;
-            return this;
-        }
-
         public Builder remark(String remark){
             this.remark=remark;
             return this;
@@ -255,7 +237,7 @@ public class DiabetesDiary extends BaseTimeEntity {
 
 
         public DiabetesDiary build(){
-            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,writtenTime);
+            return new DiabetesDiary(id,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,writtenTime);
         }
 
     }
