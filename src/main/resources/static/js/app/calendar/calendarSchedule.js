@@ -463,6 +463,7 @@ const ddFormSelect={
        const _this=this;
        const btn_update=document.querySelector("#btn-update");
        const btn_delete=document.querySelector("#btn-delete");
+       const btn_cancel_select=document.querySelector("#btn-cancel-select")
 
        $("#btn-update").on('mouseover',function(){
            _this.buttonHover(btn_update);
@@ -486,6 +487,13 @@ const ddFormSelect={
        });
        $("#btn-delete").on('click',function(){
          _this.delete();
+       });
+
+       $("#btn-cancel-select").on('mouseover',function(){
+          _this.buttonHover(btn_cancel_select);
+       });
+       $("#btn-cancel-select").on('mouseout',function(){
+          _this.buttonOut(btn_cancel_select);
        });
 
 

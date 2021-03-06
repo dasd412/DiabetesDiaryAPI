@@ -10,7 +10,7 @@
         font-style: normal;
         line-height: 1.16;
         letter-spacing: normal;
-        text-align: left;
+        text-align: center;
         color: #000000;
     }
 
@@ -40,7 +40,7 @@
     font-style: normal;
     line-height: 1.14;
     letter-spacing: normal;
-    text-align: left;
+    text-align: center;
     color: #000000;
 }
 
@@ -103,4 +103,3 @@
         height:120px;
         vertical-align: middle;
     }
-

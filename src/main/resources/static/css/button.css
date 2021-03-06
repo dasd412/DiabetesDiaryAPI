@@ -96,7 +96,7 @@
           color: #fffdfd;
       }
 
-       #btn-cancel{
+       #btn-cancel,#btn-cancel-select{
               position: relative;
                width: 110px;
                height: 7%;
@@ -114,13 +114,13 @@
                text-align: center;
        }
 
-       #btn-cancel.normal{
+       #btn-cancel.normal,#btn-cancel-select.normal{
               border: solid 1px #e60a0a;
               background-color: #e60a0a;
               color: #fffdfd;
        }
 
-       #btn-cancel.onmouseover{
+       #btn-cancel.onmouseover,#btn-cancel-select.onmouseover{
               border: solid 1px #099bf0;
               background-color: #099bf0;
               color: #fffdfd;
