@@ -30,6 +30,5 @@ logs/
 /.nb-gradle/
 
 ###security###
-/tokens/StoredCredential
-/src/main/resources/client_secret.json
+application-oauth.properties
 
