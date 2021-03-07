@@ -10,17 +10,12 @@ public class SessionUser  implements Serializable {
     private String name;
     private Email email;
 
-
     public SessionUser(Writer writer) {
         this.name= String.valueOf(writer.getName());
         this.email=writer.getEmail();
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public Email getEmail() {
-        return email;
-    }
+    public Email getEmail() { return email; }
 }

@@ -19,7 +19,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().headers().frameOptions().disable()//h2-console 화면 사용하기 위한 설정
         .and()
-                .authorizeRequests().antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**").permitAll()
+                .authorizeRequests().antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**","/vendor/**","/sidebar-07/**").permitAll()
                 .antMatchers("/api/diabetes/**").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
