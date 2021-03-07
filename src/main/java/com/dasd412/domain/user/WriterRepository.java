@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface WriterRepository extends JpaRepository<Writer,Long> {
 
-    Optional<Writer> findByEmail(Email email);
+    Optional<Writer> findByEmail(String email);
 
 }

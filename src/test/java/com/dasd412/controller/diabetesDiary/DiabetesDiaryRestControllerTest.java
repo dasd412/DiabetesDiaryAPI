@@ -3,8 +3,6 @@ package com.dasd412.controller.diabetesDiary;
 import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
-import com.dasd412.domain.user.Writer;
-import com.dasd412.domain.user.Email;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -98,8 +96,6 @@ public class DiabetesDiaryRestControllerTest {
     @Test
     public void 일지를_수정한다()throws Exception{
         //given
-
-        Email email=new Email("dasd412@naver.com");
 
         DiabetesDiary savedDiary=new DiabetesDiary.Builder()
                 .fastingPlasmaGlucose(100)

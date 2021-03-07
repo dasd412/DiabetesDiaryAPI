@@ -1,6 +1,5 @@
 package com.dasd412.security;
 
-import com.dasd412.domain.user.Email;
 import com.dasd412.domain.user.Role;
 import com.dasd412.domain.user.Writer;
 
@@ -11,9 +10,9 @@ public class OAuthAttributes {
     private Map<String,Object>attributes;
     private String nameAttributeKey;
     private String name;
-    private Email email;
+    private String email;
 
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, Email email) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
@@ -23,25 +22,25 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registeredId, String userNameAttributeName, Map<String, Object> attributes) { return ofGoogle(userNameAttributeName,attributes); }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return new Builder().name((String) attributes.get("name")).email((Email) attributes.get("email")).attributes(attributes).nameAttributeKey(userNameAttributeName).build();
+        return new Builder().name((String) attributes.get("name")).email((String) attributes.get("email")).attributes(attributes).nameAttributeKey(userNameAttributeName).build();
     }
 
     public Map<String, Object> getAttributes() { return attributes; }
 
     public String getAttributeKey() { return nameAttributeKey; }
 
-    public Email getEmail() {return email; }
+    public String getEmail() {return email; }
 
     public String getName() {return name; }
 
-    public Writer toEntity() { return new Writer(name,email, Role.GUEST); }
+    public Writer toEntity() { return new Writer(name,email, Role.USER); }
 
     static public class Builder{
 
         private Map<String,Object>attributes;
         private String nameAttributeKey;
         private String name;
-        private Email email;
+        private String email;
 
         public Builder(){}
 
@@ -66,7 +65,7 @@ public class OAuthAttributes {
             return this;
         }
 
-        public Builder email(Email email){
+        public Builder email(String email){
             this.email=email;
             return this;
         }

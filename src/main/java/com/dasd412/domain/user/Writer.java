@@ -1,20 +1,16 @@
 package com.dasd412.domain.user;
 
-import com.dasd412.domain.user.Email;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.dasd412.utils.EmailUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Writer {
 
     @Id
@@ -24,10 +20,8 @@ public class Writer {
     @Column(nullable = false)
     private String name;
 
-
-    @OneToOne(cascade=CascadeType.ALL)//1대1 관계
-    @JoinColumn(name="email_id")//주 객체는 Writer, 대상 객체는 Email. Writer -> Email 단방향 관계
-    private Email email;
+    @Column(nullable = false)
+    private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -35,9 +29,10 @@ public class Writer {
 
     public Writer(){}
 
-    public Writer(String name, Email email,Role role) {
+    public Writer(String name, String email,Role role) {
         checkArgument(name.length()>0,"name length must be longer than zero");
         checkNotNull(email,"Email must be provided!");
+        checkArgument(EmailUtils.checkAddress(email),"email format must be satisfied");
         checkNotNull(role,"Role must be provided!");
         this.name = name;
         this.email = email;
@@ -48,7 +43,7 @@ public class Writer {
         return Optional.ofNullable(name);
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 

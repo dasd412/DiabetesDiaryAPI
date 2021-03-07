@@ -1,15 +1,8 @@
 package com.dasd412.domain.diary;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
-
-import com.dasd412.domain.diet.Diet;
-import com.dasd412.domain.diet.EatTime;
-import com.dasd412.domain.diet.HashTag;
-import com.dasd412.domain.user.Email;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
