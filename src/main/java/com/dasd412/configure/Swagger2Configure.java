@@ -25,18 +25,11 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withMetho
 @EnableSwagger2
 public class Swagger2Configure implements WebMvcConfigurer {
 
-//    private final JwtTokenConfigure jwtTokenConfigure;
-//
-//    public Swagger2Configure(JwtTokenConfigure jwtTokenConfigure) {
-//        this.jwtTokenConfigure = jwtTokenConfigure;
-//    }
 
     @Bean
     public Docket restApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                //.ignoredParameterTypes(AuthenticationPrincipal.class, Pageable.class)
-                //.securitySchemes(singletonList(apiKey()))
                 .securityContexts(singletonList(securityContext()))
                 .produces(singleton("application/json"))
                 .consumes(singleton("application/json"))
@@ -70,10 +63,6 @@ public class Swagger2Configure implements WebMvcConfigurer {
                 .version("1.0.0")
                 .build();
     }
-
-//    private ApiKey apiKey() {
-//        return new ApiKey("apiKey", jwtTokenConfigure.getHeader(), "header");
-//    }
 
     private SecurityContext securityContext() {
         return SecurityContext.builder()

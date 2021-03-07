@@ -1,5 +1,6 @@
 package com.dasd412.controller.security;
 
+import com.dasd412.security.LoginUser;
 import com.dasd412.security.SessionUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,7 @@ public class LoginController {
     }
 
     @GetMapping("/api/login")
-    public String viewResolve(Model model){
-        SessionUser user=(SessionUser)httpSession.getAttribute("user");//customUserService에서 로그인 성공시 세션에 SessionUser저장.
+    public String viewResolve(Model model, @LoginUser SessionUser user){ //customUserService에서 로그인 성공시 세션에 SessionUser저장.
         if(user!=null){
             model.addAttribute("userName",user.getName());
         }
