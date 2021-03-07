@@ -1,7 +1,9 @@
-package com.dasd412.security;
+package com.dasd412.service.security;
 
 import com.dasd412.domain.user.Writer;
 import com.dasd412.domain.user.WriterRepository;
+import com.dasd412.security.OAuthAttributes;
+import com.dasd412.security.SessionUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

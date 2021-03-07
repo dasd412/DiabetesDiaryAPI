@@ -1,0 +1,11 @@
+{{#layout}}
+
+    {{#userName}}
+        Logged in as:<span id="user">{{userNmae}}</span>
+        <a href="/logout" role="button">Logout</a>
+    {{/userName}}
+    {{^userName}}
+        <a href="/oauth2/authorization/google" role="button">Google login</a>
+    {{/userName}}
+
+{{/layout}}
