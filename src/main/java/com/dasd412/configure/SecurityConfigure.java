@@ -2,9 +2,14 @@ package com.dasd412.configure;
 
 import com.dasd412.domain.user.Role;
 import com.dasd412.service.security.CustomUserService;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfigure extends WebSecurityConfigurerAdapter {
@@ -23,12 +28,25 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/diabetes/**").hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
+                .formLogin()
+                .loginPage("/api/login")
+                .defaultSuccessUrl("/")
+                .and()
                 .logout()
                 .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)//로그아웃시 세션 무효화
+                .deleteCookies("JSESSIONID")//세션 id 쿠키 제거
+                .clearAuthentication(true)
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(userService);
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher>httpSessionPublisher(){
+        //로그아웃 시 세션 삭제 보장을 하기 위한 빈 주입
+        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
 
 
