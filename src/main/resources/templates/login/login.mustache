@@ -5,7 +5,9 @@
         <a href="/logout" role="button">Logout</a>
     {{/userName}}
     {{^userName}}
-        <a href="/oauth2/authorization/google" role="button">Google login</a>
+        <a href="/oauth2/authorization/google" role="button" class="google loginBtn"><i class="fab fa-google"></i>Google Login</a>
+        <a href="#" role="button" class="fb loginBtn"><i class="fab fa-facebook-square"></i>FaceBook Login</a>
+        <a href="#" role="button" class="git loginBtn"><i class="fab fa-github"></i>GitHub Login</a>
     {{/userName}}
 
 {{/layout}}
