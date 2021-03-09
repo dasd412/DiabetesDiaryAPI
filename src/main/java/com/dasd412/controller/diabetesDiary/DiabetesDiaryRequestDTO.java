@@ -1,7 +1,7 @@
 package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.diary.Writer;
+import com.dasd412.domain.user.Writer;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -21,9 +21,6 @@ public class DiabetesDiaryRequestDTO {
     @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
-    @ApiModelProperty(value = "작성자", required = true)
-    private Writer writer;
-
     @ApiModelProperty(value = "비고")
     private String remark;
 
@@ -40,15 +37,14 @@ public class DiabetesDiaryRequestDTO {
 
 
     public DiabetesDiaryRequestDTO(Writer writer) {
-        this(0,0,0,0,writer,"","","","");
+        this(0,0,0,0,"","","","");
     }
 
-    public DiabetesDiaryRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, Writer writer, String remark,String year, String month,String day) {
+    public DiabetesDiaryRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar,String remark,String year, String month,String day) {
         this.fastingPlasmaGlucose = fastingPlasmaGlucose;
         this.breakfastBloodSugar = breakfastBloodSugar;
         this.lunchBloodSugar = lunchBloodSugar;
         this.dinnerBloodSugar = dinnerBloodSugar;
-        this.writer = writer;
         this.remark = remark;
         this.year=year;
         this.month=month;
@@ -61,7 +57,6 @@ public class DiabetesDiaryRequestDTO {
                 .breakfastBloodSugar(breakfastBloodSugar)
                 .lunchBloodSugar(lunchBloodSugar)
                 .dinnerBloodSugar(dinnerBloodSugar)
-                .writer(writer)
                 .remark(remark)
                 .writtenTime(year,month,day)
                 .build();
@@ -74,7 +69,6 @@ public class DiabetesDiaryRequestDTO {
                 .append("breakfastBloodSugar",breakfastBloodSugar)
                 .append("lunchBloodSugar",lunchBloodSugar)
                 .append("dinnerBloodSugar",dinnerBloodSugar)
-                .append("writer",writer)
                 .append("remark",remark)
                 .append("year",year)
                 .append("month",month)
@@ -98,10 +92,6 @@ public class DiabetesDiaryRequestDTO {
         return dinnerBloodSugar;
     }
 
-    public Writer getWriter() {
-        return writer;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -119,7 +109,6 @@ public class DiabetesDiaryRequestDTO {
         private int breakfastBloodSugar;
         private int lunchBloodSugar;
         private int dinnerBloodSugar;
-        private Writer writer;
         private String remark;
         private String year;
         private String month;
@@ -132,7 +121,6 @@ public class DiabetesDiaryRequestDTO {
             this.breakfastBloodSugar=diabetesDiary.breakfastBloodSugar;
             this.lunchBloodSugar=diabetesDiary.lunchBloodSugar;
             this.dinnerBloodSugar=diabetesDiary.dinnerBloodSugar;
-            this.writer=diabetesDiary.writer;
             this.remark=diabetesDiary.remark;
             this.year=diabetesDiary.year;
             this.month=diabetesDiary.month;
@@ -163,12 +151,6 @@ public class DiabetesDiaryRequestDTO {
             return this;
         }
 
-
-        public DiabetesDiaryRequestDTO.Builder writer(Writer writer){
-            this.writer=writer;
-            return this;
-        }
-
         public DiabetesDiaryRequestDTO.Builder remark(String remark){
             this.remark=remark;
             return this;
@@ -193,7 +175,7 @@ public class DiabetesDiaryRequestDTO {
 
 
         public DiabetesDiaryRequestDTO build(){
-            return new DiabetesDiaryRequestDTO(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,writer,remark,year,month,day);
+            return new DiabetesDiaryRequestDTO(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark,year,month,day);
         }
 
     }

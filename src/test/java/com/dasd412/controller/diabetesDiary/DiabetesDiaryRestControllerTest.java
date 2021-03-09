@@ -3,12 +3,9 @@ package com.dasd412.controller.diabetesDiary;
 import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
-import com.dasd412.domain.diary.Writer;
-import com.dasd412.domain.user.Email;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -59,15 +56,12 @@ public class DiabetesDiaryRestControllerTest {
     public void 일지를_등록한다()throws Exception{
 
         //given
-        Email email=new Email("dasd412@naver.com");
-        Writer writer=new Writer("tester", email);
 
         DiabetesDiaryRequestDTO dto=new DiabetesDiaryRequestDTO.Builder()
                 .fastingPlasmaGlucose(90)
                 .breakfastBloodSugar(90)
                 .lunchBloodSugar(100)
                 .dinnerBloodSugar(110)
-                .writer(writer)
                 .remark("test")
                 .year("2021")
                 .month("02")
@@ -88,8 +82,6 @@ public class DiabetesDiaryRestControllerTest {
         assertThat(diaryList.get(0).getBreakfastBloodSugar()).isEqualTo(90);
         assertThat(diaryList.get(0).getLunchBloodSugar()).isEqualTo(100);
         assertThat(diaryList.get(0).getDinnerBloodSugar()).isEqualTo(110);
-        assertThat(diaryList.get(0).getWriter().getName()).isEqualTo(Optional.of("tester"));
-        assertThat(diaryList.get(0).getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
         assertThat(diaryList.get(0).getRemark()).isEqualTo("test");
 
 
@@ -105,15 +97,11 @@ public class DiabetesDiaryRestControllerTest {
     public void 일지를_수정한다()throws Exception{
         //given
 
-        Email email=new Email("dasd412@naver.com");
-        Writer writer=new Writer("tester", email);
-
         DiabetesDiary savedDiary=new DiabetesDiary.Builder()
                 .fastingPlasmaGlucose(100)
                 .breakfastBloodSugar(95)
                 .lunchBloodSugar(100)
                 .dinnerBloodSugar(150)
-                .writer(writer)
                 .writtenTime("2021","02","27")
                 .build();
 
@@ -138,15 +126,12 @@ public class DiabetesDiaryRestControllerTest {
 
         List<DiabetesDiary>list=repository.findAll();
         logger.info("diary : "+list.get(0).getFastingPlasmaGlucose()+" "+list.get(0).getBreakfastBloodSugar()+" "+list.get(0).getLunchBloodSugar()+" "+list.get(0).getDinnerBloodSugar()+" "+list.get(0).getRemark());
-        logger.info("cascade : "+list.get(0).getWriter().getName()+" "+list.get(0).getWriter().getEmail().getAddress());
 
         assertThat(list.get(0).getFastingPlasmaGlucose()).isEqualTo(100);
         assertThat(list.get(0).getBreakfastBloodSugar()).isEqualTo(20);
         assertThat(list.get(0).getLunchBloodSugar()).isEqualTo(55);
         assertThat(list.get(0).getDinnerBloodSugar()).isEqualTo(150);
         assertThat(list.get(0).getRemark()).isEqualTo("test");
-        assertThat(list.get(0).getWriter().getName()).isEqualTo(Optional.of("tester"));
-        assertThat(list.get(0).getWriter().getEmail().getAddress()).isEqualTo("dasd412@naver.com");
 
         String[]array=list.get(0).getWrittenTime().format(DateTimeFormatter.ISO_DATE).split("-");
         assertThat(array[0]).isEqualTo("2021");

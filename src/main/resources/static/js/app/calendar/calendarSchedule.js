@@ -325,6 +325,10 @@ function calendarEventList() {
 
     }).done(function(data){
 
+    if(data.response==null||data.response.length==undefined){
+     return;
+    }
+
      for(let i=0;i<data.response.length;i++){
          if(!listSet.has(data.response[i].id)){
             listSet.add(data.response[i].id);
@@ -401,15 +405,6 @@ const ddForm={
            breakfastBloodSugar:$("#breakFastValue").val(),
            lunchBloodSugar:$("#lunchValue").val(),
            dinnerBloodSugar:$("#dinnerValue").val(),
-           writer:{
-             name:"tester",
-             email:{
-               address:"dasd412@naver.com",
-               name:"dasd412",
-               domainName:"naver.com"
-             }
-
-           },
            year:$("#modalYear").val(),
            month:$("#modalMonth").val(),
            day:$("#modalDay").val()
@@ -520,16 +515,7 @@ const ddFormSelect={
                 fastingPlasmaGlucose:$("#FastingPlasmaGlucoseSelect").val(),
                 breakfastBloodSugar:$("#breakFastValueSelect").val(),
                 lunchBloodSugar:$("#lunchValueSelect").val(),
-                dinnerBloodSugar:$("#dinnerValueSelect").val(),
-                writer:{
-                  name:"tester",
-                  email:{
-                    address:"dasd412@naver.com",
-                    name:"dasd412",
-                    domainName:"naver.com"
-                  }
-
-                }
+                dinnerBloodSugar:$("#dinnerValueSelect").val()
            };
 
         const id=$("#diaryId").val();

@@ -1,7 +1,6 @@
 package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.diary.Writer;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -30,9 +29,6 @@ public class DiaryResponseDTO {
     @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
     private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
-    @ApiModelProperty(value = "작성자", required = true)
-    private Writer writer;
-
     @ApiModelProperty(value = "비고", required = true)
     private String remark;
 
@@ -53,7 +49,6 @@ public class DiaryResponseDTO {
         this.breakfastBloodSugar = entity.getBreakfastBloodSugar();
         this.lunchBloodSugar = entity.getLunchBloodSugar();
         this.dinnerBloodSugar = entity.getDinnerBloodSugar();
-        this.writer = entity.getWriter();
         this.remark = entity.getRemark();
         LocalDateTime date=entity.getWrittenTime();
 
@@ -83,10 +78,6 @@ public class DiaryResponseDTO {
         return dinnerBloodSugar;
     }
 
-    public Writer getWriter() {
-        return writer;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -105,7 +96,6 @@ public class DiaryResponseDTO {
                 .append("breakfastBloodSugar",breakfastBloodSugar)
                 .append("lunchBloodSugar",lunchBloodSugar)
                 .append("dinnerBloodSugar",dinnerBloodSugar)
-                .append("writer",writer)
                 .append("remark",remark)
                 .append("year",year)
                 .append("month",month)
