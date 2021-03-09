@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/sidebar-07/css/style.css">
     {{>layout/calendarHeader}}
+    <link href="/css/login/loginForm.css" rel='stylesheet' type="text/css"/>
 </head>
 <body>
 
@@ -21,7 +22,12 @@
                 <a href="/"><span class="fa fa-home"></span> Home</a>
             </li>
             <li>
+                {{#userName}}
+                <a href="/logout"><span class="fas fa-sign-out-alt"></span>Logout</a>
+                {{/userName}}
+                {{^userName}}
                 <a href="/api/login"><span class="fa fa-sign-in"></span> Login</a>
+                 {{/userName}}
             </li>
             <li>
                 <a href="/api/diabetes/calendar"><span class="fa fa-calendar" ></span> Calendar</a>

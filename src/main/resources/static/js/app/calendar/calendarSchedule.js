@@ -325,6 +325,10 @@ function calendarEventList() {
 
     }).done(function(data){
 
+    if(data.response==null||data.response.length==undefined){
+     return;
+    }
+
      for(let i=0;i<data.response.length;i++){
          if(!listSet.has(data.response[i].id)){
             listSet.add(data.response[i].id);
