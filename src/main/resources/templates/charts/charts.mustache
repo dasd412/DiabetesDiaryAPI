@@ -1,16 +1,26 @@
 {{#layout}}
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <div class="main">
+
+        <select name="dataType" class="form-select"  id="selectData">
+            <option value="month">per month</option>
+            <option value="fpgPerDay">FPG per day</option>
+            <option value="breakFastPerDay">breakFast per day</option>
+            <option value="lunchFastPerDay">lunch per day</option>
+            <option value="dinnerFastPerDay">dinner per day</option>
+        </select>
+
         <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-            <canvas id="test1"></canvas>
+            <canvas id="chart"></canvas>
         </div>
-        <script> var ctx = document.getElementById('test1').getContext('2d');
+        <script> var ctx = document.getElementById('chart').getContext('2d');
             var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
-                        label: 'blood sugar per month',
+                        label: 'test',
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.5)',
                             'rgba(54, 162, 235, 0.5)',
