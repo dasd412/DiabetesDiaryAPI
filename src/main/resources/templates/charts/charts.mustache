@@ -1,0 +1,81 @@
+{{#layout}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <div class="main">
+        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+            <canvas id="test1"></canvas>
+        </div>
+        <script> var ctx = document.getElementById('test1').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'blood sugar per month',
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)' ],
+
+                        borderColor: [
+                            'rgb(255, 99, 132,1.5)',
+                            'rgba(54, 162, 235, 1.5)',
+                            'rgba(255, 206, 86, 1.5)',
+                            'rgba(75, 192, 192, 1.5)',
+                            'rgba(153, 102, 255, 1.5)',
+                            'rgba(255, 159, 64, 1.5)',
+                            'rgb(255, 99, 132,1.5)',
+                            'rgba(54, 162, 235, 1.5)',
+                            'rgba(255, 206, 86, 1.5)',
+                            'rgba(75, 192, 192, 1.5)',
+                            'rgba(153, 102, 255, 1.5)',
+                            'rgba(255, 159, 64, 1.5)'],
+
+                        data: [120,130,150,200,170,180,140,190,140,190,210,110]
+                    }]
+                },
+
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Diabetes Diary Charts',
+                        fontSize: 30,
+                        fontColor: 'rgba(46, 49, 49, 1)'
+                    },
+                    legend: {
+                        labels: {
+                            fontColor: 'rgba(83, 51, 237, 1)',
+                            fontSize: 15
+                        }
+                    },
+                    scales:
+                    {
+                        xAxes:
+                            [{
+                                ticks: {
+                                    fontColor: 'rgba(27, 163, 156, 1)',
+                                    fontSize: '15'
+                                }
+                            }],
+                        yAxes: [{
+                            ticks:
+                            {
+                                beginAtZero: true,
+                                fontColor: 'rgba(246, 36, 89, 1)',
+                                fontSize: '15'
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+{{/layout}}
