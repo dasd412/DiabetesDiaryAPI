@@ -2,6 +2,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <div class="main">
+        <table id="chartTable">
+            <thead id="chartThead">
+            <tr>
+                <td colspan="7" class="chartTop">
+                    <button type='button' id='chartFastPre'><i class="fas fa-angle-double-left"></i></button>
+                    <button type='button' id='chartPre'><i class="fas fa-angle-left"></i></button>
+                    <span class="chartTopTitle" id='yearMonth'>2021.03</span>
+                    <button type='button' id='chartNext'><i class="fas fa-angle-right"></i></button>
+                    <button type='button' id='chartFastNext'><i class="fas fa-angle-double-right"></i></button>
+                </td>
+            </tr>
+        </table>
 
         <select name="dataType" class="form-select"  id="selectData">
             <option value="month">per month</option>
@@ -11,7 +23,7 @@
             <option value="dinnerFastPerDay">dinner per day</option>
         </select>
 
-        <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <div class="chart-container" style="position: relative; height:25vh; width:70vw; left:10%;">
             <canvas id="chart"></canvas>
         </div>
         <script> var ctx = document.getElementById('chart').getContext('2d');
