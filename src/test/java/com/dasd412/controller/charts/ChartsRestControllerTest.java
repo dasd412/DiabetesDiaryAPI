@@ -1,32 +1,63 @@
 package com.dasd412.controller.charts;
 
+import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Profile("test")
 public class ChartsRestControllerTest {
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
     DiabetesDiaryRepository repository;
 
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
+    private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
+
+    @Before
+    public void setup(){
+        mockMvc= MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @After
     public void cleanUp(){
@@ -236,6 +267,31 @@ public class ChartsRestControllerTest {
 //        for (DiabetesDiary diary:found){
 //            logger.info("diary : "+diary.getWrittenTime().toString());
 //        }
+    }
+
+    @Transactional
+    @Test
+    @WithMockUser(roles="USER")
+    public void 일지를_등록하고_기간별_조회한다()throws Exception{
+        //given
+
+        LocalDateTime startDate=LocalDateTime.parse("2021-03-01T00:00:00");
+        LocalDateTime endDate=LocalDateTime.parse("2021-03-30T00:00");
+
+       DayChartRequestDTO between=new DayChartRequestDTO(startDate,endDate);
+
+       String url="http://localhost:"+port+"/api/diabetes/charts/list";
+
+       //when
+       mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(between))).andDo(print())
+        .andExpect(status().isOk());
+
+
+
+
 
     }
+
+
 }
