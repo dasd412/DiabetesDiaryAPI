@@ -58,7 +58,7 @@ const borderColor = ['rgb(255, 99, 132,1.5)',
     'rgba(153, 102, 255, 1.5)',
     'rgba(255, 159, 64, 1.5)'];
 
-
+let chartArray=[];
 
 const ctx = document.getElementById('chart').getContext('2d');
 const chart = new Chart(ctx, options);
@@ -148,39 +148,85 @@ function drawCharts() {
             break;
         }
     }
-    const startDate=year+"-"+formatNumber(months[1])+"-01T00:00:00";
-    const endDate=year+"-"+formatNumber(months[1])+"-"+lastDay+"T00:00:00";
-    getDiariesBetweenDays(startDate,endDate);
 
     resetChart(chart);
 
     for (let i = 1; i <= lastDay; i++) {
-        addData(chart, i, 0);
-        drawBackgroundColor(chart, i);
+         addData(chart, i, 0);
+         drawBackgroundColor(chart, i);
     }
+
+
+    const start=year+"-"+formatNumber(months[1])+"-01T00:00:00";
+    const end=year+"-"+formatNumber(months[1])+"-"+lastDay+"T00:00:00";
+
+    const between={
+      startDate:start,
+      endDate:end
+    };
+
+    $.ajax({
+      url:"/api/diabetes/charts/list",
+      type:'GET',
+      contentType:'application/json; charset=utf-8',
+      data: between
+    }).done(function(data){
+
+      if(data.response==null||data.response.length==undefined){
+      return;
+      }
+
+      for(let i=0;i<data.response.length;i++){
+        const e=data.response[i];
+        chartArray.push(e);
+      }
+
+/*
+ label : chartArray[i].writtenTime (2021-03-02T00:00:00)-> 2 //format
+ data : charArray[i].<fastingPlasmaGlucose||breakfastBloodSugar||lunchBloodSugar||dinnerBloodSugar)
+
+@ExampleCode
+
+ label=2=getLabel(chartArray[i].writtenTime);
+
+    chart.data.datasets.forEach((dataset) => {
+         dataset.data[label]=data;
+     });
+     chart.update();
+
+*/
+      for(let i=0;i<chartArray.length;i++){
+         const label=getLabel(chartArray[i].writtenTime);
+         chart.data.datasets.forEach((dataset) => {
+                  dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose;//<-switch(chartArray[i].sugarType) code needed
+         });
+         chart.update();
+      }
+
+    });
 
     $("#yearMonth").text(year + "." + formatNumber(months[1]));
 
 }//screen write month()
 
-function getDiariesBetweenDays(start, end){
- const between={
-  startDate:start,
-  endDate:end
- };
+function getLabel(str){//"2020-02-01:T00:00:00"->1
+  const strArr=str.split('T');
+  const arr=strArr[0].split('-');
 
- $.ajax({
-  url:"/api/diabetes/charts/list",
-  type:'GET',
-  contentType:'application/json; charset=utf-8',
-  data: between
- }).done(function(data){
-  console.log(data.response);
- });
+  return formatString(arr[2]);
+}
 
+function formatString(str){// "05"->5 , duplicated code, refactoring needed
+    if(str.indexOf(0)=='0'){
+      return  parseInt(str.substring(1,2));
+    }
+    else{
+      return parseInt(str);
+    }
 }
 
 function resetChart(chart){
+    chartArray=[];
     chart.data.labels=[];
     chart.data.datasets.forEach((dataset) => {
         dataset.data=[];
