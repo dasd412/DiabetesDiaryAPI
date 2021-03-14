@@ -286,12 +286,11 @@ public class ChartsRestControllerTest {
 
         repository.save(diary);
 
-        DayChartRequestDTO dto=new DayChartRequestDTO("2021-03-01T00:00:00","2021-03-31T00:00:00");
 
         String url="http://localhost:"+port+"/api/diabetes/charts/list";
         //when
         String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(dto)))
+                .param("startDate","2021-03-01T00:00:00").param("endDate","2021-03-31T00:00:00"))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
                 .getContentAsString();
         logger.info("result : "+result);
@@ -327,11 +326,10 @@ public class ChartsRestControllerTest {
 
 
 
-        DayChartRequestDTO dto=new DayChartRequestDTO("2021-03-13T00:00:00","2021-04-11T00:00:00");
         String url="http://localhost:"+port+"/api/diabetes/charts/list";
         //when
         String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(new ObjectMapper().writeValueAsString(dto)))
+        .param("startDate","2021-03-13T00:00:00").param("endDate","2021-04-11T00:00:00"))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
                 .getContentAsString();
         logger.info("result : "+result);
@@ -370,7 +368,7 @@ public class ChartsRestControllerTest {
         String url="http://localhost:"+port+"/api/diabetes/charts/list";
         //when
         String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(dto)))
+                .param("startDate","2021-03-01T00:00:00").param("endDate","2021-03-21T00:00:00"))
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
                 .getContentAsString();
         logger.info("result : "+result);

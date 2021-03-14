@@ -148,16 +148,37 @@ function drawCharts() {
             break;
         }
     }
+    const startDate=year+"-"+formatNumber(months[1])+"-01T00:00:00";
+    const endDate=year+"-"+formatNumber(months[1])+"-"+lastDay+"T00:00:00";
+    getDiariesBetweenDays(startDate,endDate);
+
     resetChart(chart);
 
     for (let i = 1; i <= lastDay; i++) {
-        addData(chart, i, i);
+        addData(chart, i, 0);
         drawBackgroundColor(chart, i);
     }
 
     $("#yearMonth").text(year + "." + formatNumber(months[1]));
 
 }//screen write month()
+
+function getDiariesBetweenDays(start, end){
+ const between={
+  startDate:start,
+  endDate:end
+ };
+
+ $.ajax({
+  url:"/api/diabetes/charts/list",
+  type:'GET',
+  contentType:'application/json; charset=utf-8',
+  data: between
+ }).done(function(data){
+  console.log(data.response);
+ });
+
+}
 
 function resetChart(chart){
     chart.data.labels=[];
