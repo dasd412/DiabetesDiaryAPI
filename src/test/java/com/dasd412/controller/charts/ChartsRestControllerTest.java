@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +55,7 @@ public class ChartsRestControllerTest {
     public void setup(){
         mockMvc= MockMvcBuilders
                 .webAppContextSetup(context)
+                .addFilter(new CharacterEncodingFilter("UTF-8",true))
                 .apply(springSecurity())
                 .build();
     }
@@ -273,24 +274,106 @@ public class ChartsRestControllerTest {
     @Test
     @WithMockUser(roles="USER")
     public void 일지를_등록하고_기간별_조회한다()throws Exception{
-        //given
-
-        LocalDateTime startDate=LocalDateTime.parse("2021-03-01T00:00:00");
-        LocalDateTime endDate=LocalDateTime.parse("2021-03-30T00:00");
-
-       DayChartRequestDTO between=new DayChartRequestDTO(startDate,endDate);
-
-       String url="http://localhost:"+port+"/api/diabetes/charts/list";
-
-       //when
-       mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(new ObjectMapper().writeValueAsString(between))).andDo(print())
-        .andExpect(status().isOk());
 
 
+        DiabetesDiary diary=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writtenTime("2021","03","17")
+                .build();
+
+        repository.save(diary);
+
+        DayChartRequestDTO dto=new DayChartRequestDTO("2021-03-01T00:00:00","2021-03-31T00:00:00");
+
+        String url="http://localhost:"+port+"/api/diabetes/charts/list";
+        //when
+        String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
+                .getContentAsString();
+        logger.info("result : "+result);
+    }
+
+
+    @Transactional
+    @Test
+    @WithMockUser(roles="USER")
+    public void 일지를_등록하고_기간별_조회한다_둘다_포함()throws Exception{
+
+
+        DiabetesDiary diary1=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writtenTime("2021","03","17")
+                .build();
+
+        repository.save(diary1);
+
+
+        DiabetesDiary diary2=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writtenTime("2021","04","05")
+                .build();
+
+        repository.save(diary2);
 
 
 
+        DayChartRequestDTO dto=new DayChartRequestDTO("2021-03-13T00:00:00","2021-04-11T00:00:00");
+        String url="http://localhost:"+port+"/api/diabetes/charts/list";
+        //when
+        String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
+                .getContentAsString();
+        logger.info("result : "+result);
+    }
+
+    @Transactional
+    @Test
+    @WithMockUser(roles="USER")
+    public void 일지를_등록하고_기간별_조회한다_하나_미포함()throws Exception{
+
+
+        DiabetesDiary diary1=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writtenTime("2021","03","17")
+                .build();
+
+        repository.save(diary1);
+
+
+        DiabetesDiary diary2=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(100)
+                .breakfastBloodSugar(95)
+                .lunchBloodSugar(100)
+                .dinnerBloodSugar(150)
+                .writtenTime("2021","04","05")
+                .build();
+
+        repository.save(diary2);
+
+
+
+        DayChartRequestDTO dto=new DayChartRequestDTO("2021-03-01T00:00:00","2021-03-21T00:00:00");
+        String url="http://localhost:"+port+"/api/diabetes/charts/list";
+        //when
+        String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
+                .getContentAsString();
+        logger.info("result : "+result);
     }
 
 

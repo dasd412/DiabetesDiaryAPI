@@ -1,25 +1,27 @@
 package com.dasd412.controller.charts;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.time.LocalDateTime;
-
 public class DayChartRequestDTO {
+    /*
+    @DateTimeFormat 등으로 LocalDateTime을 파싱하는 방법이 있으나, 적용이 안되는 관계로
+    String으로 받고 서비스 레이어에서 파싱하는 법을 택하였다.
+     */
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String startDate;
+
+    private String endDate;
 
     public DayChartRequestDTO() {}
 
-    public DayChartRequestDTO(LocalDateTime startDate, LocalDateTime endDate) {
+    public DayChartRequestDTO(String startDate, String endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public LocalDateTime getEndDate() { return endDate; }
+    public String getEndDate() { return endDate; }
 
-    public LocalDateTime getStartDate() { return startDate; }
+    public String getStartDate() { return startDate; }
 
     @Override
     public String toString() {

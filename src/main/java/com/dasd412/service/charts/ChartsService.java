@@ -19,6 +19,14 @@ public class ChartsService {
     }
 
     @Transactional(readOnly=true)
-    public List<DiabetesDiary>getDiaryListBetween(LocalDateTime startDate, LocalDateTime endDate){ return diaryRepository.findAllBetweenDates(startDate,endDate); }
+    public List<DiabetesDiary>getDiaryListBetween(String startDate, String endDate){
+        /*
+        좋은 방법은 아니지만, 어노테이션이 적용이 안되는 관계로 서비스 레이어에서 파싱...
+         */
+        LocalDateTime s=LocalDateTime.parse(startDate);
+        LocalDateTime e=LocalDateTime.parse(endDate);
+
+        return diaryRepository.findAllBetweenDates(s,e);
+    }
 
 }
