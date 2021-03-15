@@ -60,6 +60,8 @@ const borderColor = ['rgb(255, 99, 132,1.5)',
 
 let chartArray=[];
 
+let selected=$("#selectData option:selected").val();
+
 const ctx = document.getElementById('chart').getContext('2d');
 const chart = new Chart(ctx, options);
 
@@ -181,24 +183,17 @@ function drawCharts() {
         chartArray.push(e);
       }
 
-/*
- label : chartArray[i].writtenTime (2021-03-02T00:00:00)-> 2 //format
- data : charArray[i].<fastingPlasmaGlucose||breakfastBloodSugar||lunchBloodSugar||dinnerBloodSugar)
 
-@ExampleCode
-
- label=2=getLabel(chartArray[i].writtenTime);
-
-    chart.data.datasets.forEach((dataset) => {
-         dataset.data[label]=data;
-     });
-     chart.update();
-
-*/
       for(let i=0;i<chartArray.length;i++){
          const label=getLabel(chartArray[i].writtenTime);
          chart.data.datasets.forEach((dataset) => {
-                  dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose;//<-switch(chartArray[i].sugarType) code needed
+                switch(selected){
+                 case 'month': break;
+                 case 'fpgPerDay': dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose; break;
+                 case 'breakFastPerDay': dataset.data[label-1]=chartArray[i].breakfastBloodSugar; break;
+                 case 'lunchFastPerDay': dataset.data[label-1]=chartArray[i].lunchBloodSugar; break;
+                 case 'dinnerFastPerDay': dataset.data[label-1]=chartArray[i].dinnerBloodSugar; break;
+                }
          });
          chart.update();
       }
@@ -260,6 +255,10 @@ function drawBackgroundColor(chart, index) {
     chart.update();
 }
 
+function changeItem(){
+ selected=$("#selectData option:selected").val();
+ drawCharts();
+}
 
 
 $(document).ready(function () {
