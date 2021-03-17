@@ -68,14 +68,7 @@ const chart = new Chart(ctx, options);
 let chartOfMonth = 0;
 let chartOfYear = 0;
 
-function formatNumber(number) {// 5-> "05"
-    let str = "" + number;
-    if (number < 10 && str.indexOf('0') == -1 || str.length == 1) {
-        str = "0" + number;
-    }
-    return str;
-}
-
+const chartFormatter=new Formatter();
 
 function monthDayIndex(month, day) {
     for (let i = 0; i < month.length; i++) {
@@ -159,8 +152,8 @@ function drawCharts() {
     }
 
 
-    const start=year+"-"+formatNumber(months[1])+"-01T00:00:00";
-    const end=year+"-"+formatNumber(months[1])+"-"+lastDay+"T00:00:00";
+    const start=year+"-"+chartFormatter.formatNumber(months[1])+"-01T00:00:00";
+    const end=year+"-"+chartFormatter.formatNumber(months[1])+"-"+lastDay+"T00:00:00";
 
     const between={
       startDate:start,
@@ -200,7 +193,7 @@ function drawCharts() {
 
     });
 
-    $("#yearMonth").text(year + "." + formatNumber(months[1]));
+    $("#yearMonth").text(year + "." + chartFormatter.formatNumber(months[1]));
 
 }//screen write month()
 
@@ -208,16 +201,7 @@ function getLabel(str){//"2020-02-01:T00:00:00"->1
   const strArr=str.split('T');
   const arr=strArr[0].split('-');
 
-  return formatString(arr[2]);
-}
-
-function formatString(str){// "05"->5 , duplicated code, refactoring needed
-    if(str.indexOf(0)=='0'){
-      return  parseInt(str.substring(1,2));
-    }
-    else{
-      return parseInt(str);
-    }
+  return chartFormatter.formatString(arr[2]);
 }
 
 function resetChart(chart){

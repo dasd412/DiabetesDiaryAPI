@@ -1,3 +1,4 @@
+
 const listSet=new Set();//자바의 Set과 동일함.
 const listOfEvent=new Array();
 
@@ -86,35 +87,7 @@ class Event {
 
 const hashMap=new HashMap();//(key,value)==(event의 id값(db id값이 아닌 날짜 기준 ), event 객체)
 
-
-function convertDateFormat(str){// "2020-02-01:T00:00:00" -> 202021
-    const strArr=str.split('T');
-    const arr=strArr[0].split('-');
-
-    return arr[0]+formatString(arr[1])+formatString(arr[2]);
-}
-
-
-function formatNumber(number){// 5-> "05"
-    let str=""+number;
-    if(number<10&&str.indexOf('0')==-1||str.length==1){
-        str="0"+number;
-    }
-    return str;
-}
-
-function formatString(str){// "05"->5
-    if(str.indexOf(0)=='0'){
-      return  parseInt(str.substring(1,2));
-    }
-    else{
-      return parseInt(str);
-    }
-}
-
-function getTime(time){
-    return formatNumber(time.getHours())+":"+formatNumber(time.getMinutes());
-}
+const formatter=new Formatter();
 
 function scheduleAdd(year,month,day){
 let sb=new StringBuffer();
@@ -135,8 +108,8 @@ if(hashMap.get(key.toString())){
   $("#ddModalSelect").attr("style", "display:block;");
 }else{
   $("#modalYear").attr("value",year);
-  $("#modalMonth").attr("value",formatNumber(month));
-  $("#modalDay").attr("value",formatNumber(day));
+  $("#modalMonth").attr("value",formatter.formatNumber(month));
+  $("#modalDay").attr("value",formatter.formatNumber(day));
   $("#ddModal").attr("style", "display:block;");
 }
 $(".left-h2").html(sb.toString());
@@ -159,8 +132,8 @@ function selectCalendarEvent(eventKey,year,month,day){
       $("#dinnerValueSelect").attr("value",e.dinnerBloodSugar);
       $("#diaryId").attr("value",e.id);
       $("#modalYearSelect").attr("value",year);
-      $("#modalMonthSelect").attr("value",formatNumber(month));
-      $("#modalDaySelect").attr("value",formatNumber(day));
+      $("#modalMonthSelect").attr("value",formatter.formatNumber(month));
+      $("#modalDaySelect").attr("value",formatter.formatNumber(day));
     });
 }//get data selected
 
@@ -280,11 +253,11 @@ function screenWriteMonth(){
             td.mouseleave(function(){
               td.css('cursor','default');
             })
-            td.html("<a onclick='scheduleAdd("+year+","+monthForSchedule+","+monthDay[i]+")'>"+formatNumber((monthDay[i])+"</a>"));
+            td.html("<a onclick='scheduleAdd("+year+","+monthForSchedule+","+monthDay[i]+")'>"+formatter.formatNumber((monthDay[i])+"</a>"));
     }//날짜 그리기
 
     for(j in listOfEvent){
-       hashMap.put(convertDateFormat(listOfEvent[j].writtenTime),listOfEvent[j]);
+       hashMap.put(formatter.convertDateFormat(listOfEvent[j].writtenTime),listOfEvent[j]);
     }//이벤트를 해시맵에 넣기
 
    for(let i=0;i<5;i++){
@@ -298,7 +271,7 @@ function screenWriteMonth(){
       }
    }
 
-    $("#yearMonth").text(year+"."+formatNumber(months[1]));
+    $("#yearMonth").text(year+"."+formatter.formatNumber(months[1]));
 
 }//screen write month()
 
@@ -533,8 +506,8 @@ const ddFormSelect={
 
 
          sb.append($("#modalYearSelect").val());
-         sb.append(formatString($("#modalMonthSelect").val()));
-         sb.append(formatString($("#modalDaySelect").val()));
+         sb.append(formatter.formatString($("#modalMonthSelect").val()));
+         sb.append(formatter.formatString($("#modalDaySelect").val()));
 
          const writtenTime=hashMap.get(sb.toString()).writtenTime;
          const createAt=hashMap.get(sb.toString()).createAt;
@@ -576,8 +549,8 @@ const ddFormSelect={
         let sb=new StringBuffer();
 
         sb.append($("#modalYearSelect").val());
-        sb.append(formatString($("#modalMonthSelect").val()));
-        sb.append(formatString($("#modalDaySelect").val()));
+        sb.append(formatter.formatString($("#modalMonthSelect").val()));
+        sb.append(formatter.formatString($("#modalDaySelect").val()));
 
         const found=listOfEvent.find(function(item){
                 return item.id==id;
