@@ -182,6 +182,7 @@ function drawCharts() {
          chart.data.datasets.forEach((dataset) => {
                 switch(selected){
                  case 'month': break;
+                 case 'averageDay':dataset.data[label-1]=(chartArray[i].fastingPlasmaGlucose+chartArray[i].breakfastBloodSugar+chartArray[i].lunchBloodSugar+chartArray[i].dinnerBloodSugar)/4; break;
                  case 'fpgPerDay': dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose; break;
                  case 'breakFastPerDay': dataset.data[label-1]=chartArray[i].breakfastBloodSugar; break;
                  case 'lunchFastPerDay': dataset.data[label-1]=chartArray[i].lunchBloodSugar; break;
