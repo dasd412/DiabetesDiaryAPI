@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -430,9 +431,11 @@ public class ChartsRestControllerTest {
         //when
         LocalDateTime startDate=LocalDateTime.parse("2021-01-01T00:00:00");
         LocalDateTime endDate=LocalDateTime.parse("2021-12-31T00:00");
-
+        List<Object[]>found=repository.findMonthlyAverage(startDate,endDate);
         //then
 
+       assertThat(found.get(0)[0]).isEqualTo(2);
+       assertThat(found.get(0)[1]).isEqualTo(BigDecimal.valueOf(6.55));
     }
 
 
