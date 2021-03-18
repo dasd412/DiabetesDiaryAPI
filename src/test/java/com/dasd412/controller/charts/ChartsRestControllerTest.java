@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -372,6 +373,66 @@ public class ChartsRestControllerTest {
                 .andExpect(status().isOk()).andDo(print()).andReturn().getResponse()
                 .getContentAsString();
         logger.info("result : "+result);
+    }
+
+    @Transactional
+    @Test
+    public void 데이터를_저장하고_조회한다_년기준_2월한정()throws Exception{
+        //given
+        String year="2021";
+
+        DiabetesDiary diary1=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(1)
+                .breakfastBloodSugar(2)
+                .lunchBloodSugar(5)
+                .dinnerBloodSugar(6)
+                .writtenTime(year,"02","11")
+                .build();
+        repository.save(diary1);
+
+        DiabetesDiary diary2=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(3)
+                .breakfastBloodSugar(5)
+                .lunchBloodSugar(7)
+                .dinnerBloodSugar(9)
+                .writtenTime(year,"02","01")
+                .build();
+        repository.save(diary2);
+
+        DiabetesDiary diary3=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(4)
+                .breakfastBloodSugar(4)
+                .lunchBloodSugar(2)
+                .dinnerBloodSugar(6)
+                .writtenTime(year,"02","27")
+                .build();
+        repository.save(diary3);
+
+        DiabetesDiary diary4=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(5)
+                .breakfastBloodSugar(10)
+                .lunchBloodSugar(11)
+                .dinnerBloodSugar(12)
+                .writtenTime(year,"02","13")
+                .build();
+        repository.save(diary4);
+
+        DiabetesDiary diary5=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(13)
+                .breakfastBloodSugar(12)
+                .lunchBloodSugar(7)
+                .dinnerBloodSugar(7)
+                .writtenTime(year,"02","05")
+                .build();
+        repository.save(diary5);
+
+
+        //when
+        LocalDateTime startDate=LocalDateTime.parse("2021-01-01T00:00:00");
+        LocalDateTime endDate=LocalDateTime.parse("2021-12-31T00:00");
+
+        //then
+
     }
 
 
