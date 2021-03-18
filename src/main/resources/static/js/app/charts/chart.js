@@ -146,57 +146,71 @@ function drawCharts() {
 
     resetChart(chart);
 
-    for (let i = 1; i <= lastDay; i++) {
-         addData(chart, i, 0);
-         drawBackgroundColor(chart, i);
+    if(selected=='month'){
+
+      for(let i=1;i<=12;i++){
+        addData(chart,i,0);
+        drawBackgroundColor(chart,i);
+      }
+
+      //insert ajax code
+
+
+      $("#yearMonth").text(year);
+
+    }
+    else{
+       for (let i = 1; i <= lastDay; i++) {
+              addData(chart, i, 0);
+              drawBackgroundColor(chart, i);
+         }
+
+
+         const start=year+"-"+chartFormatter.formatNumber(months[1])+"-01T00:00:00";
+         const end=year+"-"+chartFormatter.formatNumber(months[1])+"-"+lastDay+"T00:00:00";
+
+         const between={
+           startDate:start,
+           endDate:end
+         };
+
+         $.ajax({
+           url:"/api/diabetes/charts/list",
+           type:'GET',
+           contentType:'application/json; charset=utf-8',
+           data: between
+         }).done(function(data){
+
+           if(data.response==null||data.response.length==undefined){
+           return;
+           }
+
+           for(let i=0;i<data.response.length;i++){
+             const e=data.response[i];
+             chartArray.push(e);
+           }
+
+
+           for(let i=0;i<chartArray.length;i++){
+              const label=getLabel(chartArray[i].writtenTime);
+              chart.data.datasets.forEach((dataset) => {
+                     switch(selected){
+                      case 'averageDay':dataset.data[label-1]=(chartArray[i].fastingPlasmaGlucose+chartArray[i].breakfastBloodSugar+chartArray[i].lunchBloodSugar+chartArray[i].dinnerBloodSugar)/4; break;
+                      case 'fpgPerDay': dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose; break;
+                      case 'breakFastPerDay': dataset.data[label-1]=chartArray[i].breakfastBloodSugar; break;
+                      case 'lunchFastPerDay': dataset.data[label-1]=chartArray[i].lunchBloodSugar; break;
+                      case 'dinnerFastPerDay': dataset.data[label-1]=chartArray[i].dinnerBloodSugar; break;
+                     }
+              });
+              chart.update();
+           }
+
+         });
+
+         $("#yearMonth").text(year + "." + chartFormatter.formatNumber(months[1]));
     }
 
-
-    const start=year+"-"+chartFormatter.formatNumber(months[1])+"-01T00:00:00";
-    const end=year+"-"+chartFormatter.formatNumber(months[1])+"-"+lastDay+"T00:00:00";
-
-    const between={
-      startDate:start,
-      endDate:end
-    };
-
-    $.ajax({
-      url:"/api/diabetes/charts/list",
-      type:'GET',
-      contentType:'application/json; charset=utf-8',
-      data: between
-    }).done(function(data){
-
-      if(data.response==null||data.response.length==undefined){
-      return;
-      }
-
-      for(let i=0;i<data.response.length;i++){
-        const e=data.response[i];
-        chartArray.push(e);
-      }
-
-
-      for(let i=0;i<chartArray.length;i++){
-         const label=getLabel(chartArray[i].writtenTime);
-         chart.data.datasets.forEach((dataset) => {
-                switch(selected){
-                 case 'month': break;
-                 case 'averageDay':dataset.data[label-1]=(chartArray[i].fastingPlasmaGlucose+chartArray[i].breakfastBloodSugar+chartArray[i].lunchBloodSugar+chartArray[i].dinnerBloodSugar)/4; break;
-                 case 'fpgPerDay': dataset.data[label-1]=chartArray[i].fastingPlasmaGlucose; break;
-                 case 'breakFastPerDay': dataset.data[label-1]=chartArray[i].breakfastBloodSugar; break;
-                 case 'lunchFastPerDay': dataset.data[label-1]=chartArray[i].lunchBloodSugar; break;
-                 case 'dinnerFastPerDay': dataset.data[label-1]=chartArray[i].dinnerBloodSugar; break;
-                }
-         });
-         chart.update();
-      }
-
-    });
-
-    $("#yearMonth").text(year + "." + chartFormatter.formatNumber(months[1]));
-
-}//screen write month()
+}
 
 function getLabel(str){//"2020-02-01:T00:00:00"->1
   const strArr=str.split('T');
@@ -242,6 +256,13 @@ function drawBackgroundColor(chart, index) {
 
 function changeItem(){
  selected=$("#selectData option:selected").val();
+ if(selected=='month'){
+    $("#chartPre").hide();
+    $("#chartNext").hide();
+ }else{
+  $("#chartPre").show();
+  $("#chartNext").show();
+ }
  drawCharts();
 }
 
