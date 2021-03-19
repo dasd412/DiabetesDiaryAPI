@@ -31,4 +31,12 @@ public class ChartsRestController {
         );
     }
 
+    @GetMapping("/api/diabetes/charts/average")
+    public ApiResult<AverageChartDTO>getMonthlyAverageBetween(@RequestParam Map<String,Object>allParam){
+        logger.info("chartRestController get monthly average : "+allParam.toString());
+        return ApiResult.OK(
+          new AverageChartDTO(chartsService.getMonthlyAverageBetween((String)allParam.get("startDate"),(String)allParam.get("endDate")))
+        );
+    }
+
 }

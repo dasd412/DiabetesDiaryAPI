@@ -438,5 +438,101 @@ public class ChartsRestControllerTest {
        assertThat(found.get(0)[1]).isEqualTo(BigDecimal.valueOf(6.55));
     }
 
+    @Transactional
+    @Test
+    @WithMockUser(roles="USER")
+    public void 월별_조회_컨트롤러_테스트()throws Exception{
+        //given
+        String year="2021";
+
+        DiabetesDiary diary1=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(1)
+                .breakfastBloodSugar(2)
+                .lunchBloodSugar(5)
+                .dinnerBloodSugar(6)
+                .writtenTime(year,"02","11")
+                .build();
+        repository.save(diary1);
+
+        DiabetesDiary diary2=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(3)
+                .breakfastBloodSugar(5)
+                .lunchBloodSugar(7)
+                .dinnerBloodSugar(9)
+                .writtenTime(year,"02","01")
+                .build();
+        repository.save(diary2);
+
+        DiabetesDiary diary3=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(4)
+                .breakfastBloodSugar(4)
+                .lunchBloodSugar(2)
+                .dinnerBloodSugar(6)
+                .writtenTime(year,"02","27")
+                .build();
+        repository.save(diary3);
+
+        DiabetesDiary diary4=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(5)
+                .breakfastBloodSugar(10)
+                .lunchBloodSugar(11)
+                .dinnerBloodSugar(12)
+                .writtenTime(year,"02","13")
+                .build();
+        repository.save(diary4);
+
+        DiabetesDiary diary5=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(13)
+                .breakfastBloodSugar(12)
+                .lunchBloodSugar(7)
+                .dinnerBloodSugar(7)
+                .writtenTime(year,"02","05")
+                .build();
+        repository.save(diary5);
+
+        DiabetesDiary diary6=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(10)
+                .breakfastBloodSugar(9)
+                .lunchBloodSugar(10)
+                .dinnerBloodSugar(15)
+                .writtenTime("2021","01","01")
+                .build();
+
+        repository.save(diary6);
+
+
+        DiabetesDiary diary7=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(11)
+                .breakfastBloodSugar(5)
+                .lunchBloodSugar(12)
+                .dinnerBloodSugar(10)
+                .writtenTime("2021","04","05")
+                .build();
+
+        repository.save(diary7);
+
+        DiabetesDiary diary8=new DiabetesDiary.Builder()
+                .fastingPlasmaGlucose(13)
+                .breakfastBloodSugar(14)
+                .lunchBloodSugar(10)
+                .dinnerBloodSugar(20)
+                .writtenTime("2021","12","31")
+                .build();
+
+        repository.save(diary8);
+
+
+        String url="http://localhost:"+port+"/api/diabetes/charts/average";
+
+        //when
+        String result=mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .param("startDate","2021-01-01T00:00:00").param("endDate","2021-12-31T00:00"))
+                .andExpect(status().isOk()).andDo(print()).andReturn().getResponse().getContentAsString();
+
+        logger.info("result : "+result);
+        // Body = {"success":true,"response":{"monthlyAverage":[11.0,6.55,0.0,9.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,14.25]},"error":null}
+
+    }
+
 
 }
