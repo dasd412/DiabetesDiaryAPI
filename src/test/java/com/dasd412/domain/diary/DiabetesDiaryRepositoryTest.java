@@ -32,8 +32,6 @@ public class DiabetesDiaryRepositoryTest {
         repository.deleteAll();
     }
 
-    //todo 혈당일지 리포지토리에서 findAll()실행 시 같은 select 문이 수행됨. N+1 문제인 것 같음. 수정 필요.
-
     @Transactional//<-LazyInitializationException: could not initialize proxy 에러를 해결하려면 트랜잭션 처리를 해야함.
     @Test
     public void 작성자와_일지를_저장하고_불러온다(){

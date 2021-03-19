@@ -167,7 +167,6 @@
             <artifactId>spring-session-jdbc</artifactId>
         </dependency>
 
-
     </dependencies>
 
     <!-- Package as an executable jar -->
