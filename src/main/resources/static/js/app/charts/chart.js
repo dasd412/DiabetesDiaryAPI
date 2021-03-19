@@ -153,11 +153,32 @@ function drawCharts() {
         drawBackgroundColor(chart,i);
       }
 
-      //insert ajax code
+       const start=year+"-"+chartFormatter.formatNumber(1)+"-01T00:00:00";
+       const end=year+"-"+chartFormatter.formatNumber(12)+"-31T00:00:00";
 
+      const between={
+       startDate:start,
+       endDate:end
+      };
+
+      $.ajax({
+            url:"/api/diabetes/charts/average",
+            type:'GET',
+            contentType:'application/json; charset=utf-8',
+            data: between
+      }).done(function(data){
+         if(data.response==null){
+            return;
+         }
+         for(let i=0;i<data.response.monthlyAverage.length;i++){
+           chart.data.datasets.forEach((dataset)=>{
+            dataset.data[i]=data.response.monthlyAverage[i];
+           });
+         }
+         chart.update();
+      });
 
       $("#yearMonth").text(year);
-
     }
     else{
        for (let i = 1; i <= lastDay; i++) {
@@ -202,8 +223,8 @@ function drawCharts() {
                       case 'dinnerFastPerDay': dataset.data[label-1]=chartArray[i].dinnerBloodSugar; break;
                      }
               });
-              chart.update();
            }
+           chart.update();
 
          });
 
