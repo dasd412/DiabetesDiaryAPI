@@ -22,18 +22,122 @@
         +-- java
              +--com.dasd412
                 +--configure
+                   SecurityConfigure 
+                   ServiceConfigure (i18n)
+                   Swagger2Configure
+                   WebMvcConfigure (annotation resolving)
+
                 +--controller
+                   +--calendar
+                      CalendarController
+
+                   +--charts
+                      AverageChartDTO
+                      chartsController
+                      chartsRestController
+                      DayChartRequestDTO
+
+                   +--diabetesDiary
+                      DiabetesDiaryRequestDTO
+                      DiabetesDiaryRestController
+                      DiabetesDiaryUpdateRequestDTO
+                      DiabetesResponseDTO
+
+                   +--error
+                      NotFoundException
+                      ServiceRuntimeException
+
+                   +--index
+                      IndexController
+
+                   +--security
+                      LoginController
+
+                   ApiError (응답 DTO 에러 내용 규격화)
+                   ApiResult (응답 DTO 내용 규격화)
+                   LayoutAdivce (mustache layout)
+
                 +--domain
-                +--configure
+                   +--commons
+                      Id (DTO 전송 규격화하는데 쓰임.)
+
+                   +--diary
+                      DiabetesDiary
+                      DiabetesDiaryRepsository
+
+                   +--diet<아직 미구현>
+
+                   +--user
+                      Role
+                      Writer
+                      WriterRepository
+
+                   BaseTimeEntity 
                 +--security
+                   LoginUser (annotaion)
+                   LoginUserArgsResolver
+                   OAuthAttributes 
+                   SessionUser
+
                 +--service
+                   +--charts
+                      ChartSevice
+                   +--diabetesDiaryForm
+                      DiabetesDiarySevice
+                   +--sercurity
+                      CustomUserSevice
+
                 +--utils
+                   EmailUitls
+                   MessageUtils
+
                 Applictaion
 
         +-- resources
              +--i18n
+                messages.properties
+
              +--static
+                +--css
+                    +--calendar
+                       calendar.css
+                    +--charts
+                       charts.css
+                    +--login
+                       login.css
+                    button.css
+                    styleDDForm.css
+                    welcome.css
+
+                +--images
+                DDIndex.jpg
+
+                +--js.app
+                   +--calendar
+                       calendar.js
+                       calendarSchedule.js
+                       Formatter.js
+                       stringBuffer.js
+                   +--charts
+                       chart.js
+
+                +--sidebar-07(메뉴 뷰 템플릿)
+                +--vendor(달력 뷰 템플릿)
+                favicon.ico
+
              +--templates
+                +--calendar
+                    calendar.mustache
+                +--charts
+                    charts.mustache
+                +--layout
+                    calendarFooter.mustache
+                    calendarHeader.mustache
+                    layout.mustache
+                +--login
+                    login.mustache
+                index.mustache
+
                 application.properties
                 logback.xml
 +-- src.test
@@ -42,7 +146,6 @@
           ChartsRestControllerTest
        +--diabetesDiary
           DiabetesDiaryRestControllerTest
-
     +--domain.diary
        DiabetesDiaryRepositoryTest
 ```
