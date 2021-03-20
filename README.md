@@ -151,8 +151,20 @@
 ```
 + Backend Architecture
 
-  + Routes/EndPoints 소개
-  + Controller, Service, Repository, Store Procedure 관계도
+  + EndPoints 소개
+    + @GET / 
+    + @GET /api/diabetes/calendar
+    + @GET /api/login
+    + @GET /api/diabetes/charts/average
+    + @GET /api/diabetes/charts/list
+    + @GET /api/diabetes/charts
+    + @GET /api/diabetes/diary/{id}
+    + @PUT /api/diabetes/diary/{id}
+    + @DELETE /api/diabetes/diary/{id}
+    + @GET /api/diabetes/diary/list
+    + @POST /api/diabetes/diary/post
+    
+  + Controller, Service, Repository 관계도
   + DB 스키마
 
 + Frontend Architecture
