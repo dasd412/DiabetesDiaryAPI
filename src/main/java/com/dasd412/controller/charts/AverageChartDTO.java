@@ -1,4 +1,5 @@
 package com.dasd412.controller.charts;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class AverageChartDTO {
 
+    @ApiModelProperty(value="월별 혈당 평균 = ((일별 공복 혈당+일별 아침 혈당 + 일별 점심 혈당 + 일별 저녁 혈당)/4.0) / 해당 월의 작성한 일지 수 ", required = true)
     private final double[]monthlyAverage=new double[12];
 
     public AverageChartDTO() { }

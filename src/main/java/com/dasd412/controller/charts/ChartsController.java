@@ -2,6 +2,9 @@ package com.dasd412.controller.charts;
 
 import com.dasd412.security.LoginUser;
 import com.dasd412.security.SessionUser;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@Api(tags="차트 뷰 리졸버")
 public class ChartsController {
 
     private final HttpSession httpSession;
@@ -22,7 +26,8 @@ public class ChartsController {
     }
 
     @GetMapping("/api/diabetes/charts")
-    public String viewResolve(Model model, @LoginUser SessionUser user){
+    @ApiOperation(value="차트 뷰 리졸빙")
+    public String viewResolve(Model model, @ApiParam(value="로그인 유저의 세션 정보") @LoginUser SessionUser user){
         if(user!=null){
             model.addAttribute("userName",user.getName());
         }
