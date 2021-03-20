@@ -168,6 +168,32 @@
   + DB 스키마
 
 + Frontend Architecture
+  + Index View 
+  ![이미지](index.png)
+  
+  + Index Menu View
+  ![이미지](index_menu.png)
+  
+  + Login View
+  ![이미지](login.png)
+
+  + Calendar View
+  ![이미지](calendar.png) 
+  
+  + Form for save
+  ![이미지](save_form.png)
+  
+  + CalendarSaved
+  ![이미지](savedCalendar.png) 
+  
+  + Form for updating and deleting
+  ![이미지](form_update.png)
+  
+  + Daily Average Chart
+  ![이미지](chart_average.png)
+  
+  + Monthly Average Chart
+  ![이미지](chart_month.png)
 
 + 설치 방법
 
