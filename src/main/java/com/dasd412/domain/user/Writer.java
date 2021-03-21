@@ -27,7 +27,7 @@ public class Writer {
     @Column(nullable = false)
     private Role role;
 
-    public Writer(){}
+    protected Writer(){}
 
     public Writer(String name, String email,Role role) {
         checkArgument(name.length()>0,"name length must be longer than zero");
@@ -48,8 +48,12 @@ public class Writer {
     }
 
     public Writer updateName(String name){
-        this.name=name;
-        return this;
+        /*
+        명령문과 조회문이 같이 존재한다는 문제점이 존재한다.
+        하지만 CustomUserService의 람다식에서 반환값이 필요하기 때문에 void 대신 Writer를 반환값으로 하였다.
+         */
+        this.name=name;//       명령문
+        return this;//      조회문
     }
 
     public String getRoleKey(){ return this.role.getKey(); }

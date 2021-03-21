@@ -47,7 +47,7 @@ public class DiabetesDiary extends BaseTimeEntity {
     private LocalDateTime writtenTime;
 
     //JPA 시스템 상 기본 생성자가 필요하다.
-    public DiabetesDiary(){ }
+    protected DiabetesDiary(){ }
 
     public DiabetesDiary(int fastingPlasmaGlucose,int breakfastBloodSugar,int lunchBloodSugar,int dinnerBloodSugar){
         this(null,fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,"",null);

@@ -30,7 +30,7 @@ public class Diet {//식단
     private EatTime eatTime;//식사시간을 나타내는 Enum
 
 
-    public Diet(){}
+    protected Diet(){}
 
     public Diet(String foodName){
       this(foodName,null);
