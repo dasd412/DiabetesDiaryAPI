@@ -13,38 +13,38 @@ import java.util.List;
 @Service
 public class ChartsService {
 
-    private final DiabetesDiaryRepository diaryRepository;
+  private final DiabetesDiaryRepository diaryRepository;
 
-    public ChartsService(DiabetesDiaryRepository diaryRepository) {
-        this.diaryRepository = diaryRepository;
-    }
+  public ChartsService(DiabetesDiaryRepository diaryRepository) {
+    this.diaryRepository = diaryRepository;
+  }
 
-    @Transactional(readOnly=true)
-    public List<DiabetesDiary>getDiaryListBetween(String startDate, String endDate){
+  @Transactional(readOnly = true)
+  public List<DiabetesDiary> getDiaryListBetween(String startDate, String endDate) {
         /*
         좋은 방법은 아니지만, 어노테이션이 적용이 안되는 관계로 서비스 레이어에서 파싱...
          */
-        LocalDateTime s=LocalDateTime.parse(startDate);
-        LocalDateTime e=LocalDateTime.parse(endDate);
+    LocalDateTime s = LocalDateTime.parse(startDate);
+    LocalDateTime e = LocalDateTime.parse(endDate);
 
-        return diaryRepository.findAllBetweenDates(s,e);
+    return diaryRepository.findAllBetweenDates(s, e);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Object[]> getMonthlyAverageBetween(String startDate, String endDate) {
+    LocalDateTime s = LocalDateTime.parse(startDate);
+    LocalDateTime e = LocalDateTime.parse(endDate);
+
+    if (isBetween_0101_and_1231(s, e)) {
+      return diaryRepository.findMonthlyAverage(s, e);
+    } else {
+      throw new IllegalArgumentException("monthly average must be between 01/01 ~ 12/31");
     }
+  }
 
-    @Transactional(readOnly = true)
-    public List<Object[]>getMonthlyAverageBetween(String startDate,String endDate){
-        LocalDateTime s=LocalDateTime.parse(startDate);
-        LocalDateTime e=LocalDateTime.parse(endDate);
-
-        if(isBetween_0101_and_1231(s,e)){
-            return diaryRepository.findMonthlyAverage(s,e);
-        }
-        else {
-            throw new IllegalArgumentException("monthly average must be between 01/01 ~ 12/31");
-        }
-    }
-
-    private boolean isBetween_0101_and_1231(LocalDateTime s, LocalDateTime e){
-        return s.getMonthValue()==1&&s.getDayOfMonth()==1&&e.getMonthValue()==12&&e.getDayOfMonth()==31;
-    }
+  private boolean isBetween_0101_and_1231(LocalDateTime s, LocalDateTime e) {
+    return s.getMonthValue() == 1 && s.getDayOfMonth() == 1 && e.getMonthValue() == 12
+        && e.getDayOfMonth() == 31;
+  }
 
 }

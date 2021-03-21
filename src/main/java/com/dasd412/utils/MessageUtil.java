@@ -6,19 +6,19 @@ import static com.google.common.base.Preconditions.checkState;
 
 public class MessageUtil {
 
-    private static MessageSourceAccessor messageSourceAccessor;
+  private static MessageSourceAccessor messageSourceAccessor;
 
-    public static String getMessage(String key) {
-        checkState(null != messageSourceAccessor, "MessageSourceAccessor is not initialized.");
-        return messageSourceAccessor.getMessage(key);
-    }
+  public static String getMessage(String key) {
+    checkState(null != messageSourceAccessor, "MessageSourceAccessor is not initialized.");
+    return messageSourceAccessor.getMessage(key);
+  }
 
-    public static String getMessage(String key, Object... params) {
-        checkState(null != messageSourceAccessor, "MessageSourceAccessor is not initialized.");
-        return messageSourceAccessor.getMessage(key, params);
-    }
+  public static String getMessage(String key, Object... params) {
+    checkState(null != messageSourceAccessor, "MessageSourceAccessor is not initialized.");
+    return messageSourceAccessor.getMessage(key, params);
+  }
 
-    public static void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
-        MessageUtil.messageSourceAccessor = messageSourceAccessor;
-    }
+  public static void setMessageSourceAccessor(MessageSourceAccessor messageSourceAccessor) {
+    MessageUtil.messageSourceAccessor = messageSourceAccessor;
+  }
 }

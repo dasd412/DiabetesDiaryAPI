@@ -26,56 +26,56 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withMetho
 public class Swagger2Configure implements WebMvcConfigurer {
 
 
-    @Bean
-    public Docket restApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .securityContexts(singletonList(securityContext()))
-                .produces(singleton("application/json"))
-                .consumes(singleton("application/json"))
-                .useDefaultResponseMessages(false)
-                .select()
-                .apis(withMethodAnnotation(ApiOperation.class))
-                .build();
-    }
+  @Bean
+  public Docket restApi() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .apiInfo(apiInfo())
+        .securityContexts(singletonList(securityContext()))
+        .produces(singleton("application/json"))
+        .consumes(singleton("application/json"))
+        .useDefaultResponseMessages(false)
+        .select()
+        .apis(withMethodAnnotation(ApiOperation.class))
+        .build();
+  }
 
-    @Bean
-    public SecurityConfiguration security() {
-        return SecurityConfigurationBuilder.builder()
-                .scopeSeparator(",")
-                .additionalQueryStringParams(null)
-                .useBasicAuthenticationWithAccessCodeGrant(false)
-                .build();
-    }
+  @Bean
+  public SecurityConfiguration security() {
+    return SecurityConfigurationBuilder.builder()
+        .scopeSeparator(",")
+        .additionalQueryStringParams(null)
+        .useBasicAuthenticationWithAccessCodeGrant(false)
+        .build();
+  }
 
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+  @Override
+  public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("swagger-ui.html")
+        .addResourceLocations("classpath:/META-INF/resources/");
+    registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+  }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Diabetes Diary")
-                .contact(new Contact("dasd412", null, "dasd412@naver.com"))
-                .version("1.0.0")
-                .build();
-    }
+  private ApiInfo apiInfo() {
+    return new ApiInfoBuilder()
+        .title("Diabetes Diary")
+        .contact(new Contact("dasd412", null, "dasd412@naver.com"))
+        .version("1.0.0")
+        .build();
+  }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(securityReference())
-                .forPaths(PathSelectors.any())
-                .build();
-    }
+  private SecurityContext securityContext() {
+    return SecurityContext.builder()
+        .securityReferences(securityReference())
+        .forPaths(PathSelectors.any())
+        .build();
+  }
 
-    private List<SecurityReference> securityReference() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return singletonList(new SecurityReference("apiKey", authorizationScopes));
-    }
+  private List<SecurityReference> securityReference() {
+    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+    authorizationScopes[0] = authorizationScope;
+    return singletonList(new SecurityReference("apiKey", authorizationScopes));
+  }
 
 }

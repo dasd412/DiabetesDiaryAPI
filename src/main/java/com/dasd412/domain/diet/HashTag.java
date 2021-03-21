@@ -11,18 +11,18 @@ public class HashTag {
     Diet와 DiabetesDiary 간의 다대다 관계를 해결하기 위한 연결 테이블 엔티티
      */
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
 
-    @ManyToOne
-    @JoinColumn(name="diabetesDiary_id")
-    private DiabetesDiary diabetesDiary;
+  @ManyToOne
+  @JoinColumn(name = "diabetesDiary_id")
+  private DiabetesDiary diabetesDiary;
 
 
-    @ManyToOne
-    @JoinColumn(name="diet_id")
-    private Diet diet;
+  @ManyToOne
+  @JoinColumn(name = "diet_id")
+  private Diet diet;
 
 }

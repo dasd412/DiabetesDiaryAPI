@@ -12,32 +12,34 @@ import java.util.Map;
 
 @ControllerAdvice
 public class LayoutAdvice {//머스테시 레이아웃 자동화 어드바이스
-    
-    private final Mustache.Compiler compiler;
 
-    @Autowired
-    public LayoutAdvice(Mustache.Compiler compiler){
-        this.compiler=compiler;
+  private final Mustache.Compiler compiler;
+
+  @Autowired
+  public LayoutAdvice(Mustache.Compiler compiler) {
+    this.compiler = compiler;
+  }
+
+  @ModelAttribute("layout")
+  public Mustache.Lambda layout(Map<String, Object> model) {
+    return new Layout(compiler);
+  }
+
+  class Layout implements Mustache.Lambda {
+
+    String content;
+
+    private Mustache.Compiler compiler;
+
+    public Layout(Mustache.Compiler compiler) {
+      this.compiler = compiler;
     }
 
-    @ModelAttribute("layout")
-    public Mustache.Lambda layout(Map<String,Object> model){
-        return new Layout(compiler);
+    @Override
+    public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+      content = fragment.execute();
+      compiler.compile("{{>layout/layout}}")
+          .execute(fragment.context(), writer);//자동 레이아웃 인클루딩하도록 컴파일.
     }
-
-    class Layout implements Mustache.Lambda{
-        String content;
-
-        private Mustache.Compiler compiler;
-
-        public Layout(Mustache.Compiler compiler){
-            this.compiler=compiler;
-        }
-
-        @Override
-        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-         content=fragment.execute();
-         compiler.compile("{{>layout/layout}}").execute(fragment.context(),writer);//자동 레이아웃 인클루딩하도록 컴파일.
-        }
-    }
+  }
 }

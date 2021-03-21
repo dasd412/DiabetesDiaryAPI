@@ -7,11 +7,11 @@ import org.springframework.context.support.MessageSourceAccessor;
 
 @Configuration
 public class ServiceConfigure {
-    
-    @Bean
-    public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource){
-        //messages.properties 읽어 오기
-        MessageSourceAccessor messageSourceAccessor=new MessageSourceAccessor(messageSource);
-        return messageSourceAccessor;
-    }
+
+  @Bean
+  public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource) {
+    //messages.properties 읽어 오기
+    MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
+    return messageSourceAccessor;
+  }
 }

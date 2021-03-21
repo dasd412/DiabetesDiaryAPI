@@ -15,66 +15,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Api(tags="혈당 일지 REST 컨트롤러")
+@Api(tags = "혈당 일지 REST 컨트롤러")
 public class DiabetesDiaryRestController {
 
     /*
     컨트롤러 계층에서만 DTO를 쓴다.
      */
 
-    private final DiabetesDiaryService diaryService;
+  private final DiabetesDiaryService diaryService;
 
-    private final Logger logger= LoggerFactory.getLogger(this.getClass());
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
-        this.diaryService = diaryService;
+  public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
+    this.diaryService = diaryService;
+  }
+
+  @PostMapping("/api/diabetes/diary/post")
+  @ApiOperation(value = "혈당 일지 작성")
+  public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO) {
+    logger.info("DiabetesDiaryRestController post dto : " + diaryDTO.toString());
+    return ApiResult.OK(
+        new DiaryResponseDTO(diaryService.save(diaryDTO.toEntity()))
+    );
+  }
+
+  @PutMapping("/api/diabetes/diary/{id}")
+  @ApiOperation(value = "혈당 일지 수정")
+  public ApiResult<DiaryResponseDTO> update(
+      @PathVariable @ApiParam(value = "혈당 일지 PK", example = "1") Long id,
+      @RequestBody DiabetesDiaryUpdateRequestDTO dto) {
+    logger.info("DiabetesDiaryRestController update dto : " + id + " " + dto.toString());
+    return ApiResult.OK(
+        new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class, id)
+            , dto.getFastingPlasmaGlucose(), dto.getBreakfastBloodSugar(), dto.getLunchBloodSugar(),
+            dto.getDinnerBloodSugar(), dto.getRemark()))
+    );
+  }
+
+  @DeleteMapping("/api/diabetes/diary/{id}")
+  @ApiOperation(value = "혈당 일지 삭제")
+  public ApiResult<Long> delete(
+      @PathVariable @ApiParam(value = "혈당 일지 PK", example = "1") Long id) {
+    logger.info("DiabetesDiaryRestController delete id : " + id);
+    diaryService.delete(id);
+    return ApiResult.OK(id);
+  }
+
+  @GetMapping("/api/diabetes/diary/list")
+  @ApiOperation(value = "혈당 일지 리스트 조회")
+  public ApiResult<List<DiaryListResponseDTO>> getDiaryList() {
+    logger.info("DiabetesDiaryRestController get all list");
+    List<DiabetesDiary> list = diaryService.getDiaryList();
+    List<DiaryListResponseDTO> dtoList = new ArrayList<>();
+    for (DiabetesDiary diary : list) {
+      dtoList.add(new DiaryListResponseDTO(diary));
     }
+    return ApiResult.OK(dtoList);
+  }
 
-    @PostMapping("/api/diabetes/diary/post")
-    @ApiOperation(value="혈당 일지 작성")
-    public ApiResult<DiaryResponseDTO> postDiary(@RequestBody DiabetesDiaryRequestDTO diaryDTO){
-        logger.info("DiabetesDiaryRestController post dto : "+diaryDTO.toString());
-        return ApiResult.OK(
-                new DiaryResponseDTO(diaryService.save(diaryDTO.toEntity()))
-        );
-    }
-
-    @PutMapping("/api/diabetes/diary/{id}")
-    @ApiOperation(value="혈당 일지 수정")
-    public ApiResult<DiaryResponseDTO> update(@PathVariable  @ApiParam(value="혈당 일지 PK", example = "1") Long id, @RequestBody DiabetesDiaryUpdateRequestDTO dto){
-        logger.info("DiabetesDiaryRestController update dto : "+id+" "+dto.toString());
-        return ApiResult.OK(
-                new DiaryResponseDTO(diaryService.update(Id.of(DiabetesDiary.class,id)
-                        ,dto.getFastingPlasmaGlucose(),dto.getBreakfastBloodSugar(),dto.getLunchBloodSugar(),dto.getDinnerBloodSugar(),dto.getRemark()))
-        );
-    }
-
-    @DeleteMapping("/api/diabetes/diary/{id}")
-    @ApiOperation(value="혈당 일지 삭제")
-    public ApiResult<Long> delete(@PathVariable  @ApiParam(value="혈당 일지 PK", example = "1") Long id){
-        logger.info("DiabetesDiaryRestController delete id : "+id);
-        diaryService.delete(id);
-        return ApiResult.OK(id);
-    }
-
-    @GetMapping("/api/diabetes/diary/list")
-    @ApiOperation(value="혈당 일지 리스트 조회")
-    public ApiResult<List<DiaryListResponseDTO>>getDiaryList(){
-        logger.info("DiabetesDiaryRestController get all list");
-        List<DiabetesDiary>list=diaryService.getDiaryList();
-        List<DiaryListResponseDTO>dtoList=new ArrayList<>();
-        for (DiabetesDiary diary:list){
-            dtoList.add(new DiaryListResponseDTO(diary));
-        }
-        return ApiResult.OK(dtoList);
-    }
-
-    @GetMapping("/api/diabetes/diary/{id}")
-    @ApiOperation(value="혈당 일지 조회")
-    public ApiResult<DiaryResponseDTO> findById(@PathVariable @ApiParam(value="혈당 일지 PK", example = "1")Long id){
-        DiaryResponseDTO dto=diaryService.findById(Id.of(DiabetesDiary.class, id));
-        logger.info("DiabetesDiaryRestController find  : "+dto.toString());
-        return ApiResult.OK(dto);
-    }
+  @GetMapping("/api/diabetes/diary/{id}")
+  @ApiOperation(value = "혈당 일지 조회")
+  public ApiResult<DiaryResponseDTO> findById(
+      @PathVariable @ApiParam(value = "혈당 일지 PK", example = "1") Long id) {
+    DiaryResponseDTO dto = diaryService.findById(Id.of(DiabetesDiary.class, id));
+    logger.info("DiabetesDiaryRestController find  : " + dto.toString());
+    return ApiResult.OK(dto);
+  }
 
 }

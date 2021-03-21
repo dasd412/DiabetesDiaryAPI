@@ -14,92 +14,99 @@ public class DiaryResponseDTO {
     모델에 대한 스웨거 적용은 엔티티 클래스가 아닌 dto 클래스에 적용!!
      */
 
-    @ApiModelProperty(value = "PK", required = true)
-    private Long id;
-    
-    @ApiModelProperty(value = "공복 혈당", required = true)
-    private int fastingPlasmaGlucose;//공복 혈당(양수)
+  @ApiModelProperty(value = "PK", required = true)
+  private Long id;
 
-    @ApiModelProperty(value = "아침 식사 후 혈당", required = true)
-    private int breakfastBloodSugar;//아침 식사 1시간 후 혈당(양수)
-    
-    @ApiModelProperty(value = "점심 식사 후 혈당", required = true)
-    private int lunchBloodSugar;//점식 식사 1시간 후 혈당(양수)
+  @ApiModelProperty(value = "공복 혈당", required = true)
+  private int fastingPlasmaGlucose;//공복 혈당(양수)
 
-    @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
-    private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
+  @ApiModelProperty(value = "아침 식사 후 혈당", required = true)
+  private int breakfastBloodSugar;//아침 식사 1시간 후 혈당(양수)
 
-    @ApiModelProperty(value = "비고", required = true)
-    private String remark;
+  @ApiModelProperty(value = "점심 식사 후 혈당", required = true)
+  private int lunchBloodSugar;//점식 식사 1시간 후 혈당(양수)
 
-    @ApiModelProperty(value="년",required = true)
-    private  String year;
-    
-    @ApiModelProperty(value="월",required = true)
-    private  String month;
-    
-    @ApiModelProperty(value="일",required = true)
-    private  String day;
+  @ApiModelProperty(value = "저녁 식사 후 혈당", required = true)
+  private int dinnerBloodSugar;//저녁 식사 1시간 후 혈당(양수)
 
-    public DiaryResponseDTO() { }
+  @ApiModelProperty(value = "비고", required = true)
+  private String remark;
 
-    public DiaryResponseDTO(DiabetesDiary entity) {
-        this.id = entity.getId();
-        this.fastingPlasmaGlucose = entity.getFastingPlasmaGlucose();
-        this.breakfastBloodSugar = entity.getBreakfastBloodSugar();
-        this.lunchBloodSugar = entity.getLunchBloodSugar();
-        this.dinnerBloodSugar = entity.getDinnerBloodSugar();
-        this.remark = entity.getRemark();
-        LocalDateTime date=entity.getWrittenTime();
+  @ApiModelProperty(value = "년", required = true)
+  private String year;
 
-       String[]array=date.format(DateTimeFormatter.ISO_DATE).split("-");
-       this.year=array[0];
-       this.month=array[1];
-       this.day=array[2];
-    }
+  @ApiModelProperty(value = "월", required = true)
+  private String month;
 
-    public Long getId() {
-        return id;
-    }
+  @ApiModelProperty(value = "일", required = true)
+  private String day;
 
-    public int getFastingPlasmaGlucose() {
-        return fastingPlasmaGlucose;
-    }
+  public DiaryResponseDTO() {
+  }
 
-    public int getBreakfastBloodSugar() {
-        return breakfastBloodSugar;
-    }
+  public DiaryResponseDTO(DiabetesDiary entity) {
+    this.id = entity.getId();
+    this.fastingPlasmaGlucose = entity.getFastingPlasmaGlucose();
+    this.breakfastBloodSugar = entity.getBreakfastBloodSugar();
+    this.lunchBloodSugar = entity.getLunchBloodSugar();
+    this.dinnerBloodSugar = entity.getDinnerBloodSugar();
+    this.remark = entity.getRemark();
+    LocalDateTime date = entity.getWrittenTime();
 
-    public int getLunchBloodSugar() {
-        return lunchBloodSugar;
-    }
+    String[] array = date.format(DateTimeFormatter.ISO_DATE).split("-");
+    this.year = array[0];
+    this.month = array[1];
+    this.day = array[2];
+  }
 
-    public int getDinnerBloodSugar() {
-        return dinnerBloodSugar;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getRemark() {
-        return remark;
-    }
+  public int getFastingPlasmaGlucose() {
+    return fastingPlasmaGlucose;
+  }
 
-    public String getYear() { return year; }
+  public int getBreakfastBloodSugar() {
+    return breakfastBloodSugar;
+  }
 
-    public String getMonth() { return month; }
+  public int getLunchBloodSugar() {
+    return lunchBloodSugar;
+  }
 
-    public String getDay() { return day; }
+  public int getDinnerBloodSugar() {
+    return dinnerBloodSugar;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .append("id",id)
-                .append("fastingPlasmaGlucose",fastingPlasmaGlucose)
-                .append("breakfastBloodSugar",breakfastBloodSugar)
-                .append("lunchBloodSugar",lunchBloodSugar)
-                .append("dinnerBloodSugar",dinnerBloodSugar)
-                .append("remark",remark)
-                .append("year",year)
-                .append("month",month)
-                .append("day",day)
-                .toString();
-    }
+  public String getRemark() {
+    return remark;
+  }
+
+  public String getYear() {
+    return year;
+  }
+
+  public String getMonth() {
+    return month;
+  }
+
+  public String getDay() {
+    return day;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("id", id)
+        .append("fastingPlasmaGlucose", fastingPlasmaGlucose)
+        .append("breakfastBloodSugar", breakfastBloodSugar)
+        .append("lunchBloodSugar", lunchBloodSugar)
+        .append("dinnerBloodSugar", dinnerBloodSugar)
+        .append("remark", remark)
+        .append("year", year)
+        .append("month", month)
+        .append("day", day)
+        .toString();
+  }
 }

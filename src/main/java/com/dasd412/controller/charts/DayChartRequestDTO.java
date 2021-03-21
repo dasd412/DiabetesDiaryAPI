@@ -1,4 +1,5 @@
 package com.dasd412.controller.charts;
+
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,28 +10,33 @@ public class DayChartRequestDTO {
     String으로 받고 서비스 레이어에서 파싱하는 법을 택하였다.
      */
 
-    @ApiModelProperty(value="기간의 시작",required = true)
-    private String startDate;
-    
-    @ApiModelProperty(value="기간의 끝", required = true)
-    private String endDate;
+  @ApiModelProperty(value = "기간의 시작", required = true)
+  private String startDate;
 
-    public DayChartRequestDTO() {}
+  @ApiModelProperty(value = "기간의 끝", required = true)
+  private String endDate;
 
-    public DayChartRequestDTO(String startDate, String endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+  public DayChartRequestDTO() {
+  }
 
-    public String getEndDate() { return endDate; }
+  public DayChartRequestDTO(String startDate, String endDate) {
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
 
-    public String getStartDate() { return startDate; }
+  public String getEndDate() {
+    return endDate;
+  }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .append("startDate",startDate)
-                .append("endDate",endDate)
-                .toString();
-    }
+  public String getStartDate() {
+    return startDate;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("startDate", startDate)
+        .append("endDate", endDate)
+        .toString();
+  }
 }

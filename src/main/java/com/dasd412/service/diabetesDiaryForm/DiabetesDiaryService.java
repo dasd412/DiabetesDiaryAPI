@@ -19,47 +19,49 @@ public class DiabetesDiaryService {
     서비스 계층에는 DTO를 쓰지 않는다.
      */
 
-    private final DiabetesDiaryRepository diaryRepository;
+  private final DiabetesDiaryRepository diaryRepository;
 
-    public DiabetesDiaryService(DiabetesDiaryRepository diaryRepository) {
-        this.diaryRepository = diaryRepository;
-    }
+  public DiabetesDiaryService(DiabetesDiaryRepository diaryRepository) {
+    this.diaryRepository = diaryRepository;
+  }
 
-    @Transactional
-    public DiabetesDiary save(DiabetesDiary diary) {
-        return diaryRepository.save(diary);
-    }
+  @Transactional
+  public DiabetesDiary save(DiabetesDiary diary) {
+    return diaryRepository.save(diary);
+  }
 
-    @Transactional(readOnly = true)
-    public DiaryResponseDTO findById(Id<DiabetesDiary,Long> id) {
-        checkNotNull(id,"diary id must be provided");
-        DiabetesDiary entity=diaryRepository.findById(id.value())
-                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
-        return new DiaryResponseDTO(entity);
-    }
+  @Transactional(readOnly = true)
+  public DiaryResponseDTO findById(Id<DiabetesDiary, Long> id) {
+    checkNotNull(id, "diary id must be provided");
+    DiabetesDiary entity = diaryRepository.findById(id.value())
+        .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다."));
+    return new DiaryResponseDTO(entity);
+  }
 
-    @Transactional
-    public DiabetesDiary update(Id<DiabetesDiary,Long>id, int fastingPlasmaGlucose, int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, String remark) {
-        checkNotNull(id,"diary id must be provided");
+  @Transactional
+  public DiabetesDiary update(Id<DiabetesDiary, Long> id, int fastingPlasmaGlucose,
+      int breakfastBloodSugar, int lunchBloodSugar, int dinnerBloodSugar, String remark) {
+    checkNotNull(id, "diary id must be provided");
 
-        DiabetesDiary diary=diaryRepository.findById(id.value())
-                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
-        diary.update(fastingPlasmaGlucose,breakfastBloodSugar,lunchBloodSugar,dinnerBloodSugar,remark);
-        return diary;
-    }
+    DiabetesDiary diary = diaryRepository.findById(id.value())
+        .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다."));
+    diary.update(fastingPlasmaGlucose, breakfastBloodSugar, lunchBloodSugar, dinnerBloodSugar,
+        remark);
+    return diary;
+  }
 
-    @Transactional
-    public void delete(Long id) {
-        checkNotNull(id,"diary id must be provided");
+  @Transactional
+  public void delete(Long id) {
+    checkNotNull(id, "diary id must be provided");
 
-        DiabetesDiary target=diaryRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("해당 게시글이 존재하지 않습니다."));
+    DiabetesDiary target = diaryRepository.findById(id)
+        .orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다."));
 
-        diaryRepository.delete(target);
-    }
+    diaryRepository.delete(target);
+  }
 
-    @Transactional(readOnly = true)
-    public List<DiabetesDiary> getDiaryList() {
-        return diaryRepository.findAll();
-    }
+  @Transactional(readOnly = true)
+  public List<DiabetesDiary> getDiaryList() {
+    return diaryRepository.findAll();
+  }
 }
