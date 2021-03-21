@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -57,9 +59,14 @@ public class DiabetesDiaryRestController {
 
     @GetMapping("/api/diabetes/diary/list")
     @ApiOperation(value="혈당 일지 리스트 조회")
-    public ApiResult<List<DiabetesDiary>>getDiaryList(){
+    public ApiResult<List<DiaryListResponseDTO>>getDiaryList(){
         logger.info("DiabetesDiaryRestController get all list");
-        return ApiResult.OK(diaryService.getDiaryList());
+        List<DiabetesDiary>list=diaryService.getDiaryList();
+        List<DiaryListResponseDTO>dtoList=new ArrayList<>();
+        for (DiabetesDiary diary:list){
+            dtoList.add(new DiaryListResponseDTO(diary));
+        }
+        return ApiResult.OK(dtoList);
     }
 
     @GetMapping("/api/diabetes/diary/{id}")

@@ -35,12 +35,16 @@ public class ChartsService {
         LocalDateTime s=LocalDateTime.parse(startDate);
         LocalDateTime e=LocalDateTime.parse(endDate);
 
-        if(s.getMonthValue()==1&&s.getDayOfMonth()==1&&e.getMonthValue()==12&&e.getDayOfMonth()==31){
+        if(isBetween_0101_and_1231(s,e)){
             return diaryRepository.findMonthlyAverage(s,e);
         }
         else {
             throw new IllegalArgumentException("monthly average must be between 01/01 ~ 12/31");
         }
+    }
+
+    private boolean isBetween_0101_and_1231(LocalDateTime s, LocalDateTime e){
+        return s.getMonthValue()==1&&s.getDayOfMonth()==1&&e.getMonthValue()==12&&e.getDayOfMonth()==31;
     }
 
 }
