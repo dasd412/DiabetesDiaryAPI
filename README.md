@@ -14,6 +14,7 @@
 + Key Summary
  1. Junit을 활용하여 Repository, Controller 유닛 테스트를 진행 하였다.
  1. API 문서화를 Swagger로 하였다.
+ 1. 커스텀 에러 페이지 처리
 
 + Folder Structure 소개
 
@@ -118,24 +119,37 @@
                        calendarSchedule.js
                        Formatter.js
                        stringBuffer.js
+
                    +--charts
                        chart.js
 
                 +--sidebar-07(메뉴 뷰 템플릿)
                 +--vendor(달력 뷰 템플릿)
+
                 favicon.ico
 
              +--templates
                 +--calendar
                     calendar.mustache
+
                 +--charts
                     charts.mustache
+
+                +--error
+                    400.mustache
+                    404.mustache
+                    405.mustache
+                    415.mustache
+                    500.mustache
+
                 +--layout
                     calendarFooter.mustache
                     calendarHeader.mustache
                     layout.mustache
+
                 +--login
                     login.mustache
+
                 index.mustache
 
                 application.properties
@@ -203,7 +217,6 @@
   + ~~로그인~~ (페이스북, 깃 연동 등은 나중에 할 예정)
   + 식단 태그 기능(테스트 실패. 혈당 일지 작성 완료 후 다시 시도)
   + 다국어 처리
-  + 에러 처리
   
  + 사용 API
    + Swagger
@@ -237,6 +250,9 @@
 ~~로그인 구현~~
 
 ~~그래프 구현~~
-### _Iteration -  6_ ###
+
+~~커스텀 에러 페이지 처리~~
+
+### _Iteration -  7_ ###
 
 식단 태그 기능
