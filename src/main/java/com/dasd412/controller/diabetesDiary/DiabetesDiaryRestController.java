@@ -77,9 +77,9 @@ public class DiabetesDiaryRestController {
   @ApiOperation(value = "혈당 일지 조회")
   public ApiResult<DiaryResponseDTO> findById(
       @PathVariable @ApiParam(value = "혈당 일지 PK", example = "1") Long id) {
-    DiaryResponseDTO dto = diaryService.findById(Id.of(DiabetesDiary.class, id));
-    logger.info("DiabetesDiaryRestController find  : " + dto.toString());
-    return ApiResult.OK(dto);
+    DiabetesDiary diary = diaryService.findById(Id.of(DiabetesDiary.class, id));
+    logger.info("DiabetesDiaryRestController find  : " + diary.toString());
+    return ApiResult.OK(new DiaryResponseDTO(diary));
   }
 
 }

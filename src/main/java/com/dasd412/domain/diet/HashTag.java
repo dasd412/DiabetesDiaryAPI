@@ -25,4 +25,9 @@ public class HashTag {
   @JoinColumn(name = "diet_id")
   private Diet diet;
 
+  public HashTag(DiabetesDiary diabetesDiary, Diet diet) {
+    this.diabetesDiary = diabetesDiary;
+    this.diet = diet;
+  }
+  
 }
