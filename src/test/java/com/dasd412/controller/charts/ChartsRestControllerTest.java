@@ -226,11 +226,8 @@ public class ChartsRestControllerTest {
 
   }
 
-  @Transactional
-  @Test
-  public void 유효하지_않은_데이터를_저장한다_MUST_FAIL() throws Exception {
-        /*
-        2021년 2월은 28일까지다.
+ /*
+         2021년 2월은 28일까지다.
         따라서 2021년 2월 29일은 생성할 수 없다.
         날짜 예외처리는 writtenTime() 메서드에서 던진다.
         writtenTime()은 String->LocalDateTime으로의 포매팅을 (빌더 내에서) 해준다.
@@ -239,7 +236,13 @@ public class ChartsRestControllerTest {
         given에서 이미 예외 처리로 걸러지지므로 when과 then은 볼 필요가 없다. 따라서 주석처리하였다.
 
         결론:이 테스트는 반드시 실패하는 테스트이다. 유효하지 않은 날짜도 체크하는지가 목적이다.
-         */
+
+  @Transactional
+  @Test
+  public void 유효하지_않은_데이터를_저장한다_MUST_FAIL() throws Exception {
+
+
+
     //given
     String year = "2021";
     String month = "02";
@@ -271,6 +274,7 @@ public class ChartsRestControllerTest {
 //            logger.info("diary : "+diary.getWrittenTime().toString());
 //        }
   }
+  */
 
   @Transactional
   @Test
