@@ -29,5 +29,10 @@ public class HashTag {
     this.diabetesDiary = diabetesDiary;
     this.diet = diet;
   }
-  
+
+  public Long getId() { return id; }
+
+  public DiabetesDiary getDiabetesDiary() { return diabetesDiary; }
+
+  public Diet getDiet() { return diet; }
 }

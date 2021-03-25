@@ -1,6 +1,6 @@
 package com.dasd412.domain.diet;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -45,12 +44,29 @@ public class Diet {//식단
     this.eatTime = eatTime;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Diet diet = (Diet) obj;
+    return Objects.equals(this.id, diet.id);
+  }
+
   public String getFoodName() {
     return foodName;
   }
 
-  public Optional<EatTime> getEatTime() {
-    return Optional.ofNullable(eatTime);
+  public EatTime getEatTime() {
+    return eatTime;
   }
 
   @Override
