@@ -131,8 +131,8 @@ public class DiabetesDiaryUpdateRequestDTO {
     }
 
     public DiabetesDiaryUpdateRequestDTO.Builder dietList(List<DietRequestDTO> dietRequestDTOList) {
-      checkArgument(dietRequestDTOList.size() > 0 && dietRequestDTOList.size() < 4,
-          "diet size must be between 1 and 3");
+      checkArgument(dietRequestDTOList.size() > 0,
+          "diet size must be positive number");
       this.dietRequestDTOList = dietRequestDTOList;
       return this;
     }

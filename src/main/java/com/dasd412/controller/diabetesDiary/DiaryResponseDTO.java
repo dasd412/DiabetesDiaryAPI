@@ -68,8 +68,8 @@ public class DiaryResponseDTO {
 
   public DiaryResponseDTO(DiabetesDiary entity, List<DietResponseDTO> dietResponseDTOList) {
     this(entity);
-    checkArgument(dietResponseDTOList.size() > 0 && dietResponseDTOList.size() < 4,
-        "diet size must be between 1 and 3");
+    checkArgument(dietResponseDTOList.size() > 0,
+        "diet size must be positive number");
     this.dietResponseDTOList = dietResponseDTOList;
   }
 
