@@ -10,6 +10,7 @@ import com.dasd412.domain.diet.DietRepository;
 import com.dasd412.domain.diet.EatTime;
 import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.diet.HashTagRepository;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,12 +76,14 @@ public class DiabetesDiaryService {
   }
 
   @Transactional
-  public Diet saveWithTags(DiabetesDiary diary, String foodName, EatTime eatTime) {
+  public List<Diet> saveWithTags(DiabetesDiary diary, List<Diet> dietList) {
     //    diary는 repository에 저장되있어야 한다.
-    Diet diet = new Diet(foodName, eatTime);
-    dietRepository.save(diet);
-    HashTag tag = new HashTag(diary, diet);//    생성자 안에 id 값을 넣는 걸로 바꾸는 게 효율적임.
-    hashTagRepository.save(tag);
-    return diet;
+    List<Diet> saved = new ArrayList<>();
+    for (Diet diet : dietList) {
+      saved.add(dietRepository.save(diet));
+      HashTag tag = new HashTag(diary, diet);
+      hashTagRepository.save(tag);
+    }
+    return saved;
   }
 }

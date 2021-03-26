@@ -1,6 +1,8 @@
 package com.dasd412.controller.diabetesDiary;
 
 import com.dasd412.controller.ApiResult;
+import com.dasd412.controller.diet.DietRequestDTO;
+import com.dasd412.controller.diet.DietResponseDTO;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diet.Diet;
@@ -27,6 +29,8 @@ public class DiabetesDiaryRestController {
   private final DiabetesDiaryService diaryService;
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  private static final int MAX_DIET = 3;
 
   public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
     this.diaryService = diaryService;
@@ -85,11 +89,26 @@ public class DiabetesDiaryRestController {
   }
 
   @PostMapping("/api/diabetes/diary/diet/post")
-  public ApiResult<DiaryResponseDTO>postDiaryWithDiet(@RequestBody DiabetesDiaryRequestDTO dto){
-    logger.info("DiabetesDiaryRestController post diary with diet : "+dto.toString());
-    DiabetesDiary diary=diaryService.save(dto.toEntity());
-    Diet diet=diaryService.saveWithTags(diary,"fried agg", EatTime.BREAK_FAST);
-    return ApiResult.OK(new DiaryResponseDTO(diary));
+  public ApiResult<DiaryResponseDTO> postDiaryWithDiet(@RequestBody DiabetesDiaryRequestDTO dto) {
+    logger.info("DiabetesDiaryRestController post diary with diet : " + dto.toString());
+
+    DiabetesDiary diary = diaryService.save(dto.toEntity());
+
+    List<DietRequestDTO> dietRequestDTOList = dto.getDietRequestDTOList();
+    List<Diet> dietList = new ArrayList<>(MAX_DIET);
+
+    for (DietRequestDTO dietRequestDTO : dietRequestDTOList) {
+      dietList.add(dietRequestDTO.toEntity());
+    }
+
+    List<Diet> saved = diaryService.saveWithTags(diary, dietList);
+    List<DietResponseDTO> dietResponseDTOList = new ArrayList<>(MAX_DIET);
+
+    for (Diet diet : saved) {
+      dietResponseDTOList.add(new DietResponseDTO(diet));
+    }
+
+    return ApiResult.OK(new DiaryResponseDTO(diary, dietResponseDTOList));
   }
 
 }

@@ -69,18 +69,6 @@ public class DietRestTest {
     String foodName="dumpling";
     EatTime eatTime=EatTime.LUNCH;
 
-    Diet diet=diaryService.saveWithTags(diary,foodName,eatTime);
-
-
-    //when
-    List<HashTag>found=hashTagRepository.findAll();
-
-    //then
-    assertThat(diet.getFoodName()).isEqualTo(foodName);
-    assertThat(diet.getEatTime()).isEqualTo(EatTime.LUNCH);
-
-    assertThat(found.get(0).getDiabetesDiary()).isEqualTo(diary);
-    assertThat(found.get(0).getDiet()).isEqualTo(diet);
 
 
   }
