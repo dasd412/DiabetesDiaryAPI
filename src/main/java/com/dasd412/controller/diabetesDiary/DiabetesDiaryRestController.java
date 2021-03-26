@@ -30,8 +30,6 @@ public class DiabetesDiaryRestController {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  private static final int MAX_DIET = 3;
-
   public DiabetesDiaryRestController(DiabetesDiaryService diaryService) {
     this.diaryService = diaryService;
   }
@@ -95,14 +93,14 @@ public class DiabetesDiaryRestController {
     DiabetesDiary diary = diaryService.save(dto.toEntity());
 
     List<DietRequestDTO> dietRequestDTOList = dto.getDietRequestDTOList();
-    List<Diet> dietList = new ArrayList<>(MAX_DIET);
+    List<Diet> dietList = new ArrayList<>();
 
     for (DietRequestDTO dietRequestDTO : dietRequestDTOList) {
       dietList.add(dietRequestDTO.toEntity());
     }
 
     List<Diet> saved = diaryService.saveWithTags(diary, dietList);
-    List<DietResponseDTO> dietResponseDTOList = new ArrayList<>(MAX_DIET);
+    List<DietResponseDTO> dietResponseDTOList = new ArrayList<>();
 
     for (Diet diet : saved) {
       dietResponseDTOList.add(new DietResponseDTO(diet));
