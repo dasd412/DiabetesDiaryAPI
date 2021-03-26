@@ -1,9 +1,11 @@
 package com.dasd412.controller.diabetesDiary;
 
 
+import com.dasd412.controller.diet.DietRequestDTO;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -24,17 +26,21 @@ public class DiabetesDiaryUpdateRequestDTO {
   @ApiModelProperty(value = "비고")
   private String remark;
 
+  private List<DietRequestDTO> dietRequestDTOList;
+
   public DiabetesDiaryUpdateRequestDTO() {
   }
 
 
   public DiabetesDiaryUpdateRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar,
-      int lunchBloodSugar, int dinnerBloodSugar, String remark) {
+      int lunchBloodSugar, int dinnerBloodSugar, String remark,
+      List<DietRequestDTO> dietRequestDTOList) {
     this.fastingPlasmaGlucose = fastingPlasmaGlucose;
     this.breakfastBloodSugar = breakfastBloodSugar;
     this.lunchBloodSugar = lunchBloodSugar;
     this.dinnerBloodSugar = dinnerBloodSugar;
     this.remark = remark;
+    this.dietRequestDTOList = dietRequestDTOList;
   }
 
 
@@ -58,6 +64,10 @@ public class DiabetesDiaryUpdateRequestDTO {
     return remark;
   }
 
+  public List<DietRequestDTO> getDietRequestDTOList() {
+    return dietRequestDTOList;
+  }
+
   @Override
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -66,6 +76,7 @@ public class DiabetesDiaryUpdateRequestDTO {
         .append("lunchBloodSugar", lunchBloodSugar)
         .append("dinnerBloodSugar", dinnerBloodSugar)
         .append("remark", remark)
+        .append("dietList", dietRequestDTOList)
         .toString();
   }
 
@@ -76,6 +87,7 @@ public class DiabetesDiaryUpdateRequestDTO {
     private int lunchBloodSugar;
     private int dinnerBloodSugar;
     private String remark;
+    private List<DietRequestDTO> dietRequestDTOList;
 
     public Builder() {
     }
@@ -86,6 +98,7 @@ public class DiabetesDiaryUpdateRequestDTO {
       this.lunchBloodSugar = diabetesDiary.lunchBloodSugar;
       this.dinnerBloodSugar = diabetesDiary.dinnerBloodSugar;
       this.remark = diabetesDiary.remark;
+      this.dietRequestDTOList = diabetesDiary.dietRequestDTOList;
     }
 
     public DiabetesDiaryUpdateRequestDTO.Builder fastingPlasmaGlucose(int fastingPlasmaGlucose) {
@@ -117,9 +130,16 @@ public class DiabetesDiaryUpdateRequestDTO {
       return this;
     }
 
+    public DiabetesDiaryUpdateRequestDTO.Builder dietList(List<DietRequestDTO> dietRequestDTOList) {
+      checkArgument(dietRequestDTOList.size() > 0 && dietRequestDTOList.size() < 4,
+          "diet size must be between 1 and 3");
+      this.dietRequestDTOList = dietRequestDTOList;
+      return this;
+    }
+
     public DiabetesDiaryUpdateRequestDTO build() {
       return new DiabetesDiaryUpdateRequestDTO(fastingPlasmaGlucose, breakfastBloodSugar,
-          lunchBloodSugar, dinnerBloodSugar, remark);
+          lunchBloodSugar, dinnerBloodSugar, remark, dietRequestDTOList);
     }
 
   }

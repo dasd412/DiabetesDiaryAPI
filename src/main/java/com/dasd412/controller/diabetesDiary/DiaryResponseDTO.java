@@ -1,12 +1,17 @@
 package com.dasd412.controller.diabetesDiary;
 
+import com.dasd412.controller.diet.DietResponseDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class DiaryResponseDTO {
 
@@ -41,6 +46,8 @@ public class DiaryResponseDTO {
   @ApiModelProperty(value = "일", required = true)
   private String day;
 
+  private List<DietResponseDTO> dietResponseDTOList;
+
   public DiaryResponseDTO() {
   }
 
@@ -57,6 +64,13 @@ public class DiaryResponseDTO {
     this.year = array[0];
     this.month = array[1];
     this.day = array[2];
+  }
+
+  public DiaryResponseDTO(DiabetesDiary entity, List<DietResponseDTO> dietResponseDTOList) {
+    this(entity);
+    checkArgument(dietResponseDTOList.size() > 0 && dietResponseDTOList.size() < 4,
+        "diet size must be between 1 and 3");
+    this.dietResponseDTOList = dietResponseDTOList;
   }
 
   public Long getId() {
@@ -95,6 +109,10 @@ public class DiaryResponseDTO {
     return day;
   }
 
+  public List<DietResponseDTO> getDietResponseDTOList() {
+    return dietResponseDTOList;
+  }
+
   @Override
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
@@ -107,6 +125,7 @@ public class DiaryResponseDTO {
         .append("year", year)
         .append("month", month)
         .append("day", day)
+        .append("dietList", dietResponseDTOList)
         .toString();
   }
 }

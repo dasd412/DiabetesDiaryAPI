@@ -3,6 +3,8 @@ package com.dasd412.controller.diabetesDiary;
 import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
+import com.dasd412.domain.diet.Diet;
+import com.dasd412.domain.diet.EatTime;
 import com.dasd412.service.diabetesDiaryForm.DiabetesDiaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -79,6 +81,14 @@ public class DiabetesDiaryRestController {
       @PathVariable @ApiParam(value = "혈당 일지 PK", example = "1") Long id) {
     DiabetesDiary diary = diaryService.findById(Id.of(DiabetesDiary.class, id));
     logger.info("DiabetesDiaryRestController find  : " + diary.toString());
+    return ApiResult.OK(new DiaryResponseDTO(diary));
+  }
+
+  @PostMapping("/api/diabetes/diary/diet/post")
+  public ApiResult<DiaryResponseDTO>postDiaryWithDiet(@RequestBody DiabetesDiaryRequestDTO dto){
+    logger.info("DiabetesDiaryRestController post diary with diet : "+dto.toString());
+    DiabetesDiary diary=diaryService.save(dto.toEntity());
+    Diet diet=diaryService.saveWithTags(diary,"fried agg", EatTime.BREAK_FAST);
     return ApiResult.OK(new DiaryResponseDTO(diary));
   }
 

@@ -1,10 +1,11 @@
 package com.dasd412.controller.diabetesDiary;
 
+import com.dasd412.controller.diet.DietRequestDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.user.Writer;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -34,17 +35,14 @@ public class DiabetesDiaryRequestDTO {
   @ApiModelProperty(value = "일", required = true)
   private String day;
 
+  private List<DietRequestDTO> dietRequestDTOList;
+
   public DiabetesDiaryRequestDTO() {
-  }
-
-
-  public DiabetesDiaryRequestDTO(Writer writer) {
-    this(0, 0, 0, 0, "", "", "", "");
   }
 
   public DiabetesDiaryRequestDTO(int fastingPlasmaGlucose, int breakfastBloodSugar,
       int lunchBloodSugar, int dinnerBloodSugar, String remark, String year, String month,
-      String day) {
+      String day, List<DietRequestDTO> dietRequestDTOList) {
     this.fastingPlasmaGlucose = fastingPlasmaGlucose;
     this.breakfastBloodSugar = breakfastBloodSugar;
     this.lunchBloodSugar = lunchBloodSugar;
@@ -53,6 +51,7 @@ public class DiabetesDiaryRequestDTO {
     this.year = year;
     this.month = month;
     this.day = day;
+    this.dietRequestDTOList = dietRequestDTOList;
   }
 
   public DiabetesDiary toEntity() {
@@ -77,6 +76,7 @@ public class DiabetesDiaryRequestDTO {
         .append("year", year)
         .append("month", month)
         .append("day", day)
+        .append("dietList", dietRequestDTOList)
         .toString();
   }
 
@@ -112,6 +112,9 @@ public class DiabetesDiaryRequestDTO {
     return day;
   }
 
+  public List<DietRequestDTO> getDietRequestDTOList() {
+    return dietRequestDTOList;
+  }
 
   static public class Builder {
 
@@ -123,6 +126,7 @@ public class DiabetesDiaryRequestDTO {
     private String year;
     private String month;
     private String day;
+    private List<DietRequestDTO> dietRequestDTOList;
 
     public Builder() {
     }
@@ -136,6 +140,7 @@ public class DiabetesDiaryRequestDTO {
       this.year = diabetesDiary.year;
       this.month = diabetesDiary.month;
       this.day = diabetesDiary.day;
+      this.dietRequestDTOList = diabetesDiary.dietRequestDTOList;
     }
 
     public DiabetesDiaryRequestDTO.Builder fastingPlasmaGlucose(int fastingPlasmaGlucose) {
@@ -184,10 +189,17 @@ public class DiabetesDiaryRequestDTO {
       return this;
     }
 
+    public DiabetesDiaryRequestDTO.Builder dietList(List<DietRequestDTO> dietRequestDTOList) {
+      checkArgument(dietRequestDTOList.size() > 0 && dietRequestDTOList.size() < 4,
+          "diet size must be between 1 and 3");
+      this.dietRequestDTOList = dietRequestDTOList;
+      return this;
+    }
+
 
     public DiabetesDiaryRequestDTO build() {
       return new DiabetesDiaryRequestDTO(fastingPlasmaGlucose, breakfastBloodSugar, lunchBloodSugar,
-          dinnerBloodSugar, remark, year, month, day);
+          dinnerBloodSugar, remark, year, month, day, dietRequestDTOList);
     }
 
   }
