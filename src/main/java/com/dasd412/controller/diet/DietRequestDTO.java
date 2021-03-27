@@ -1,6 +1,5 @@
 package com.dasd412.controller.diet;
 
-import com.dasd412.domain.diet.Diet;
 import com.dasd412.domain.diet.EatTime;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -23,8 +22,6 @@ public class DietRequestDTO {
   public EatTime getEatTime() {
     return eatTime;
   }
-
-  public Diet toEntity(){ return new Diet(foodName,eatTime); }
 
   @Override
   public String toString() {

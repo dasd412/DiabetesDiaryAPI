@@ -1,6 +1,7 @@
 package com.dasd412.service.diabetesDiaryForm;
 
 import com.dasd412.controller.diabetesDiary.DiaryResponseDTO;
+import com.dasd412.controller.diet.DietTagMapper;
 import com.dasd412.controller.error.NotFoundException;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
@@ -76,14 +77,22 @@ public class DiabetesDiaryService {
   }
 
   @Transactional
-  public List<Diet> saveWithTags(DiabetesDiary diary, List<Diet> dietList) {
-    //    diary는 repository에 저장되있어야 한다.
-    List<Diet> saved = new ArrayList<>();
-    for (Diet diet : dietList) {
-      saved.add(dietRepository.save(diet));
-      HashTag tag = new HashTag(diary, diet);
+  public List<DietTagMapper> saveDiet(DiabetesDiary diary, List<DietTagMapper> dietList) {
+    //    diary는 저장되있어야 한다.
+
+    List<DietTagMapper> saved = new ArrayList<>();
+
+    for (DietTagMapper tagMapper : dietList) {
+
+      Diet diet = new Diet(tagMapper.getFoodName());
+      dietRepository.save(diet);
+
+      HashTag tag = new HashTag(diary, diet, tagMapper.getEatTime());
       hashTagRepository.save(tag);
+
+      saved.add(new DietTagMapper(diet.getFoodName(), tag.getEatTime()));
     }
+
     return saved;
   }
 }

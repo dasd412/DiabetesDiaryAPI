@@ -74,13 +74,13 @@ public class DietRestTest {
 
     diaryService.save(diary);
 
-    List<Diet> dietList = new ArrayList<>();
+    List<DietTagMapper> dietList = new ArrayList<>();
 
-    dietList.add(new Diet("salad", EatTime.BREAK_FAST));
-    dietList.add(new Diet("dumpling", EatTime.LUNCH));
-    dietList.add(new Diet("hamburger", EatTime.DINNER));
+    dietList.add(new DietTagMapper("salad", EatTime.BREAK_FAST));
+    dietList.add(new DietTagMapper("dumpling", EatTime.LUNCH));
+    dietList.add(new DietTagMapper("hamburger", EatTime.DINNER));
 
-    diaryService.saveWithTags(diary, dietList);
+    diaryService.saveDiet(diary, dietList);
 
     //when
     List<HashTag> found = hashTagRepository.findAll();
@@ -93,15 +93,15 @@ public class DietRestTest {
 
     assertThat(found.get(0).getDiabetesDiary()).isEqualTo(diary);
     assertThat(found.get(0).getDiet().getFoodName()).isEqualTo("salad");
-    assertThat(found.get(0).getDiet().getEatTime()).isEqualTo(EatTime.BREAK_FAST);
+    assertThat(found.get(0).getEatTime()).isEqualTo(EatTime.BREAK_FAST);
 
     assertThat(found.get(1).getDiabetesDiary()).isEqualTo(diary);
     assertThat(found.get(1).getDiet().getFoodName()).isEqualTo("dumpling");
-    assertThat(found.get(1).getDiet().getEatTime()).isEqualTo(EatTime.LUNCH);
+    assertThat(found.get(1).getEatTime()).isEqualTo(EatTime.LUNCH);
 
     assertThat(found.get(2).getDiabetesDiary()).isEqualTo(diary);
     assertThat(found.get(2).getDiet().getFoodName()).isEqualTo("hamburger");
-    assertThat(found.get(2).getDiet().getEatTime()).isEqualTo(EatTime.DINNER);
+    assertThat(found.get(2).getEatTime()).isEqualTo(EatTime.DINNER);
 
   }
 
@@ -146,13 +146,13 @@ public class DietRestTest {
       logger.info("diet : " + tag.getDiet().toString());
     }
     assertThat(found.get(0).getDiet().getFoodName()).isEqualTo("salad");
-    assertThat(found.get(0).getDiet().getEatTime()).isEqualTo(EatTime.BREAK_FAST);
+    assertThat(found.get(0).getEatTime()).isEqualTo(EatTime.BREAK_FAST);
 
     assertThat(found.get(1).getDiet().getFoodName()).isEqualTo("dumpling");
-    assertThat(found.get(1).getDiet().getEatTime()).isEqualTo(EatTime.LUNCH);
+    assertThat(found.get(1).getEatTime()).isEqualTo(EatTime.LUNCH);
 
     assertThat(found.get(2).getDiet().getFoodName()).isEqualTo("hamburger");
-    assertThat(found.get(2).getDiet().getEatTime()).isEqualTo(EatTime.DINNER);
+    assertThat(found.get(2).getEatTime()).isEqualTo(EatTime.DINNER);
 
 
   }

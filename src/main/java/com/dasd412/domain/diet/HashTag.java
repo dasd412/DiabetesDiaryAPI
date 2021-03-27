@@ -4,6 +4,8 @@ import com.dasd412.domain.diary.DiabetesDiary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
 public class HashTag {
@@ -20,14 +22,17 @@ public class HashTag {
   @JoinColumn(name = "diabetesDiary_id")
   private DiabetesDiary diabetesDiary;
 
-
   @ManyToOne
   @JoinColumn(name = "diet_id")
   private Diet diet;
 
-  public HashTag(DiabetesDiary diabetesDiary, Diet diet) {
+  @Enumerated(EnumType.STRING)//Enum 값 자체를 저장
+  private EatTime eatTime;//식사시간을 나타내는 Enum
+
+  public HashTag(DiabetesDiary diabetesDiary, Diet diet, EatTime eatTime) {
     this.diabetesDiary = diabetesDiary;
     this.diet = diet;
+    this.eatTime=eatTime;
   }
 
   public Long getId() { return id; }
@@ -35,4 +40,16 @@ public class HashTag {
   public DiabetesDiary getDiabetesDiary() { return diabetesDiary; }
 
   public Diet getDiet() { return diet; }
+
+  public EatTime getEatTime() { return eatTime; }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("id",id)
+        .append("eat time ",eatTime)
+        .append("diabetes diary",diabetesDiary)
+        .append("diet",diet)
+        .toString();
+  }
 }
