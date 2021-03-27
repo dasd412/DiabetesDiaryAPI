@@ -92,6 +92,7 @@ public class DiabetesDiaryService {
         hashTagRepository.save(tag);
         saved.add(new DietTagMapper(diet.getFoodName(), tag.getEatTime()));
       } else {
+        //todo Optional 관련 리팩토링 필요
         Diet exist = dietRepository.findByFoodName(tagMapper.getFoodName()).get();
 
         hashTagRepository.save(new HashTag(diary, exist, tagMapper.getEatTime()));

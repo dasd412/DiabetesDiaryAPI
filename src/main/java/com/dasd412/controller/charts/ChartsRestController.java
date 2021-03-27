@@ -6,6 +6,7 @@ import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.service.charts.ChartsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,11 +42,11 @@ public class ChartsRestController {
     List<DiabetesDiary> list = chartsService
         .getDiaryListBetween((String) allParameters.get("startDate"),
             (String) allParameters.get("endDate"));
-    List<DiaryListResponseDTO> dtoList = new ArrayList<>();
 
-    for (DiabetesDiary diary : list) {
-      dtoList.add(new DiaryListResponseDTO(diary));
-    }
+    List<DiaryListResponseDTO> dtoList = list.stream()
+        .map(DiaryListResponseDTO::new)
+        .collect(Collectors.toList());
+
     return ApiResult.OK(dtoList);
   }
 

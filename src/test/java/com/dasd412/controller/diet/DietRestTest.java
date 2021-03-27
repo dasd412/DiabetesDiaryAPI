@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.diet.Diet;
 import com.dasd412.domain.diet.EatTime;
 import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.diet.HashTagRepository;

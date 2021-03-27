@@ -6,17 +6,16 @@ import com.dasd412.controller.diet.DietResponseDTO;
 import com.dasd412.controller.diet.DietTagMapper;
 import com.dasd412.domain.commons.Id;
 import com.dasd412.domain.diary.DiabetesDiary;
-import com.dasd412.domain.diet.Diet;
-import com.dasd412.domain.diet.EatTime;
+
 import com.dasd412.service.diabetesDiaryForm.DiabetesDiaryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -71,10 +70,10 @@ public class DiabetesDiaryRestController {
   public ApiResult<List<DiaryListResponseDTO>> getDiaryList() {
     logger.info("DiabetesDiaryRestController get all list");
     List<DiabetesDiary> list = diaryService.getDiaryList();
-    List<DiaryListResponseDTO> dtoList = new ArrayList<>();
-    for (DiabetesDiary diary : list) {
-      dtoList.add(new DiaryListResponseDTO(diary));
-    }
+    List<DiaryListResponseDTO> dtoList = list.stream()
+        .map(DiaryListResponseDTO::new)
+        .collect(Collectors.toList());
+
     return ApiResult.OK(dtoList);
   }
 
@@ -94,19 +93,17 @@ public class DiabetesDiaryRestController {
     DiabetesDiary diary = dto.toEntity();
 
     List<DietRequestDTO> dietRequestDTOList = dto.getDietRequestDTOList();
-    List<DietTagMapper> dietList = new ArrayList<>();
-
-    for (DietRequestDTO dietRequestDTO : dietRequestDTOList) {
-      dietList.add(new DietTagMapper(dietRequestDTO.getFoodName(), dietRequestDTO.getEatTime()));
-    }
+    List<DietTagMapper> dietList = dietRequestDTOList.stream()
+        .map(dietRequestDTO -> new DietTagMapper(dietRequestDTO.getFoodName(),
+            dietRequestDTO.getEatTime()))
+        .collect(Collectors.toList());
 
     List<DietTagMapper> savedDietList = diaryService.saveDiaryWithDiet(diary, dietList);
 
-    List<DietResponseDTO> dietResponseDTOList = new ArrayList<>();
-    for (DietTagMapper dietTagMapper : savedDietList) {
-      dietResponseDTOList
-          .add(new DietResponseDTO(dietTagMapper.getFoodName(), dietTagMapper.getEatTime()));
-    }
+    List<DietResponseDTO> dietResponseDTOList = savedDietList.stream()
+        .map(dietTagMapper -> new DietResponseDTO(dietTagMapper.getFoodName(),
+            dietTagMapper.getEatTime()))
+        .collect(Collectors.toList());
 
     return ApiResult.OK(new DiaryResponseDTO(diary, dietResponseDTOList));
   }
