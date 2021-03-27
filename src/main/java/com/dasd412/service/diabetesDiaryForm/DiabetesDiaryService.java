@@ -91,9 +91,11 @@ public class DiabetesDiaryService {
         HashTag tag = new HashTag(diary, diet, tagMapper.getEatTime());
         hashTagRepository.save(tag);
         saved.add(new DietTagMapper(diet.getFoodName(), tag.getEatTime()));
+
       } else {
-        //todo Optional 관련 리팩토링 필요
-        Diet exist = dietRepository.findByFoodName(tagMapper.getFoodName()).get();
+
+        Diet exist = dietRepository.findByFoodName(tagMapper.getFoodName())
+            .orElseThrow(() -> new NotFoundException("해당 식단이 존재하지 않습니다."));
 
         hashTagRepository.save(new HashTag(diary, exist, tagMapper.getEatTime()));
 
