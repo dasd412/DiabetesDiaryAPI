@@ -18,11 +18,11 @@ public class HashTag {
   private Long id;
 
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "diabetesDiary_id")
   private DiabetesDiary diabetesDiary;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "diet_id")
   private Diet diet;
 

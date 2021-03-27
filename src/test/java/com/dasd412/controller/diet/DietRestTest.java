@@ -72,15 +72,13 @@ public class DietRestTest {
         .writtenTime("2021", "03", "26")
         .build();
 
-    diaryService.save(diary);
-
     List<DietTagMapper> dietList = new ArrayList<>();
 
     dietList.add(new DietTagMapper("salad", EatTime.BREAK_FAST));
     dietList.add(new DietTagMapper("dumpling", EatTime.LUNCH));
     dietList.add(new DietTagMapper("hamburger", EatTime.DINNER));
 
-    diaryService.saveDiet(diary, dietList);
+    diaryService.saveDiaryWithDiet(diary, dietList);
 
     //when
     List<HashTag> found = hashTagRepository.findAll();
@@ -154,6 +152,79 @@ public class DietRestTest {
     assertThat(found.get(2).getDiet().getFoodName()).isEqualTo("hamburger");
     assertThat(found.get(2).getEatTime()).isEqualTo(EatTime.DINNER);
 
+
+  }
+
+  @Test
+  @Transactional
+  @WithMockUser(roles = "USER")
+  public void 식단의_중복여부를_테스트한다()throws Exception{
+    //given 1
+    DietRequestDTO lunch = new DietRequestDTO("dumpling", EatTime.LUNCH);
+    DietRequestDTO breakfast = new DietRequestDTO("salad", EatTime.BREAK_FAST);
+    DietRequestDTO dinner = new DietRequestDTO("hamburger", EatTime.DINNER);
+
+    List<DietRequestDTO> dietRequestDTOList = new ArrayList<>();
+    dietRequestDTOList.add(breakfast);
+    dietRequestDTOList.add(lunch);
+    dietRequestDTOList.add(dinner);
+
+    DiabetesDiaryRequestDTO dto = new DiabetesDiaryRequestDTO.Builder()
+        .fastingPlasmaGlucose(90)
+        .breakfastBloodSugar(90)
+        .lunchBloodSugar(100)
+        .dinnerBloodSugar(110)
+        .remark("test")
+        .year("2021")
+        .month("02")
+        .day("07")
+        .dietList(dietRequestDTOList)
+        .build();
+
+    String url = "/api/diabetes/diary/diet/post";
+
+    //when 1
+    mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(dto)))
+        .andExpect(status().isOk());
+
+    //given 2
+    DietRequestDTO lunch2 = new DietRequestDTO("dumpling", EatTime.LUNCH);
+    DietRequestDTO breakfast2 = new DietRequestDTO("salad", EatTime.BREAK_FAST);
+    DietRequestDTO dinner2 = new DietRequestDTO("hamburger", EatTime.DINNER);
+
+    List<DietRequestDTO> dietRequestDTOList2 = new ArrayList<>();
+    dietRequestDTOList2.add(breakfast2);
+    dietRequestDTOList2.add(lunch2);
+    dietRequestDTOList2.add(dinner2);
+
+    DiabetesDiaryRequestDTO dto2 = new DiabetesDiaryRequestDTO.Builder()
+        .fastingPlasmaGlucose(9)
+        .breakfastBloodSugar(9)
+        .lunchBloodSugar(10)
+        .dinnerBloodSugar(11)
+        .remark("test")
+        .year("2021")
+        .month("03")
+        .day("27")
+        .dietList(dietRequestDTOList2)
+        .build();
+
+    //when 2
+    mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(dto2)))
+        .andExpect(status().isOk());
+
+    List<HashTag> found = hashTagRepository.findAll();
+
+    //then
+    for (HashTag tag : found) {
+      logger.info("diary : " + tag.getDiabetesDiary().toString());
+      logger.info("diet : " + tag.getDiet().toString());
+    }
+    assertThat(found.get(0).getDiet()).isEqualTo(found.get(3).getDiet());
+    assertThat(found.get(1).getDiet()).isEqualTo(found.get(4).getDiet());
+    assertThat(found.get(2).getDiet()).isEqualTo(found.get(5).getDiet());
 
   }
 

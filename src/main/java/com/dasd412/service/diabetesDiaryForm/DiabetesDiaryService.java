@@ -1,6 +1,5 @@
 package com.dasd412.service.diabetesDiaryForm;
 
-import com.dasd412.controller.diabetesDiary.DiaryResponseDTO;
 import com.dasd412.controller.diet.DietTagMapper;
 import com.dasd412.controller.error.NotFoundException;
 import com.dasd412.domain.commons.Id;
@@ -8,7 +7,6 @@ import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diary.DiabetesDiaryRepository;
 import com.dasd412.domain.diet.Diet;
 import com.dasd412.domain.diet.DietRepository;
-import com.dasd412.domain.diet.EatTime;
 import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.diet.HashTagRepository;
 import java.util.ArrayList;
@@ -77,20 +75,29 @@ public class DiabetesDiaryService {
   }
 
   @Transactional
-  public List<DietTagMapper> saveDiet(DiabetesDiary diary, List<DietTagMapper> dietList) {
-    //    diary는 저장되있어야 한다.
+  public List<DietTagMapper> saveDiaryWithDiet(DiabetesDiary diary, List<DietTagMapper> dietList) {
+
+    diaryRepository.save(diary);
 
     List<DietTagMapper> saved = new ArrayList<>();
 
     for (DietTagMapper tagMapper : dietList) {
 
-      Diet diet = new Diet(tagMapper.getFoodName());
-      dietRepository.save(diet);
+      //    식단 이름이 이미 있는가를 체크한 후 저장
+      if (!dietRepository.existsDietByFoodName(tagMapper.getFoodName())) {
+        Diet diet = new Diet(tagMapper.getFoodName());
+        dietRepository.save(diet);
 
-      HashTag tag = new HashTag(diary, diet, tagMapper.getEatTime());
-      hashTagRepository.save(tag);
+        HashTag tag = new HashTag(diary, diet, tagMapper.getEatTime());
+        hashTagRepository.save(tag);
+        saved.add(new DietTagMapper(diet.getFoodName(), tag.getEatTime()));
+      } else {
+        Diet exist = dietRepository.findByFoodName(tagMapper.getFoodName()).get();
 
-      saved.add(new DietTagMapper(diet.getFoodName(), tag.getEatTime()));
+        hashTagRepository.save(new HashTag(diary, exist, tagMapper.getEatTime()));
+
+        saved.add(new DietTagMapper(exist.getFoodName(), tagMapper.getEatTime()));
+      }
     }
 
     return saved;

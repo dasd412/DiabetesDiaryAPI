@@ -91,10 +91,8 @@ public class DiabetesDiaryRestController {
   public ApiResult<DiaryResponseDTO> postDiaryWithDiet(@RequestBody DiabetesDiaryRequestDTO dto) {
     logger.info("DiabetesDiaryRestController post diary with diet : " + dto.toString());
 
-    //    first, save diabetes diary
-    DiabetesDiary diary = diaryService.save(dto.toEntity());
+    DiabetesDiary diary = dto.toEntity();
 
-    //    second, save diet and tag
     List<DietRequestDTO> dietRequestDTOList = dto.getDietRequestDTOList();
     List<DietTagMapper> dietList = new ArrayList<>();
 
@@ -102,7 +100,7 @@ public class DiabetesDiaryRestController {
       dietList.add(new DietTagMapper(dietRequestDTO.getFoodName(), dietRequestDTO.getEatTime()));
     }
 
-    List<DietTagMapper> savedDietList = diaryService.saveDiet(diary, dietList);
+    List<DietTagMapper> savedDietList = diaryService.saveDiaryWithDiet(diary, dietList);
 
     List<DietResponseDTO> dietResponseDTOList = new ArrayList<>();
     for (DietTagMapper dietTagMapper : savedDietList) {
