@@ -21,7 +21,7 @@ public class TagController {
   }
 
   @GetMapping("/api/diabetes/tag")
-  public String viewResolve(Model model, @LoginUser SessionUser user){
+  public String viewResolve(Model model, @LoginUser SessionUser user) {
     if (user != null) {
       model.addAttribute("userName", user.getName());
     }

@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
+import com.dasd412.domain.diet.Diet;
+import com.dasd412.domain.diet.DietRepository;
 import com.dasd412.domain.diet.EatTime;
 import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.diet.HashTagRepository;
@@ -22,6 +24,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -47,6 +53,9 @@ public class DietRestTest {
 
   @Autowired
   private HashTagRepository hashTagRepository;
+
+  @Autowired
+  private DietRepository dietRepository;
 
   @Before
   public void setup() {
@@ -157,7 +166,7 @@ public class DietRestTest {
   @Test
   @Transactional
   @WithMockUser(roles = "USER")
-  public void 식단의_중복여부를_테스트한다()throws Exception{
+  public void 식단의_중복여부를_테스트한다() throws Exception {
     //given 1
     DietRequestDTO lunch = new DietRequestDTO("dumpling", EatTime.LUNCH);
     DietRequestDTO breakfast = new DietRequestDTO("salad", EatTime.BREAK_FAST);
@@ -224,6 +233,53 @@ public class DietRestTest {
     assertThat(found.get(0).getDiet()).isEqualTo(found.get(3).getDiet());
     assertThat(found.get(1).getDiet()).isEqualTo(found.get(4).getDiet());
     assertThat(found.get(2).getDiet()).isEqualTo(found.get(5).getDiet());
+
+  }
+
+  @Test
+  @Transactional
+  @WithMockUser(roles = "USER")
+  public void 기본_페이징_테스트() throws Exception {
+    //given
+    List<DietRequestDTO> dietRequestDTOList = new ArrayList<>();
+    dietRequestDTOList.add(new DietRequestDTO("dumpling", EatTime.LUNCH));//    page 시작
+    dietRequestDTOList.add(new DietRequestDTO("salad", EatTime.BREAK_FAST));
+    dietRequestDTOList.add(new DietRequestDTO("hamburger", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("eggs", EatTime.LUNCH));
+    dietRequestDTOList.add(new DietRequestDTO("soup", EatTime.BREAK_FAST));
+    dietRequestDTOList.add(new DietRequestDTO("green tea", EatTime.LUNCH));
+    dietRequestDTOList.add(new DietRequestDTO("eggs", EatTime.BREAK_FAST));//   중복
+    dietRequestDTOList.add(new DietRequestDTO("pizza", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("jelly", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("tofu", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("hot dog", EatTime.DINNER));//   <-page 마지막
+    dietRequestDTOList.add(new DietRequestDTO("chicken", EatTime.LUNCH));
+
+    DiabetesDiaryRequestDTO dto = new DiabetesDiaryRequestDTO.Builder()
+        .fastingPlasmaGlucose(90)
+        .breakfastBloodSugar(90)
+        .lunchBloodSugar(100)
+        .dinnerBloodSugar(110)
+        .remark("test")
+        .year("2021")
+        .month("04")
+        .day("05")
+        .dietList(dietRequestDTOList)
+        .build();
+
+    String url = "/api/diabetes/diary/diet/post";
+
+    mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(dto)))
+        .andExpect(status().isOk());
+
+    //when
+    Pageable pageable = PageRequest.of(0, 10, Direction.ASC, "id");
+    Page<Diet> result = dietRepository.findAll(dietRepository.makePredicate(), pageable);
+
+    //then
+    logger.info("page: " + result.getPageable());
+    result.getContent().forEach(diet -> logger.info("diet : " + diet));
 
   }
 
