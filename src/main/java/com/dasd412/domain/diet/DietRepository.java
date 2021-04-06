@@ -12,11 +12,16 @@ public interface DietRepository extends JpaRepository<Diet, Long>, QuerydslPredi
 
   Optional<Diet> findByFoodName(String foodName);
 
-  default Predicate makePredicate() {
+  default Predicate makePredicate(DietQuery dietQuery) {
 
     BooleanBuilder builder = new BooleanBuilder();
     QDiet diet = QDiet.diet;
     builder.and(diet.id.gt(0));
+
+    if (dietQuery.getType()==QueryType.FoodName) {
+      builder.and(diet.foodName.like("%" + dietQuery.getKeyword() + "%"));
+    }
+
     return builder;
   }
 }

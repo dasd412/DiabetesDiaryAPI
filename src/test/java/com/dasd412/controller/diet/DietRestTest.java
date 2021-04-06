@@ -8,10 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.dasd412.controller.diabetesDiary.DiabetesDiaryRequestDTO;
 import com.dasd412.domain.diary.DiabetesDiary;
 import com.dasd412.domain.diet.Diet;
+import com.dasd412.domain.diet.DietQuery;
 import com.dasd412.domain.diet.DietRepository;
 import com.dasd412.domain.diet.EatTime;
 import com.dasd412.domain.diet.HashTag;
 import com.dasd412.domain.diet.HashTagRepository;
+import com.dasd412.domain.diet.QueryType;
 import com.dasd412.service.diabetesDiaryForm.DiabetesDiaryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -275,7 +277,8 @@ public class DietRestTest {
 
     //when
     Pageable pageable = PageRequest.of(0, 10, Direction.ASC, "id");
-    Page<Diet> result = dietRepository.findAll(dietRepository.makePredicate(), pageable);
+    Page<Diet> result = dietRepository
+        .findAll(dietRepository.makePredicate(new DietQuery(QueryType.DEFAULT)), pageable);
 
     //then
     logger.info("page: " + result.getPageable());
@@ -283,5 +286,54 @@ public class DietRestTest {
 
   }
 
+  @Test
+  @Transactional
+  @WithMockUser(roles = "USER")
+  public void 검색_조건_테스트() throws Exception {
+    //given
+    List<DietRequestDTO> dietRequestDTOList = new ArrayList<>();
+    dietRequestDTOList.add(new DietRequestDTO("egg salad", EatTime.LUNCH));//    page 시작
+    dietRequestDTOList.add(new DietRequestDTO("salad", EatTime.BREAK_FAST));
+    dietRequestDTOList.add(new DietRequestDTO("hamburger", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("eggs", EatTime.LUNCH));
+    dietRequestDTOList.add(new DietRequestDTO("soup", EatTime.BREAK_FAST));
+    dietRequestDTOList.add(new DietRequestDTO("green tea", EatTime.LUNCH));
+    dietRequestDTOList.add(new DietRequestDTO("eggs", EatTime.BREAK_FAST));//   중복
+    dietRequestDTOList.add(new DietRequestDTO("pizza", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("jelly", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("tofu", EatTime.DINNER));
+    dietRequestDTOList.add(new DietRequestDTO("hot dog", EatTime.DINNER));//   <-page 마지막
+    dietRequestDTOList.add(new DietRequestDTO("chicken", EatTime.LUNCH));
+
+    DiabetesDiaryRequestDTO dto = new DiabetesDiaryRequestDTO.Builder()
+        .fastingPlasmaGlucose(90)
+        .breakfastBloodSugar(90)
+        .lunchBloodSugar(100)
+        .dinnerBloodSugar(110)
+        .remark("test")
+        .year("2021")
+        .month("04")
+        .day("05")
+        .dietList(dietRequestDTOList)
+        .build();
+
+    String url = "/api/diabetes/diary/diet/post";
+
+    mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(new ObjectMapper().writeValueAsString(dto)))
+        .andExpect(status().isOk());
+
+    //when
+    Pageable pageable=PageRequest.of(0,10,Direction.ASC,"id");
+
+    Page<Diet> result = dietRepository
+        .findAll(dietRepository.makePredicate(new DietQuery(QueryType.FoodName,"egg")), pageable);
+
+    //then
+    logger.info("page: " + result.getPageable());
+    result.getContent().forEach(diet -> logger.info("diet : " + diet));
+
+
+  }
 
 }
