@@ -1,5 +1,7 @@
 package com.dasd412.controller.tag;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,6 +39,14 @@ public class PageVO {
   public Pageable makePageable(SortDir direction, String... props) {
     Sort.Direction dir = direction == SortDir.DESC ? Direction.DESC : Direction.ASC;
     return PageRequest.of(this.page - 1, this.size, dir, props);
+  }
+
+  @Override
+  public String toString(){
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .append("page",page)
+        .append("size",size)
+        .toString();
   }
 
 }

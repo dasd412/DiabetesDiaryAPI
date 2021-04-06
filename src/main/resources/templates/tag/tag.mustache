@@ -28,26 +28,54 @@
             <p>Food name</p>
             <div>
               <ul class="list-group">
-                {{#result}}
-                <li class="list-group-item">
-                  <div style="position:relative; float:left;">
-                    {{foodName}}
-                  </div>
+                {{#result.result}}
+                  <li class="list-group-item">
+                    <div style="position:relative; float:left;">
+                      {{foodName}}
+                    </div>
 
-                   <div style="position:relative; float:right;">
-                     <button type="button" class="btn btn-success">Add</button>
-                     <button type="button" class="btn btn-info">Modify</button>
-                     <button type="button" class="btn btn-warning">Delete</button>
-                   </div>
+                    <div style="position:relative; float:right;">
+                      <button type="button" class="btn btn-info">Modify</button>
+                      <button type="button" class="btn btn-warning">Delete</button>
+                    </div>
 
-                </li>
+                  </li>
 
-                {{/result}}
+                {{/result.result}}
               </ul>
             </div>
           </div>
+
           <div class="panel-footer">
-            Have a nice day!
+            <nav>
+              <div>
+                  <ul class="pagination">
+
+                    <li class="page-item">
+                      {{#result.previous}}
+                        <a href="#">PREV {{result.previous.pageNumber}}</a>
+                      {{/result.previous}}
+                    </li>
+
+                    <li>
+                      {{#result.pageList}}
+                        <a href="#">{{pageNumber}}</a>
+                      {{/result.pageList}}
+                    </li>
+
+                    <li class="page-item">
+                      {{#result.next}}
+                        <a href="#">NEXT {{result.next.pageNumber}}</a>
+                      {{/result.next}}
+                    </li>
+                  </ul>
+                <div style="position:relative; float:right;">
+                  <button type="button" class="btn btn-success">Add</button>
+                </div>
+
+              </div>
+
+            </nav>
           </div>
         </div>
 

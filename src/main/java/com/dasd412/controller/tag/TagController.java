@@ -42,7 +42,7 @@ public class TagController {
     logger.info("Page<Diet> result : "+ result);
 
 
-    model.addAttribute("result", result.getContent());
+    model.addAttribute("result", new PageMaker<>(result));
 
     return "/tag/tag";
   }
