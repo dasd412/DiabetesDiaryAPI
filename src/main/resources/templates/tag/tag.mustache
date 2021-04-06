@@ -30,8 +30,18 @@
               <ul class="list-group">
                 {{#result}}
                 <li class="list-group-item">
+                  <div style="position:relative; float:left;">
                     {{foodName}}
+                  </div>
+
+                   <div style="position:relative; float:right;">
+                     <button type="button" class="btn btn-success">Add</button>
+                     <button type="button" class="btn btn-info">Modify</button>
+                     <button type="button" class="btn btn-warning">Delete</button>
+                   </div>
+
                 </li>
+
                 {{/result}}
               </ul>
             </div>
