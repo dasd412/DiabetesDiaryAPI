@@ -1,20 +1,38 @@
-const pagination=document.querySelector(".pagination");
 
 $(document).ready(function(){
- let preId=$("#pre").children('a').attr("id");
+ let pageLength=$(".pagination").children('li').length;
+ let start=0;
+ let end=pageLength;
+
+ let preId=$("#previousPage").children('a').attr("id");
  if(preId!=undefined){
-   $("#pre").children('a').text("PREV "+(parseInt(preId)+1));
-   $("#pre").children('a').css("color","black");
+   $("#previousPage").children('a').text("PREV "+(parseInt(preId)+1));
+   $("#previousPage").children('a').css("color","black");
+   start++;
  }
 
- let nextId=$("#next").children('a').attr("id");
+ let nextId=$("#nextPage").children('a').attr("id");
  if(nextId!=undefined){
-  $("#next").children('a').text("NEXT "+(parseInt(nextId)+1));
-  $("#next").children('a').css("color","black");
+  $("#nextPage").children('a').text("NEXT "+(parseInt(nextId)+1));
+  $("#nextPage").children('a').css("color","black");
+  end--;
  }
- let pages=$("#page").children('a');
 
- for(let i=0;i<pages.length;i++){
-   $("#page").children('a').eq(i).text(parseInt(pages[i].id)+1);
+ console.log(start);
+ console.log(end);
+
+ let currentPage=$("#currentPage").val();
+
+ for(let i=start;i<end;i++){
+  const li=$(".pagination").children('li').eq(i);
+  console.log(li);
+  const a=li.children('a');
+  a.text(parseInt(li.attr("id"))+1);
+  if(li.attr("id")==currentPage-1){
+   li.attr('class','page-item active');
+  }
+  else{
+   li.attr('class','page-item');
+  }
  }
 });

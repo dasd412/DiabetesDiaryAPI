@@ -50,20 +50,19 @@
             <nav>
               <div>
                   <ul class="pagination">
-
-                    <li class="page-item" id="pre">
+                    <li class="page-item" id="previousPage">
                       {{#result.previous}}
                         <a id="{{result.previous.pageNumber}}"></a>
                       {{/result.previous}}
                     </li>
 
-                    <li id="page">
                       {{#result.pageList}}
-                        <a id="{{pageNumber}}"></a>
+                        <li id="{{pageNumber}}">
+                          <a></a>
+                        </li>
                       {{/result.pageList}}
-                    </li>
 
-                    <li class="page-item" id="next">
+                    <li class="page-item" id="nextPage">
                       {{#result.next}}
                         <a id="{{result.next.pageNumber}}"></a>
                       {{/result.next}}
@@ -84,6 +83,8 @@
     </div>
 
   </div>
+
+    <input type="hidden" id="currentPage" value="{{result.currentPageNumber}}">
 
 {{/layout}}
 <script src="/js/app/tag/tag.js"></script>
