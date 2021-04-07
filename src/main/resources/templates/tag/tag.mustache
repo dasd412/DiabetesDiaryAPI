@@ -51,21 +51,21 @@
               <div>
                   <ul class="pagination">
 
-                    <li class="page-item">
+                    <li class="page-item" id="pre">
                       {{#result.previous}}
-                        <a href="#">PREV {{result.previous.pageNumber}}</a>
+                        <a id="{{result.previous.pageNumber}}"></a>
                       {{/result.previous}}
                     </li>
 
-                    <li>
+                    <li id="page">
                       {{#result.pageList}}
-                        <a href="#">{{pageNumber}}</a>
+                        <a id="{{pageNumber}}"></a>
                       {{/result.pageList}}
                     </li>
 
-                    <li class="page-item">
+                    <li class="page-item" id="next">
                       {{#result.next}}
-                        <a href="#">NEXT {{result.next.pageNumber}}</a>
+                        <a id="{{result.next.pageNumber}}"></a>
                       {{/result.next}}
                     </li>
                   </ul>
@@ -86,3 +86,4 @@
   </div>
 
 {{/layout}}
+<script src="/js/app/tag/tag.js"></script>
