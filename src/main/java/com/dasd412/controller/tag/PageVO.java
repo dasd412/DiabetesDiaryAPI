@@ -15,6 +15,9 @@ public class PageVO {
   private int page;
   private int size;
 
+  private String keyword;
+  private String type;
+
   public PageVO() {
     this.page = 1;
     this.size = DEFAULT_SIZE;
@@ -28,6 +31,14 @@ public class PageVO {
     return size;
   }
 
+  public String getKeyword() {
+    return keyword;
+  }
+
+  public String getType() {
+    return type;
+  }
+
   public void setPage(int page) {
     this.page = page < 0 ? 1 : page;
   }
@@ -36,16 +47,26 @@ public class PageVO {
     this.size = size < DEFAULT_SIZE || size > MAX_SIZE ? DEFAULT_SIZE : size;
   }
 
+  public void setKeyword(String keyword) {
+    this.keyword = keyword;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   public Pageable makePageable(SortDir direction, String... props) {
     Sort.Direction dir = direction == SortDir.DESC ? Direction.DESC : Direction.ASC;
     return PageRequest.of(this.page - 1, this.size, dir, props);
   }
 
   @Override
-  public String toString(){
+  public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-        .append("page",page)
-        .append("size",size)
+        .append("page", page)
+        .append("size", size)
+        .append("type", type)
+        .append("keyword", keyword)
         .toString();
   }
 

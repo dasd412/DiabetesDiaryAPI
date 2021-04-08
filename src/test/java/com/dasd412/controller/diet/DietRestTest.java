@@ -278,7 +278,7 @@ public class DietRestTest {
     //when
     Pageable pageable = PageRequest.of(0, 10, Direction.ASC, "id");
     Page<Diet> result = dietRepository
-        .findAll(dietRepository.makePredicate(new DietQuery(QueryType.DEFAULT)), pageable);
+        .findAll(dietRepository.makePredicate(new DietQuery(null,null)), pageable);
 
     //then
     logger.info("page: " + result.getPageable());
@@ -327,7 +327,7 @@ public class DietRestTest {
     Pageable pageable=PageRequest.of(0,10,Direction.ASC,"id");
 
     Page<Diet> result = dietRepository
-        .findAll(dietRepository.makePredicate(new DietQuery(QueryType.FoodName,"egg")), pageable);
+        .findAll(dietRepository.makePredicate(new DietQuery("foodName","egg")), pageable);
 
     //then
     logger.info("page: " + result.getPageable());

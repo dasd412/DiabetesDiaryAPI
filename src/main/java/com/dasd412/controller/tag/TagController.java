@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class TagController {
@@ -29,18 +30,18 @@ public class TagController {
   }
 
   @GetMapping("/api/diabetes/tag")
-  public String viewResolve(PageVO vo, Model model, @LoginUser SessionUser user) {
+  public String viewResolve(@ModelAttribute("pageVO") PageVO vo, Model model, @LoginUser SessionUser user) {
     if (user != null) {
       model.addAttribute("userName", user.getName());
     }
 
     Pageable pageable = vo.makePageable(SortDir.DESC, "id");
 
-    Page<Diet> result = dietTagService.findAll(pageable);
+    Page<Diet> result = dietTagService.findAll(vo,pageable);
 
     logger.info("pageable : "+pageable);
     logger.info("Page<Diet> result : "+ result);
-
+    logger.info("Page vo : "+vo.toString());
 
     model.addAttribute("result", new PageMaker<>(result));
 
