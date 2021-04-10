@@ -1,5 +1,6 @@
 package com.dasd412.controller.tag;
 
+import com.dasd412.controller.ApiResult;
 import com.dasd412.domain.diet.Diet;
 import com.dasd412.security.LoginUser;
 import com.dasd412.security.SessionUser;
@@ -12,7 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TagController {
@@ -30,21 +34,33 @@ public class TagController {
   }
 
   @GetMapping("/api/diabetes/tag")
-  public String viewResolve(@ModelAttribute("pageVO") PageVO vo, Model model, @LoginUser SessionUser user) {
+  public String viewResolve(@ModelAttribute("pageVO") PageVO vo, Model model,
+      @LoginUser SessionUser user) {
     if (user != null) {
       model.addAttribute("userName", user.getName());
     }
 
     Pageable pageable = vo.makePageable(SortDir.DESC, "id");
 
-    Page<Diet> result = dietTagService.findAll(vo,pageable);
+    Page<Diet> result = dietTagService.findAll(vo, pageable);
 
-    logger.info("pageable : "+pageable);
-    logger.info("Page<Diet> result : "+ result);
-    logger.info("Page vo : "+vo.toString());
+    logger.info("pageable : " + pageable);
+    logger.info("Page<Diet> result : " + result);
+    logger.info("Page vo : " + vo.toString());
 
     model.addAttribute("result", new PageMaker<>(result));
 
     return "/tag/tag";
+  }
+
+  @PostMapping("/api/diabetes/tag/post")
+  public @ResponseBody ApiResult<TagResponseDTO> postTag(@RequestBody TagRequestDTO dto) {
+
+    boolean saveSuccess = dietTagService.save(dto.getFoodName());
+
+    logger.info("TagController post tag dto : " + dto.toString());
+    logger.info("is Tag not duplicated ? : " + saveSuccess);
+
+    return ApiResult.OK(new TagResponseDTO(dto.getFoodName(), saveSuccess));
   }
 }

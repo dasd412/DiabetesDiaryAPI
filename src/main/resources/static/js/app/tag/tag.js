@@ -68,10 +68,42 @@ const tagAddModal={
      const saveTag=document.querySelector("#btn-save-tag");
      const cancelTag=document.querySelector("#btn-cancel-tag");
 
+     $("#btn-save-tag").on('click',function(){
+        _this.save();
+     });
+
      $("#btn-cancel-tag").on('click',function(){
        $("#addTagForm").val('');
        $('#tagAddModal').attr("style", "display:none;");
      });
-  }
+  },
+  //init
+  save:function(){
+   const data={
+    foodName:$("#addTagForm").val()
+   };
 
-};
+   $.ajax({
+    type:'POST',
+    url:'/api/diabetes/tag/post',
+    dataType:'json',
+    contentType:'application/json; charset=utf-8',
+    data: JSON.stringify(data)
+   }).done(function(){
+    $("#addTagForm").val('');
+    $('#tagAddModal').attr("style", "display:none;");
+    getAllTags();
+   });
+  }
+  //save
+};//tag add modal obj
+
+function getAllTags() {
+    $.ajax({
+        url: "/api/diabetes/tag",
+        type: 'get'
+    }).done(function(){
+     makePageList();
+     window.location.reload(true);
+    });
+}//get all tags

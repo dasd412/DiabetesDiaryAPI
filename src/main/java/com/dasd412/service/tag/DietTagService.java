@@ -20,4 +20,12 @@ public class DietTagService {
   public Page<Diet> findAll(PageVO vo,Pageable pageable) {
     return dietRepository.findAll(dietRepository.makePredicate(new DietQuery(vo.getType(),vo.getKeyword())),pageable);
   }
+
+  public boolean save(String foodName){
+    if(!dietRepository.existsDietByFoodName(foodName)){
+      dietRepository.save(new Diet(foodName));
+      return true;
+    }
+    else return false;
+  }
 }
