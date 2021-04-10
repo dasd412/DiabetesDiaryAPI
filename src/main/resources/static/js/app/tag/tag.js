@@ -1,5 +1,10 @@
 
 $(document).ready(function(){
+
+tagAddModal.init();
+
+$("#tagAddBtn").attr("onclick",'showAddModal()');
+
  makePageList();
 
  const pageForm=$("#pageForm");
@@ -9,6 +14,7 @@ $(document).ready(function(){
   pageForm.find('[name="page"]').val($(this).attr('href'));
   pageForm.submit();
  });
+
 
 });
 
@@ -50,3 +56,22 @@ function makePageList(){
   }
  }
 }
+
+function showAddModal(){
+  $('#tagAddModal').attr("style", "display:block;");
+}
+
+const tagAddModal={
+
+  init:function(){
+     const _this=this;
+     const saveTag=document.querySelector("#btn-save-tag");
+     const cancelTag=document.querySelector("#btn-cancel-tag");
+
+     $("#btn-cancel-tag").on('click',function(){
+       $("#addTagForm").val('');
+       $('#tagAddModal').attr("style", "display:none;");
+     });
+  }
+
+};

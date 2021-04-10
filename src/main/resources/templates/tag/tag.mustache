@@ -49,27 +49,27 @@
           <div class="panel-footer">
             <nav>
               <div>
-                  <ul class="pagination">
-                    <li class="page-item" id="previousPage">
-                      {{#result.previous}}
-                        <a id="{{result.previous.pageNumber}}"></a>
-                      {{/result.previous}}
-                    </li>
+                <ul class="pagination">
+                  <li class="page-item" id="previousPage">
+                    {{#result.previous}}
+                      <a id="{{result.previous.pageNumber}}"></a>
+                    {{/result.previous}}
+                  </li>
 
-                      {{#result.pageList}}
-                        <li id="{{pageNumber}}">
-                          <a></a>
-                        </li>
-                      {{/result.pageList}}
-
-                    <li class="page-item" id="nextPage">
-                      {{#result.next}}
-                        <a id="{{result.next.pageNumber}}"></a>
-                      {{/result.next}}
+                  {{#result.pageList}}
+                    <li id="{{pageNumber}}">
+                      <a></a>
                     </li>
-                  </ul>
+                  {{/result.pageList}}
+
+                  <li class="page-item" id="nextPage">
+                    {{#result.next}}
+                      <a id="{{result.next.pageNumber}}"></a>
+                    {{/result.next}}
+                  </li>
+                </ul>
                 <div style="position:relative; float:right;">
-                  <button type="button" class="btn btn-success">Add</button>
+                  <button type="button" id="tagAddBtn" class="btn btn-success">Add</button>
                 </div>
 
               </div>
@@ -87,6 +87,26 @@
     <input type="hidden" id="currentPage" name="page" value="{{result.currentPageNumber}}">
     <input type="hidden" name="size" value="{{result.currentPage.pageSize}}">
   </form>
+
+  <div id="tagAddModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">save your tags!</h4>
+        </div>
+
+        <div class="modal-body">
+          <input type="text" id="addTagForm" placeholder="add Your tag!">
+        </div>
+        <div class="modal-footer">
+          <button type='button' id="btn-cancel-tag" class="btn btn-warning">Cancel</button>
+          <button type="button" id="btn-save-tag" class="btn btn-success">Save</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="modalBackground"></div>
+  </div><!--tag add modal -->
 
 
 {{/layout}}
