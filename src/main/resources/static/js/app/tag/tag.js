@@ -14,8 +14,6 @@ $("#tagAddBtn").attr("onclick",'showAddModal()');
   pageForm.find('[name="page"]').val($(this).attr('href'));
   pageForm.submit();
  });
-
-
 });
 
 function makePageList(){

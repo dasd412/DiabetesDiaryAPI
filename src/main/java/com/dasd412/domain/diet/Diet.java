@@ -29,8 +29,8 @@ public class Diet {//식단
 
   public Diet(String foodName) {
     checkArgument(isNotEmpty(foodName), "foodName must be provided");
-    checkArgument(foodName.length() >= 2 && foodName.length() <= 50,
-        "foodName length must be between 2 and 50 characters!");
+    checkArgument(foodName.length() >= 1 && foodName.length() <= 50,
+        "foodName length must be between 1 and 50 characters!");
     this.foodName = foodName;
   }
 

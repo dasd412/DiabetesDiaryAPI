@@ -25,11 +25,10 @@
             </h3>
           </div>
           <div class="panel-body">
-            <p>Food name</p>
             <div>
               <ul class="list-group">
                 {{#result.result}}
-                  <li class="list-group-item">
+                  <li class="list-group-item" id="{{id}}">
                     <div style="position:relative; float:left;">
                       {{foodName}}
                     </div>
@@ -68,10 +67,10 @@
                     {{/result.next}}
                   </li>
                 </ul>
+
                 <div style="position:relative; float:right;">
                   <button type="button" id="tagAddBtn" class="btn btn-success">Add</button>
                 </div>
-
               </div>
 
             </nav>
