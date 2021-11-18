@@ -31,4 +31,5 @@ logs/
 
 ###security###
 application-oauth.properties
+application.properties
 
