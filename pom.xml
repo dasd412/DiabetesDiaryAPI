@@ -18,7 +18,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <h2.version>1.4.199</h2.version>
+    <h2.version>2.1.210</h2.version>
     <log4jdbc.version>0.2.7</log4jdbc.version>
     <hikariCP.version>3.4.5</hikariCP.version>
     <commons.lang.version>3.11</commons.lang.version>
